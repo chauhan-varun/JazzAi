@@ -1,10 +1,11 @@
 {
   "name": "jazzAi",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "AI companion that works on WhatsApp using WhatsApp Cloud API",
+  "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node server.js",
+    "dev": "nodemon server.js"
   },
   "keywords": [],
   "author": "",
@@ -15,6 +16,7 @@
     "dotenv": "^17.2.3",
     "express": "^5.1.0",
     "node-cron": "^4.2.1",
+    "nodemon": "^3.1.10",
     "openai": "^6.6.0"
   }
 }
