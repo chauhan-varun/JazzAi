@@ -1,0 +1,18 @@
+{
+  "userProfile": {
+    "name": "",
+    "mood": "",
+    "favoriteTopics": [],
+    "lastInteraction": null,
+    "conversationCount": 0,
+    "personalDetails": {}
+  },
+  "conversations": [],
+  "insights": {
+    "commonPhrases": [],
+    "sentimentTrend": "neutral",
+    "engagementLevel": "medium",
+    "topics": {}
+  },
+  "reminders": []
+}
