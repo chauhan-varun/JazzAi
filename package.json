@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "AI companion that works on WhatsApp using WhatsApp Cloud API",
   "main": "server.js",
+  "type": "module",
   "scripts": {
     "start": "node server.js",
     "dev": "nodemon server.js"

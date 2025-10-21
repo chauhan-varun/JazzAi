@@ -3,8 +3,12 @@
  * Handles all operations related to the AI's memory (user data, conversation history, etc.)
  */
 
-const fs = require('fs').promises;
-const path = require('path');
+import fs from 'fs/promises';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const MEMORY_FILE_PATH = path.join(__dirname, '../data/memory.json');
 
@@ -297,4 +301,5 @@ class MemoryService {
   }
 }
 
-module.exports = new MemoryService();
+const memoryService = new MemoryService();
+export default memoryService;

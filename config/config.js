@@ -2,7 +2,7 @@
  * Application Configuration
  */
 
-module.exports = {
+const config = {
   // Server configuration
   server: {
     port: process.env.PORT || 3000
@@ -32,3 +32,5 @@ module.exports = {
     inactivityThreshold: 180 // Minutes of inactivity before sending check-in message
   }
 };
+
+export default config;

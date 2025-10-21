@@ -3,9 +3,9 @@
  * Handles interactions with OpenAI API for generating responses
  */
 
-require('dotenv').config();
-const OpenAI = require('openai');
-const memoryService = require('./memoryService');
+import 'dotenv/config';
+import OpenAI from 'openai';
+import memoryService from './memoryService.js';
 
 // Initialize OpenAI client
 const openai = new OpenAI({
@@ -162,4 +162,5 @@ Important:
   }
 }
 
-module.exports = new OpenAIService();
+const openaiService = new OpenAIService();
+export default openaiService;

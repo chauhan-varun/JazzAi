@@ -3,10 +3,10 @@
  * Handles automatic check-in messages and scheduled tasks
  */
 
-const cron = require('node-cron');
-const config = require('../config/config');
-const whatsappService = require('./whatsappService');
-const memoryService = require('./memoryService');
+import cron from 'node-cron';
+import config from '../config/config.js';
+import whatsappService from './whatsappService.js';
+import memoryService from './memoryService.js';
 
 class SchedulerService {
   constructor() {
@@ -117,4 +117,5 @@ class SchedulerService {
   }
 }
 
-module.exports = new SchedulerService();
+const schedulerService = new SchedulerService();
+export default schedulerService;

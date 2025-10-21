@@ -3,10 +3,10 @@
  * Handles sending and receiving messages via WhatsApp Cloud API
  */
 
-require('dotenv').config();
-const axios = require('axios');
-const memoryService = require('./memoryService');
-const openaiService = require('./openaiService');
+import 'dotenv/config';
+import axios from 'axios';
+import memoryService from './memoryService.js';
+import openaiService from './openaiService.js';
 
 // WhatsApp API Constants
 const WHATSAPP_API_URL = 'https://graph.facebook.com/v17.0';
@@ -176,4 +176,5 @@ class WhatsAppService {
   }
 }
 
-module.exports = new WhatsAppService();
+const whatsappService = new WhatsAppService();
+export default whatsappService;

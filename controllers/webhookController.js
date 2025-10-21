@@ -3,8 +3,8 @@
  * Handles incoming webhook requests from WhatsApp
  */
 
-const config = require('../config/config');
-const whatsappService = require('../services/whatsappService');
+import config from '../config/config.js';
+import whatsappService from '../services/whatsappService.js';
 
 class WebhookController {
   /**
@@ -83,4 +83,5 @@ class WebhookController {
   }
 }
 
-module.exports = new WebhookController();
+const webhookController = new WebhookController();
+export default webhookController;

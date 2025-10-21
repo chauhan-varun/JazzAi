@@ -2,9 +2,13 @@
  * Utility functions for JazzAI
  */
 
-const fs = require('fs').promises;
-const path = require('path');
-const util = require('util');
+import fs from 'fs/promises';
+import path from 'path';
+import util from 'util';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 /**
  * Custom logging utility
@@ -170,7 +174,6 @@ class ErrorHandler {
   }
 }
 
-module.exports = {
-  Logger: new Logger(),
-  ErrorHandler
-};
+const LoggerInstance = new Logger();
+
+export { LoggerInstance as Logger, ErrorHandler };

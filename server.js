@@ -4,16 +4,16 @@
  */
 
 // Load environment variables
-require('dotenv').config();
+import 'dotenv/config';
 
 // Import dependencies
-const express = require('express');
-const { Logger, ErrorHandler } = require('./utils/utils');
-const config = require('./config/config');
-const webhookController = require('./controllers/webhookController');
-const schedulerService = require('./services/schedulerService');
-const memoryService = require('./services/memoryService');
-const whatsappService = require('./services/whatsappService');
+import express from 'express';
+import { Logger, ErrorHandler } from './utils/utils.js';
+import config from './config/config.js';
+import webhookController from './controllers/webhookController.js';
+import schedulerService from './services/schedulerService.js';
+import memoryService from './services/memoryService.js';
+import whatsappService from './services/whatsappService.js';
 
 // Create Express app
 const app = express();
