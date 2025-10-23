@@ -11,9 +11,6 @@ import Conversation from '../models/conversation.js';
 import Insight from '../models/insight.js';
 import Reminder from '../models/reminder.js';
 
-// Default user phone number (from environment variables)
-const DEFAULT_USER = process.env.USER_NUMBER;
-
 class MemoryService {
   constructor() {
     // Ensure database connection
@@ -29,9 +26,12 @@ class MemoryService {
 
   /**
    * Get user profile or create if doesn't exist
-   * @param {string} phoneNumber - User's phone number (default from env)
+   * @param {string} phoneNumber - User's phone number
    */
-  async getUserProfile(phoneNumber = DEFAULT_USER) {
+  async getUserProfile(phoneNumber) {
+    if (!phoneNumber) {
+      throw new Error('Phone number is required to get user profile');
+    }
     await this.ensureConnected();
     
     try {
@@ -80,7 +80,10 @@ class MemoryService {
    * @param {object} profileData - User profile data to update
    * @param {string} phoneNumber - User's phone number
    */
-  async updateUserProfile(profileData, phoneNumber = DEFAULT_USER) {
+  async updateUserProfile(profileData, phoneNumber) {
+    if (!phoneNumber) {
+      throw new Error('Phone number is required to update user profile');
+    }
     await this.ensureConnected();
     
     try {
@@ -109,7 +112,10 @@ class MemoryService {
    * @param {object} messageObj - Message object with text, from, and optional mood
    * @param {string} phoneNumber - User's phone number
    */
-  async addConversation(messageObj, phoneNumber = DEFAULT_USER) {
+  async addConversation(messageObj, phoneNumber) {
+    if (!phoneNumber) {
+      throw new Error('Phone number is required to add conversation');
+    }
     await this.ensureConnected();
     
     try {
@@ -149,7 +155,10 @@ class MemoryService {
    * @param {number} limit - Number of conversations to return
    * @param {string} phoneNumber - User's phone number
    */
-  async getRecentConversations(limit = 10, phoneNumber = DEFAULT_USER) {
+  async getRecentConversations(limit = 10, phoneNumber) {
+    if (!phoneNumber) {
+      throw new Error('Phone number is required to get conversations');
+    }
     await this.ensureConnected();
     
     try {
@@ -175,7 +184,10 @@ class MemoryService {
    * @param {string} messageText - Message to analyze
    * @param {string} phoneNumber - User's phone number
    */
-  async updateInsights(messageText, phoneNumber = DEFAULT_USER) {
+  async updateInsights(messageText, phoneNumber) {
+    if (!phoneNumber) {
+      throw new Error('Phone number is required to update insights');
+    }
     await this.ensureConnected();
     
     try {
@@ -242,7 +254,10 @@ class MemoryService {
    * @param {number} limit - Maximum number of topics to return
    * @param {string} phoneNumber - User's phone number
    */
-  async getFavoriteTopics(limit = 3, phoneNumber = DEFAULT_USER) {
+  async getFavoriteTopics(limit = 3, phoneNumber) {
+    if (!phoneNumber) {
+      throw new Error('Phone number is required to get favorite topics');
+    }
     await this.ensureConnected();
     
     try {
@@ -282,7 +297,10 @@ class MemoryService {
    * @param {object} reminder - Reminder data
    * @param {string} phoneNumber - User's phone number
    */
-  async addReminder(reminder, phoneNumber = DEFAULT_USER) {
+  async addReminder(reminder, phoneNumber) {
+    if (!phoneNumber) {
+      throw new Error('Phone number is required to add a reminder');
+    }
     await this.ensureConnected();
     
     try {
@@ -311,7 +329,10 @@ class MemoryService {
    * Get all pending reminders for a user
    * @param {string} phoneNumber - User's phone number
    */
-  async getPendingReminders(phoneNumber = DEFAULT_USER) {
+  async getPendingReminders(phoneNumber) {
+    if (!phoneNumber) {
+      throw new Error('Phone number is required to get pending reminders');
+    }
     await this.ensureConnected();
     
     try {
@@ -337,7 +358,10 @@ class MemoryService {
    * @param {string} reminderId - ID of the reminder to complete
    * @param {string} phoneNumber - User's phone number
    */
-  async completeReminder(reminderId, phoneNumber = DEFAULT_USER) {
+  async completeReminder(reminderId, phoneNumber) {
+    if (!phoneNumber) {
+      throw new Error('Phone number is required to complete a reminder');
+    }
     await this.ensureConnected();
     
     try {
@@ -358,7 +382,10 @@ class MemoryService {
    * Get time since last interaction in minutes
    * @param {string} phoneNumber - User's phone number
    */
-  async getTimeSinceLastInteraction(phoneNumber = DEFAULT_USER) {
+  async getTimeSinceLastInteraction(phoneNumber) {
+    if (!phoneNumber) {
+      throw new Error('Phone number is required to get time since last interaction');
+    }
     await this.ensureConnected();
     
     try {
