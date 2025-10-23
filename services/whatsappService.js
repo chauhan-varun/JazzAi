@@ -1,25 +1,32 @@
 /**
- * WhatsApp Service
+ * WhatsApp Service - Multi-user version
  * Handles sending and receiving messages via WhatsApp Cloud API
+ * Supports multiple users with MongoDB backend
  */
 
 import 'dotenv/config';
 import axios from 'axios';
-import memoryService from './memoryService.js';
-import openaiService from './perplexity.js';
+import memoryService from './memoryService.mongo.js'; // Use MongoDB version
+import openaiService from './perplexity.mongo.js'; // Use MongoDB version
+import { Logger } from '../utils/utils.mongo.js';
 
 // WhatsApp API Constants
 const WHATSAPP_API_URL = 'https://graph.facebook.com/v17.0';
 const PHONE_NUMBER_ID = process.env.PHONE_NUMBER_ID;
 const WHATSAPP_TOKEN = process.env.WHATSAPP_TOKEN;
-const USER_NUMBER = process.env.USER_NUMBER;
 
 class WhatsAppService {
   /**
-   * Send a message to the user via WhatsApp
+   * Send a message to a user via WhatsApp
+   * @param {string} messageText - Message to send
+   * @param {string} phoneNumber - Recipient's phone number
    */
-  async sendMessage(messageText, phoneNumber = USER_NUMBER) {
+  async sendMessage(messageText, phoneNumber) {
     try {
+      if (!phoneNumber) {
+        throw new Error('Phone number is required');
+      }
+
       const url = `${WHATSAPP_API_URL}/${PHONE_NUMBER_ID}/messages`;
       
       const response = await axios({
@@ -41,21 +48,21 @@ class WhatsAppService {
         }
       });
 
-      // Log message to memory
+      // Log message to memory for this specific user
       await memoryService.addConversation({
         text: messageText,
         from: 'assistant',
         timestamp: new Date().toISOString()
-      });
+      }, phoneNumber);
       
-      console.log('Message sent successfully');
+      Logger.info(`Message sent successfully to ${phoneNumber.slice(-4)}`); // Log only last 4 digits
       return {
         success: true,
         messageId: response.data.messages?.[0]?.id,
         response: response.data
       };
     } catch (error) {
-      console.error('Error sending WhatsApp message:', error.response?.data || error.message);
+      Logger.error(`Error sending WhatsApp message to ${phoneNumber.slice(-4)}:`, error.response?.data || error.message);
       return {
         success: false,
         error: error.message
@@ -65,6 +72,7 @@ class WhatsAppService {
 
   /**
    * Process an incoming message from WhatsApp webhook
+   * @param {object} message - WhatsApp message object
    */
   async processIncomingMessage(message) {
     try {
@@ -73,38 +81,36 @@ class WhatsAppService {
       const from = message.from;
       const timestamp = message.timestamp;
       
-      console.log(`Received message from ${from}: ${messageText}`);
-      console.log(`Expected USER_NUMBER: ${USER_NUMBER}`);
-      console.log(`Match check: ${from} === ${USER_NUMBER} = ${from === USER_NUMBER}`);
-      
-      // Skip if not from our target user (optional - remove this check to allow multiple users)
-      if (from !== USER_NUMBER) {
-        console.log(`❌ Message from non-target user ${from} ignored (expected ${USER_NUMBER}).`);
+      if (!messageText) {
+        Logger.info(`Received non-text message from ${from.slice(-4)}`);
         return {
           success: true,
           ignored: true,
-          reason: 'Message not from target user'
+          reason: 'Not a text message'
         };
       }
       
-      console.log(`✅ Message accepted! Processing...`);
-
-      // Detect mood
-      const detectedMood = await openaiService.detectMood(messageText);
+      Logger.info(`📩 Received message from ${from.slice(-4)}`); // Don't log message content
       
-      // Store message in memory
+      // Process any user's message - multi-user support
+      Logger.info(`✅ Processing message from ${from.slice(-4)}...`);
+
+      // Detect mood - pass the user's phone number
+      const detectedMood = await openaiService.detectMood(messageText, from);
+      
+      // Store message in memory - user specific
       await memoryService.addConversation({
         text: messageText,
         from: 'user',
         timestamp: new Date(parseInt(timestamp) * 1000).toISOString(),
         detectedMood
-      });
+      }, from);
       
-      // Update user mood in profile
-      await memoryService.updateUserProfile({ mood: detectedMood });
+      // Update user mood in profile - user specific
+      await memoryService.updateUserProfile({ mood: detectedMood }, from);
       
-      // Generate AI response
-      const aiResponse = await openaiService.generateResponse(messageText);
+      // Generate AI response - user specific context
+      const aiResponse = await openaiService.generateResponse(messageText, from);
       
       // Send response back to the user
       await this.sendMessage(aiResponse, from);
@@ -112,6 +118,7 @@ class WhatsAppService {
       return {
         success: true,
         processed: true,
+        from,
         mood: detectedMood
       };
     } catch (error) {
@@ -124,36 +131,49 @@ class WhatsAppService {
   }
 
   /**
-   * Send a scheduled check-in message
+   * Send scheduled check-in messages to all active users
    */
-  async sendCheckInMessage() {
+  async sendCheckInMessages() {
     try {
-      // Get time since last interaction
-      const timeSinceLastInteraction = await memoryService.getTimeSinceLastInteraction();
+      // Get all users who need check-ins
+      // This would require a new method in memoryService to get all users
+      const activeUsers = await this.getActiveUsers();
       
-      // Only send if it's been more than 3 hours (180 minutes) since last interaction
-      if (timeSinceLastInteraction === null || timeSinceLastInteraction > 180) {
-        // Generate check-in message
-        const checkInMessage = await openaiService.generateCheckInMessage();
-        
-        // Send message
-        await this.sendMessage(checkInMessage);
-        
-        console.log('Check-in message sent successfully');
-        return {
-          success: true,
-          message: checkInMessage
-        };
-      } else {
-        console.log(`Skipping check-in, last interaction was ${timeSinceLastInteraction} minutes ago`);
-        return {
-          success: true,
-          skipped: true,
-          reason: `Last interaction was only ${timeSinceLastInteraction} minutes ago`
-        };
+      Logger.info(`Found ${activeUsers.length} active users who might need check-ins`);
+      let sentCount = 0;
+      
+      // Process each user
+      for (const user of activeUsers) {
+        try {
+          // Get time since last interaction for this specific user
+          const timeSinceLastInteraction = await memoryService.getTimeSinceLastInteraction(user.phoneNumber);
+          
+          // Only send if it's been more than 3 hours (180 minutes) since last interaction
+          if (timeSinceLastInteraction === null || timeSinceLastInteraction > 180) {
+            // Generate personalized check-in message for this user
+            const checkInMessage = await openaiService.generateCheckInMessage(user.phoneNumber);
+            
+            // Send message to this specific user
+            await this.sendMessage(checkInMessage, user.phoneNumber);
+            
+            Logger.info(`Check-in message sent to ${user.phoneNumber.slice(-4)}`);
+            sentCount++;
+          } else {
+            Logger.info(`Skipping check-in for ${user.phoneNumber.slice(-4)}, last interaction was ${timeSinceLastInteraction} minutes ago`);
+          }
+        } catch (error) {
+          Logger.error(`Error sending check-in to ${user.phoneNumber.slice(-4)}:`, error);
+          // Continue with other users
+        }
       }
+      
+      return {
+        success: true,
+        totalUsers: activeUsers.length,
+        messagesSent: sentCount
+      };
     } catch (error) {
-      console.error('Error sending check-in message:', error);
+      Logger.error('Error sending check-in messages:', error);
       return {
         success: false,
         error: error.message
@@ -162,10 +182,36 @@ class WhatsAppService {
   }
   
   /**
+   * Get active users who should receive check-ins
+   * This is a placeholder - you would implement this using your MongoDB models
+   */
+  async getActiveUsers() {
+    // Using the UserProfile model to find users
+    try {
+      // Import here to avoid circular dependencies
+      const UserProfile = (await import('../models/userProfile.js')).default;
+      
+      // Find users who have interacted at least once
+      // You might want to add more filters like "users who opted in for check-ins"
+      const activeUsers = await UserProfile.find({
+        lastInteraction: { $ne: null }
+      });
+      
+      return activeUsers;
+    } catch (error) {
+      console.error('Error getting active users:', error);
+      return [];
+    }
+  }
+  
+  /**
    * Verify WhatsApp webhook
+   * @param {string} mode - Mode from webhook verification request
+   * @param {string} token - Token from webhook verification request
    */
   verifyWebhook(mode, token) {
-    const VERIFY_TOKEN = 'jazzai-webhook-verification'; // Hardcoded for simplicity, use env var in production
+    // Get verify token from environment or config
+    const VERIFY_TOKEN = process.env.WEBHOOK_VERIFY_TOKEN || 'jazzai-webhook-verification';
     
     // Check if mode and token are in the query string
     if (mode && token) {

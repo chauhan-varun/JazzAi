@@ -1,6 +1,5 @@
 /**
- * Utility functions for JazzAI - MongoDB Version
- * Removes conversation data storage from logs
+ * Utility functions for JazzAI
  */
 
 import fs from 'fs/promises';
@@ -47,10 +46,11 @@ class Logger {
     const formattedMessage = `[INFO] ${this.getTimestamp()}: ${message}`;
     console.log(formattedMessage);
     
-    // Only log to console, don't write to file
-    if (data && !this.containsUserData(message, data)) {
+    if (data) {
       console.log(util.inspect(data, { colors: true, depth: 4 }));
     }
+    
+    await this.writeToLogFile('info', formattedMessage, data);
   }
 
   /**
@@ -68,10 +68,7 @@ class Logger {
       }
     }
     
-    // Only log system errors to file, not user data
-    if (!this.containsUserData(message, error)) {
-      await this.writeToLogFile('error', formattedMessage, error);
-    }
+    await this.writeToLogFile('error', formattedMessage, error);
   }
 
   /**
@@ -83,79 +80,28 @@ class Logger {
       const formattedMessage = `[DEBUG] ${this.getTimestamp()}: ${message}`;
       console.debug(formattedMessage);
       
-      // Only log to console, don't write to file
-      if (data && !this.containsUserData(message, data)) {
+      if (data) {
         console.debug(util.inspect(data, { colors: true, depth: 4 }));
       }
-    }
-  }
-
-  /**
-   * Check if the message or data contains user conversation data
-   * that should be stored only in MongoDB
-   */
-  containsUserData(message, data = null) {
-    // List of keywords indicating user data that should only be in MongoDB
-    const userDataKeywords = [
-      'message received', 
-      'sending message',
-      'user message',
-      'assistant message',
-      'conversation',
-      'user profile',
-      'mood detected',
-      'chat history',
-      'user said',
-      'assistant replied'
-    ];
-    
-    // Check if message contains any of the keywords
-    if (message && typeof message === 'string') {
-      if (userDataKeywords.some(keyword => message.toLowerCase().includes(keyword))) {
-        return true;
-      }
-    }
-    
-    // Check data object for user content
-    if (data) {
-      const dataStr = JSON.stringify(data).toLowerCase();
-      if (userDataKeywords.some(keyword => dataStr.includes(keyword))) {
-        return true;
-      }
       
-      // Check for common user data fields
-      const userDataFields = ['text', 'message', 'content', 'from', 'user', 'assistant', 'userMessage', 'aiResponse'];
-      if (typeof data === 'object' && data !== null) {
-        if (userDataFields.some(field => data[field] !== undefined)) {
-          return true;
-        }
-      }
+      await this.writeToLogFile('debug', formattedMessage, data);
     }
-    
-    return false;
   }
 
   /**
    * Write log entry to file
    */
   async writeToLogFile(level, message, data = null) {
-    // Skip writing user data to log files
-    if (this.containsUserData(message, data)) {
-      return;
-    }
-    
     try {
       const today = new Date().toISOString().split('T')[0];
-      const logFile = path.join(this.logDir, `jazzai-system-${today}.log`);
+      const logFile = path.join(this.logDir, `jazzai-${today}.log`);
       
       let logEntry = `${message}\n`;
       if (data) {
         if (data instanceof Error) {
           logEntry += `${data.stack || data.message}\n`;
         } else {
-          // Sanitize any potential user data before writing
-          const sanitizedData = this.sanitizeUserData(data);
-          logEntry += `${JSON.stringify(sanitizedData, null, 2)}\n`;
+          logEntry += `${JSON.stringify(data, null, 2)}\n`;
         }
       }
       
@@ -163,32 +109,6 @@ class Logger {
     } catch (error) {
       console.error('Failed to write to log file:', error);
     }
-  }
-  
-  /**
-   * Remove sensitive user data from objects before logging
-   */
-  sanitizeUserData(data) {
-    if (!data || typeof data !== 'object') {
-      return data;
-    }
-    
-    const sensitiveFields = ['message', 'text', 'content', 'userMessage', 'aiResponse', 'mood'];
-    const sanitized = { ...data };
-    
-    for (const field of sensitiveFields) {
-      if (sanitized[field] !== undefined) {
-        if (typeof sanitized[field] === 'string') {
-          sanitized[field] = '[CONTENT REDACTED]';
-        } else if (Array.isArray(sanitized[field])) {
-          sanitized[field] = sanitized[field].map(item => 
-            typeof item === 'string' ? '[CONTENT REDACTED]' : item
-          );
-        }
-      }
-    }
-    
-    return sanitized;
   }
 }
 

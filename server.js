@@ -1,151 +1,91 @@
 /**
- * JazzAI - WhatsApp AI Companion
- * Main Server File
+ * JazzAI Server - Multi-user MongoDB Version
+ * Main entry point for the WhatsApp AI Chatbot application
  */
 
-// Load environment variables
+import express from 'express';
+import cors from 'cors';
+import bodyParser from 'body-parser';
 import 'dotenv/config';
 
-// Import dependencies
-import express from 'express';
-import { Logger, ErrorHandler } from './utils/utils.js';
-import config from './config/config.js';
-import webhookController from './controllers/webhookController.js';
-import schedulerService from './services/schedulerService.js';
-import memoryService from './services/memoryService.js';
-import whatsappService from './services/whatsappService.js';
+// Import services
+import database from './services/databaseService.js';
+import schedulerService from './services/schedulerService.mongo.js';
+
+// Import controllers
+import webhookController from './controllers/webhookController.mongo.js';
+
+// Import config and utils
+import config from './config/config.mongo.js';
+import { Logger, ErrorHandler } from './utils/utils.mongo.js';
 
 // Create Express app
 const app = express();
 const PORT = config.server.port;
 
-// Middleware to parse JSON
-app.use(express.json());
+// Configure middleware
+app.use(cors());
+app.use(bodyParser.json());
+app.use(ErrorHandler.expressErrorHandler);
 
-// Middleware to log requests
+// Add request logging middleware (without storing message content)
 app.use((req, res, next) => {
   Logger.info(`${req.method} ${req.url}`, {
-    body: req.method === 'POST' ? '(request body omitted)' : undefined,
-    query: req.query,
-    headers: {
-      'user-agent': req.headers['user-agent'],
-      'content-type': req.headers['content-type']
-    }
+    ip: req.ip,
+    userAgent: req.get('User-Agent')
   });
   next();
 });
 
-// Health check endpoint
-app.get('/', (req, res) => {
-  res.status(200).json({
-    status: 'OK',
-    message: 'JazzAI WhatsApp Companion is running',
-    version: '1.0.0'
-  });
-});
+// Health check route
+app.get('/health', webhookController.healthCheck);
 
-// WhatsApp webhook verification endpoint (GET)
-app.get('/webhook', (req, res) => {
-  webhookController.verifyWebhook(req, res);
-});
+// WhatsApp webhook routes
+app.get('/webhook', webhookController.verifyWebhook);
+app.post('/webhook', webhookController.handleWebhook);
 
-// WhatsApp webhook message receipt endpoint (POST)
-app.post('/webhook', (req, res) => {
-  webhookController.receiveMessage(req, res);
-});
-
-// Admin endpoints (would require authentication in production)
-
-// Test endpoint to send a message manually
-app.post('/api/send-message', async (req, res) => {
+// Initialize database and start server
+async function startServer() {
   try {
-    const { message, phoneNumber } = req.body;
+    // Connect to MongoDB
+    await database.connect();
+    Logger.info('Database connected successfully');
     
-    if (!message) {
-      return res.status(400).json({ error: 'Message is required' });
-    }
-    
-    const result = await whatsappService.sendMessage(
-      message,
-      phoneNumber || config.whatsapp.recipient
-    );
-    
-    res.status(200).json({ success: true, result });
-  } catch (error) {
-    Logger.error('Error sending test message:', error);
-    res.status(500).json({ error: 'Failed to send message' });
-  }
-});
-
-// Get memory information
-app.get('/api/memory', async (req, res) => {
-  try {
-    const memory = await memoryService.getFullMemory();
-    res.status(200).json(memory);
-  } catch (error) {
-    Logger.error('Error getting memory:', error);
-    res.status(500).json({ error: 'Failed to get memory' });
-  }
-});
-
-// Error handling middleware
-app.use(ErrorHandler.expressErrorHandler);
-
-// Start the server
-const server = app.listen(PORT, async () => {
-  Logger.info(`JazzAI WhatsApp Companion is listening on port ${PORT}`);
-  
-  // Initialize memory service
-  try {
-    await memoryService.initializeMemory();
-    Logger.info('Memory service initialized successfully');
-  } catch (error) {
-    Logger.error('Failed to initialize memory service:', error);
-  }
-  
-  // Start the scheduler
-  try {
+    // Initialize scheduler service
     schedulerService.initialize();
-    Logger.info('Scheduler initialized successfully');
+    Logger.info('Scheduler initialized');
+    
+    // Start Express server
+    app.listen(PORT, () => {
+      Logger.info(`🚀 JazzAI Server (Multi-User) running on port ${PORT}`);
+      Logger.info(`📱 WhatsApp webhook ready at: http://localhost:${PORT}/webhook`);
+    });
+    
+    // Handle shutdown gracefully
+    process.on('SIGINT', async () => {
+      Logger.info('Shutting down server...');
+      schedulerService.stopAllJobs();
+      await database.disconnect();
+      process.exit(0);
+    });
+    
+    process.on('SIGTERM', async () => {
+      Logger.info('SIGTERM received, shutting down gracefully');
+      schedulerService.stopAllJobs();
+      await database.disconnect();
+      process.exit(0);
+    });
+    
+    // Handle uncaught exceptions
+    process.on('uncaughtException', (error) => {
+      Logger.error('Uncaught exception:', error);
+      process.exit(1);
+    });
   } catch (error) {
-    Logger.error('Failed to initialize scheduler:', error);
-  }
-  
-  Logger.info('Server startup complete. JazzAI is ready!');
-});
-
-// Graceful shutdown
-process.on('SIGTERM', () => {
-  Logger.info('SIGTERM received, shutting down gracefully');
-  
-  // Stop scheduler jobs
-  schedulerService.stopAllJobs();
-  
-  // Close server
-  server.close(() => {
-    Logger.info('Server closed');
-    process.exit(0);
-  });
-});
-
-process.on('SIGINT', () => {
-  Logger.info('SIGINT received, shutting down gracefully');
-  
-  // Stop scheduler jobs
-  schedulerService.stopAllJobs();
-  
-  // Close server
-  server.close(() => {
-    Logger.info('Server closed');
-    process.exit(0);
-  });
-});
-
-// Handle uncaught exceptions
-process.on('uncaughtException', (error) => {
-  Logger.error('Uncaught exception:', error);
-  // Keep running in production, but exit in development to fix errors
-  if (process.env.NODE_ENV !== 'production') {
+    Logger.error('Failed to start server:', error);
     process.exit(1);
   }
-});
+}
+
+// Start the server
+startServer();

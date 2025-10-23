@@ -1,5 +1,5 @@
 /**
- * Application Configuration
+ * Application Configuration with MongoDB Support
  */
 
 const config = {
@@ -10,26 +10,36 @@ const config = {
   
   // WhatsApp configuration
   whatsapp: {
-    verifyToken: 'jazzai-webhook-verification', // Used to verify webhook
-    apiVersion: 'v17.0',
-    recipient: process.env.USER_NUMBER
+    verifyToken: process.env.WEBHOOK_VERIFY_TOKEN || 'jazzai-webhook-verification',
+    apiVersion: 'v17.0'
   },
   
   // OpenAI configuration
   openai: {
-    defaultModel: 'gpt-4o', // Can be changed to gpt-4 or other models
+    defaultModel: 'sonar-pro',
     defaultTemperature: 0.8
   },
   
   // Scheduler configuration
   scheduler: {
-    checkInSchedule: process.env.CHECK_IN_SCHEDULE || '0 8,11,14,17,20 * * *' // Default: 8am, 11am, 2pm, 5pm, 8pm
+    // Default: 8am, 11am, 2pm, 5pm, 8pm
+    checkInSchedule: process.env.CHECK_IN_SCHEDULE || '0 8,11,14,17,20 * * *',
+    // Check for reminders every 5 minutes
+    reminderCheckSchedule: process.env.REMINDER_CHECK_SCHEDULE || '*/5 * * * *'
   },
   
   // Memory configuration
   memory: {
-    maxConversations: 50, // Maximum number of conversation entries to keep
     inactivityThreshold: 180 // Minutes of inactivity before sending check-in message
+  },
+  
+  // Database configuration
+  database: {
+    uri: process.env.MONGODB_URI || 'mongodb://localhost:27017/jazzai',
+    options: {
+      useNewUrlParser: true,
+      useUnifiedTopology: true
+    }
   }
 };
 

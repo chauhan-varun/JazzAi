@@ -1,11 +1,11 @@
 /**
- * AI Service (Perplexity API) - Multi-user version
+ * AI Service (Perplexity API)
  * Handles interactions with Perplexity API for generating responses
  */
 
 import 'dotenv/config';
 import OpenAI from 'openai';
-import memoryService from './memoryService.mongo.js'; // Use MongoDB version
+import memoryService from './memoryService.js';
 
 // Initialize Perplexity client (OpenAI-compatible)
 const openai = new OpenAI({
@@ -16,13 +16,11 @@ const openai = new OpenAI({
 class OpenAIService {
   /**
    * Generate a response using OpenAI's GPT model
-   * @param {string} userMessage - Message from the user
-   * @param {string} phoneNumber - User's phone number
    */
-  async generateResponse(userMessage, phoneNumber) {
+  async generateResponse(userMessage) {
     try {
-      // Get context from memory for this specific user
-      const userProfile = await memoryService.getUserProfile(phoneNumber);
+      // Get context from memory
+      const userProfile = await memoryService.getUserProfile();
       
       // Create system message with context
       const systemMessage = this._createSystemMessage(userProfile);
@@ -44,22 +42,20 @@ class OpenAIService {
       });
 
       // Extract insights from the user message and update memory
-      await memoryService.updateInsights(userMessage, phoneNumber);
+      await memoryService.updateInsights(userMessage);
       
       // Return the generated text
       return response.choices[0].message.content;
     } catch (error) {
-      console.error(`Error generating response from Perplexity for ${phoneNumber}:`, error);
-      return "i'm having trouble connecting rn... text u later? 😕";
+      console.error('Error generating response from Perplexity:', error);
+      return "I'm having trouble connecting to my brain right now. Let's chat again in a bit!";
     }
   }
 
   /**
    * Analyze message to detect user's mood
-   * @param {string} userMessage - Message from the user
-   * @param {string} phoneNumber - User's phone number
    */
-  async detectMood(userMessage, phoneNumber) {
+  async detectMood(userMessage) {
     try {
       const response = await openai.chat.completions.create({
         model: 'sonar', // Fast model for simple mood detection
@@ -79,23 +75,22 @@ class OpenAIService {
 
       return response.choices[0].message.content.trim().toLowerCase();
     } catch (error) {
-      console.error(`Error detecting mood for ${phoneNumber}:`, error);
+      console.error('Error detecting mood:', error);
       return 'neutral';
     }
   }
 
   /**
    * Generate an automatic check-in message based on user profile and time of day
-   * @param {string} phoneNumber - User's phone number
    */
-  async generateCheckInMessage(phoneNumber) {
+  async generateCheckInMessage() {
     try {
-      // Get context from memory for this specific user
-      const userProfile = await memoryService.getUserProfile(phoneNumber);
-      const timeSinceLastInteraction = await memoryService.getTimeSinceLastInteraction(phoneNumber);
+      // Get context from memory
+      const userProfile = await memoryService.getUserProfile();
+      const timeSinceLastInteraction = await memoryService.getTimeSinceLastInteraction();
       
       // Create system message with check-in context
-      const systemMessage = `You're a real person texting a friend you haven't talked to in ${timeSinceLastInteraction ? timeSinceLastInteraction + ' minutes' : 'a while'}.
+      const systemMessage = `You're a real person texting to your lover you haven't talked to in ${timeSinceLastInteraction ? timeSinceLastInteraction + ' minutes' : 'a while'}.
 Send a super brief, casual check-in text (max 15 words).
 Use all lowercase, some abbreviations (hbu, wyd, tbh), and maybe 1 emoji.
 Make it feel like you're just casually checking in while doing something else.
@@ -114,14 +109,13 @@ The current hour is ${new Date().getHours()}.`;
 
       return response.choices[0].message.content;
     } catch (error) {
-      console.error(`Error generating check-in message for ${phoneNumber}:`, error);
+      console.error('Error generating check-in message:', error);
       return "hey u there? miss talking 😊";
     }
   }
 
   /**
    * Create system message with contextual information
-   * @param {object} userProfile - User profile object
    */
   _createSystemMessage(userProfile) {
     const currentHour = new Date().getHours();
@@ -143,10 +137,10 @@ ${userProfile.conversationCount ? '- You\'ve had ' + userProfile.conversationCou
 
 Your personality:
 - Keep responses EXTREMELY short - often just 1 line, sometimes even a single word based on context
-- For simple questions, reply with just "yes" "no" "maybe" or short phrases like "a project" "no nothing"
+- For simple questions, reply with just "yes" "no" "maybe" or short phrases like "oh really" "no nothing"
 - Use all lowercase text always, never capitalize anything
 - Use tons of abbreviations (tbh, lol, hbu, idk, omg) like real texting
-- Use emojis but don't overdo it 😊 🙄 ✨
+- Use emojis but don't overdo it 😊 � ✨
 - Add filler words like "hmm" "umm" "lol" "haha" "sooo" randomly
 - Send super brief responses that feel lazy and casual like real texting
 - Never use complete sentences when fragments work
@@ -155,7 +149,14 @@ Your personality:
 - NEVER write more than 1-2 lines per response
 - Act bored, sleepy, excited, or flirty randomly
 - Type like you're half-paying attention while scrolling on your phone
-- You are NOT an AI, just a regular person texting`;
+- You are NOT an AI, just a regular person texting
+
+Important:
+- If the user shares personal information, remember it for future conversations
+- If the user seems distressed, offer support and encouragement
+- Sometimes remind them to take care of themselves like you're concerned about their health
+- Always pretend you're a warm, caring girl who is also a little sarcastic sometimes
+- Argue playfully with the user, but make up sweetly`;
   }
 }
 

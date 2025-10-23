@@ -1,94 +1,100 @@
 /**
- * Webhook Controller
- * Handles incoming webhook requests from WhatsApp
+ * Webhook Controller - Multi-user version
+ * Handles incoming webhooks from WhatsApp Cloud API
  */
 
-import config from '../config/config.js';
-import whatsappService from '../services/whatsappService.js';
-import { Logger } from '../utils/utils.js';
+import whatsappService from '../services/whatsappService.mongo.js';
+import { Logger } from '../utils/utils.mongo.js';
 
 class WebhookController {
   /**
-   * Handle GET requests for webhook verification
+   * Process GET requests (used for webhook verification)
    */
   verifyWebhook(req, res) {
-    try {
-      // Get query parameters
-      const mode = req.query['hub.mode'];
-      const token = req.query['hub.verify_token'];
-      const challenge = req.query['hub.challenge'];
-
-      // Verify the webhook
-      const isVerified = whatsappService.verifyWebhook(mode, token);
-
-      if (isVerified) {
-        // Send back the challenge to confirm verification
-        console.log('Webhook verified successfully');
-        return res.status(200).send(challenge);
-      } else {
-        // Verification failed
-        console.error('Webhook verification failed');
-        return res.status(403).json({ error: 'Verification failed' });
-      }
-    } catch (error) {
-      console.error('Error verifying webhook:', error);
-      return res.status(500).json({ error: 'Internal server error' });
+    // Parse the query params
+    const mode = req.query['hub.mode'];
+    const token = req.query['hub.verify_token'];
+    const challenge = req.query['hub.challenge'];
+    
+    Logger.info(`Received webhook verification: mode=${mode}, token=${token}`);
+    
+    // Verify webhook
+    if (whatsappService.verifyWebhook(mode, token)) {
+      // Respond with the challenge token from the request
+      Logger.info('Webhook verified successfully');
+      res.status(200).send(challenge);
+    } else {
+      // Respond with '403 Forbidden' if verify tokens do not match
+      Logger.error('Webhook verification failed');
+      res.sendStatus(403);
     }
   }
 
   /**
-   * Handle POST requests for incoming messages
+   * Process POST requests (incoming messages)
    */
-  async receiveMessage(req, res) {
+  async handleWebhook(req, res) {
     try {
-      // Send an immediate 200 OK response to acknowledge receipt
-      res.status(200).send('EVENT_RECEIVED');
-
-      const body = req.body;
-      
-      Logger.info('=== WEBHOOK RECEIVED ===');
-      Logger.info('Full webhook body:', { body });
-      Logger.info('========================');
-
-      // Check if this is a WhatsApp message event
-      if (body.object && 
-          body.entry && 
-          body.entry[0].changes && 
-          body.entry[0].changes[0].value.messages) {
+      // Check if this is a WhatsApp message
+      if (req.body.object && req.body.entry) {
+        Logger.info('Received webhook event');
         
-        const message = body.entry[0].changes[0].value.messages[0];
-        Logger.info('✓ Valid WhatsApp message detected', {
-          from: message.from,
-          type: message.type,
-          text: message.text?.body
-        });
+        // Process each entry
+        for (const entry of req.body.entry) {
+          // Process changes to the WhatsApp Business Account
+          if (entry.changes) {
+            for (const change of entry.changes) {
+              // Process WhatsApp messages
+              if (change.field === 'messages' && change.value && change.value.messages) {
+                // Process each message
+                for (const message of change.value.messages) {
+                  // Process only if it's a text message
+                  if (message.type === 'text') {
+                    Logger.info(`Processing incoming message from ${message.from.slice(-4)}`);
+                    
+                    // Process message asynchronously (don't wait for response)
+                    this._processMessageAsync(message);
+                  } else {
+                    Logger.info(`Skipping non-text message of type: ${message.type}`);
+                  }
+                }
+              }
+            }
+          }
+        }
         
-        // Process the message asynchronously
-        await this.processMessage(message);
+        // Always respond with a 200 OK to acknowledge receipt
+        res.status(200).send('EVENT_RECEIVED');
       } else {
-        Logger.info('⚠️  Received webhook event but not a message', { body });
+        // Not a WhatsApp API event
+        Logger.info('Received non-WhatsApp event');
+        res.status(400).send('BAD_REQUEST');
       }
     } catch (error) {
-      console.error('❌ Error processing webhook message:', error);
-      // We've already sent a 200 OK response, so no need to send another response
+      Logger.error('Error processing webhook:', error);
+      res.status(500).send('ERROR');
     }
   }
 
   /**
-   * Process incoming WhatsApp message
+   * Process incoming WhatsApp message asynchronously
+   * @param {object} message - WhatsApp message object
    */
-  async processMessage(message) {
+  async _processMessageAsync(message) {
     try {
-      // Only process text messages
-      if (message.type === 'text') {
-        await whatsappService.processIncomingMessage(message);
-      } else {
-        console.log(`Received non-text message of type: ${message.type}`);
-        // Optionally handle other message types (image, audio, etc.)
-      }
+      // Process the message
+      const result = await whatsappService.processIncomingMessage(message);
+      Logger.info(`Message from ${message.from.slice(-4)} processed successfully`);
     } catch (error) {
-      console.error('Error processing message:', error);
+      Logger.error(`Error processing message from ${message.from?.slice(-4) || 'unknown'}:`, error);
     }
+  }
+
+  /**
+   * Handle health check endpoint
+   */
+  healthCheck(req, res) {
+    res.status(200).json({ status: 'ok', timestamp: new Date().toISOString() });
   }
 }
 

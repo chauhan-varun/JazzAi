@@ -1,16 +1,17 @@
 /**
- * Scheduler Service
- * Handles automatic check-in messages and scheduled tasks
+ * Scheduler Service - Multi-user version
+ * Handles automatic check-in messages and scheduled tasks for multiple users
  */
 
 import cron from 'node-cron';
-import config from '../config/config.js';
-import whatsappService from './whatsappService.js';
-import memoryService from './memoryService.js';
+import config from '../config/config.mongo.js';
+import whatsappService from './whatsappService.mongo.js'; // Use MongoDB version
+import { Logger } from '../utils/utils.mongo.js';
 
 class SchedulerService {
   constructor() {
     this.checkInJob = null;
+    this.reminderJob = null;
   }
 
   /**
@@ -18,11 +19,14 @@ class SchedulerService {
    */
   initialize() {
     this.startCheckInJob();
-    console.log('Scheduler initialized with check-in schedule:', config.scheduler.checkInSchedule);
+    this.startReminderJob();
+    Logger.info('Scheduler initialized with multi-user support');
+    Logger.info(`Check-in schedule: ${config.scheduler.checkInSchedule}`);
+    Logger.info(`Reminder check schedule: ${config.scheduler.reminderCheckSchedule}`);
   }
 
   /**
-   * Start the regular check-in job
+   * Start the regular check-in job for all users
    */
   startCheckInJob() {
     try {
@@ -33,20 +37,53 @@ class SchedulerService {
 
       // Schedule new job using the configured cron expression
       this.checkInJob = cron.schedule(config.scheduler.checkInSchedule, async () => {
-        console.log('Running scheduled check-in job:', new Date().toISOString());
+        Logger.info('Running scheduled check-in job for all users');
         
         try {
-          const result = await whatsappService.sendCheckInMessage();
-          console.log('Check-in job result:', JSON.stringify(result));
+          // Send check-in messages to all eligible users
+          const result = await whatsappService.sendCheckInMessages();
+          Logger.info(`Check-in job completed: ${result.messagesSent} messages sent`);
         } catch (error) {
-          console.error('Error in check-in job:', error);
+          Logger.error('Error in check-in job:', error);
         }
       });
 
-      console.log('Check-in job scheduled successfully');
+      Logger.info('Check-in job scheduled successfully');
       return true;
     } catch (error) {
-      console.error('Error scheduling check-in job:', error);
+      Logger.error('Error scheduling check-in job:', error);
+      return false;
+    }
+  }
+
+  /**
+   * Start the reminder check job
+   */
+  startReminderJob() {
+    try {
+      // Stop any existing job
+      if (this.reminderJob) {
+        this.reminderJob.stop();
+      }
+
+      // Schedule reminder check every 5 minutes
+      const reminderSchedule = config.scheduler.reminderCheckSchedule || '*/5 * * * *';
+      
+      this.reminderJob = cron.schedule(reminderSchedule, async () => {
+        Logger.info('Running reminder check job');
+        
+        try {
+          // Check for pending reminders for all users
+          await this.checkPendingRemindersForAllUsers();
+        } catch (error) {
+          Logger.error('Error in reminder job:', error);
+        }
+      });
+
+      Logger.info('Reminder job scheduled successfully');
+      return true;
+    } catch (error) {
+      Logger.error('Error scheduling reminder job:', error);
       return false;
     }
   }
@@ -57,8 +94,11 @@ class SchedulerService {
   stopAllJobs() {
     if (this.checkInJob) {
       this.checkInJob.stop();
-      console.log('All scheduled jobs stopped');
     }
+    if (this.reminderJob) {
+      this.reminderJob.stop();
+    }
+    Logger.info('All scheduled jobs stopped');
   }
 
   /**
@@ -77,42 +117,67 @@ class SchedulerService {
       // Restart the job with the new schedule
       this.startCheckInJob();
       
-      console.log('Check-in schedule updated:', newSchedule);
+      Logger.info(`Check-in schedule updated: ${newSchedule}`);
       return true;
     } catch (error) {
-      console.error('Error updating check-in schedule:', error);
+      Logger.error('Error updating check-in schedule:', error);
       return false;
     }
   }
 
   /**
-   * Check if there are any pending reminders to send
-   * This could be run at a higher frequency than check-ins
+   * Check for pending reminders for all users
    */
-  async checkPendingReminders() {
+  async checkPendingRemindersForAllUsers() {
     try {
-      const pendingReminders = await memoryService.getPendingReminders();
-      const now = new Date();
+      // Get all users who have reminders
+      const activeUsers = await whatsappService.getActiveUsers();
+      let remindersSent = 0;
       
-      // Check for reminders that are due
-      for (const reminder of pendingReminders) {
-        const triggerTime = new Date(reminder.triggerTime);
-        
-        if (triggerTime <= now) {
-          // Send the reminder
-          await whatsappService.sendMessage(`🔔 Reminder: ${reminder.text}`);
+      for (const user of activeUsers) {
+        try {
+          // Import memory service here to avoid circular dependency
+          const memoryService = (await import('./memoryService.mongo.js')).default;
           
-          // Mark as completed
-          await memoryService.completeReminder(reminder.id);
+          // Get pending reminders for this user
+          const pendingReminders = await memoryService.getPendingReminders(user.phoneNumber);
+          const now = new Date();
           
-          console.log('Reminder sent and marked as completed:', reminder.id);
+          // Check for reminders that are due
+          for (const reminder of pendingReminders) {
+            const triggerTime = new Date(reminder.triggerTime);
+            
+            if (triggerTime <= now) {
+              // Send the reminder
+              await whatsappService.sendMessage(`🔔 Reminder: ${reminder.text}`, user.phoneNumber);
+              
+              // Mark as completed
+              await memoryService.completeReminder(reminder._id, user.phoneNumber);
+              
+              console.log(`Reminder sent to ${user.phoneNumber} and marked as completed:`, reminder._id);
+              remindersSent++;
+            }
+          }
+        } catch (error) {
+          console.error(`Error checking reminders for user ${user.phoneNumber}:`, error);
+          // Continue with next user
         }
       }
       
-      return true;
+      if (remindersSent > 0) {
+        console.log(`Sent ${remindersSent} reminders across all users`);
+      }
+      
+      return {
+        success: true,
+        remindersSent
+      };
     } catch (error) {
-      console.error('Error checking pending reminders:', error);
-      return false;
+      console.error('Error checking pending reminders for all users:', error);
+      return {
+        success: false,
+        error: error.message
+      };
     }
   }
 }

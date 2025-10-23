@@ -1,303 +1,383 @@
 /**
- * Memory Service
+ * Memory Service - MongoDB Version
  * Handles all operations related to the AI's memory (user data, conversation history, etc.)
+ * using MongoDB instead of file-based storage.
  */
 
-import fs from 'fs/promises';
-import path from 'path';
-import { fileURLToPath } from 'url';
+import 'dotenv/config';
+import database from './databaseService.js';
+import UserProfile from '../models/userProfile.js';
+import Conversation from '../models/conversation.js';
+import Insight from '../models/insight.js';
+import Reminder from '../models/reminder.js';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-const MEMORY_FILE_PATH = path.join(__dirname, '../data/memory.json');
+// Default user phone number (from environment variables)
+const DEFAULT_USER = process.env.USER_NUMBER;
 
 class MemoryService {
   constructor() {
-    this.memoryCache = null;
-    this.initializeMemory();
+    // Ensure database connection
+    this.ensureConnected();
   }
 
   /**
-   * Initialize memory by loading from file or creating new if doesn't exist
+   * Ensure database connection is established
    */
-  async initializeMemory() {
+  async ensureConnected() {
+    await database.connect();
+  }
+
+  /**
+   * Get user profile or create if doesn't exist
+   * @param {string} phoneNumber - User's phone number (default from env)
+   */
+  async getUserProfile(phoneNumber = DEFAULT_USER) {
+    await this.ensureConnected();
+    
     try {
-      await this.loadMemory();
-      console.log('Memory loaded successfully');
-    } catch (error) {
-      console.log('Creating new memory file...');
+      // Try to find existing user
+      let userProfile = await UserProfile.findOne({ phoneNumber });
       
-      const initialMemory = {
-        userProfile: {
+      // If user doesn't exist, create new profile
+      if (!userProfile) {
+        console.log(`Creating new user profile for ${phoneNumber}`);
+        
+        userProfile = new UserProfile({
+          userId: `user_${Date.now()}`,
+          phoneNumber,
           name: '',
           mood: '',
           favoriteTopics: [],
           lastInteraction: null,
           conversationCount: 0,
           personalDetails: {}
-        },
-        conversations: [],
-        insights: {
+        });
+        
+        await userProfile.save();
+        
+        // Also create default insights for the user
+        const insight = new Insight({
+          userId: userProfile.userId,
+          phoneNumber,
           commonPhrases: [],
           sentimentTrend: 'neutral',
           engagementLevel: 'medium',
           topics: {}
-        },
-        reminders: []
-      };
+        });
+        
+        await insight.save();
+      }
       
-      await this.saveMemory(initialMemory);
-      this.memoryCache = initialMemory;
-    }
-  }
-
-  /**
-   * Load memory from the JSON file
-   */
-  async loadMemory() {
-    try {
-      const data = await fs.readFile(MEMORY_FILE_PATH, 'utf8');
-      this.memoryCache = JSON.parse(data);
-      return this.memoryCache;
+      return userProfile.toObject();
     } catch (error) {
-      console.error('Error loading memory:', error.message);
+      console.error('Error getting user profile:', error.message);
       throw error;
     }
   }
 
   /**
-   * Save memory to the JSON file
+   * Update user profile with new information
+   * @param {object} profileData - User profile data to update
+   * @param {string} phoneNumber - User's phone number
    */
-  async saveMemory(memoryData = null) {
+  async updateUserProfile(profileData, phoneNumber = DEFAULT_USER) {
+    await this.ensureConnected();
+    
     try {
-      const dataToSave = memoryData || this.memoryCache;
-      await fs.writeFile(
-        MEMORY_FILE_PATH,
-        JSON.stringify(dataToSave, null, 2),
-        'utf8'
+      // Get current user profile
+      const currentProfile = await this.getUserProfile(phoneNumber);
+      
+      // Update profile
+      const updatedProfile = await UserProfile.findOneAndUpdate(
+        { phoneNumber },
+        { 
+          ...profileData,
+          updatedAt: new Date()
+        },
+        { new: true, upsert: true }
       );
-      return true;
+      
+      return updatedProfile.toObject();
     } catch (error) {
-      console.error('Error saving memory:', error.message);
+      console.error('Error updating user profile:', error.message);
+      throw error;
+    }
+  }
+
+  /**
+   * Add a new conversation to memory
+   * @param {object} messageObj - Message object with text, from, and optional mood
+   * @param {string} phoneNumber - User's phone number
+   */
+  async addConversation(messageObj, phoneNumber = DEFAULT_USER) {
+    await this.ensureConnected();
+    
+    try {
+      // Get user profile
+      const userProfile = await this.getUserProfile(phoneNumber);
+      
+      // Create conversation
+      const conversation = new Conversation({
+        userId: userProfile.userId,
+        phoneNumber,
+        timestamp: new Date(),
+        message: messageObj.text,
+        from: messageObj.from,
+        userMood: messageObj.detectedMood || 'unknown'
+      });
+      
+      await conversation.save();
+      
+      // Update last interaction time and conversation count
+      await UserProfile.findOneAndUpdate(
+        { phoneNumber },
+        { 
+          lastInteraction: new Date(),
+          $inc: { conversationCount: 1 }
+        }
+      );
+      
+      return conversation.toObject();
+    } catch (error) {
+      console.error('Error adding conversation:', error.message);
+      throw error;
+    }
+  }
+
+  /**
+   * Get recent conversations for a user
+   * @param {number} limit - Number of conversations to return
+   * @param {string} phoneNumber - User's phone number
+   */
+  async getRecentConversations(limit = 10, phoneNumber = DEFAULT_USER) {
+    await this.ensureConnected();
+    
+    try {
+      // Get user profile
+      const userProfile = await this.getUserProfile(phoneNumber);
+      
+      // Get conversations
+      const conversations = await Conversation.find({ 
+        userId: userProfile.userId 
+      })
+        .sort({ timestamp: -1 })
+        .limit(limit);
+      
+      return conversations.map(conv => conv.toObject());
+    } catch (error) {
+      console.error('Error getting recent conversations:', error.message);
+      throw error;
+    }
+  }
+
+  /**
+   * Extract insights from conversations
+   * @param {string} messageText - Message to analyze
+   * @param {string} phoneNumber - User's phone number
+   */
+  async updateInsights(messageText, phoneNumber = DEFAULT_USER) {
+    await this.ensureConnected();
+    
+    try {
+      // Get user profile
+      const userProfile = await this.getUserProfile(phoneNumber);
+      
+      // Get current insights
+      let insights = await Insight.findOne({ 
+        userId: userProfile.userId 
+      });
+      
+      if (!insights) {
+        insights = new Insight({
+          userId: userProfile.userId,
+          phoneNumber,
+          commonPhrases: [],
+          sentimentTrend: 'neutral',
+          engagementLevel: 'medium',
+          topics: {}
+        });
+      }
+      
+      // Simple topic tracking (very basic implementation)
+      const topics = {
+        'work': ['job', 'work', 'boss', 'project', 'deadline', 'meeting'],
+        'health': ['exercise', 'workout', 'gym', 'health', 'diet', 'sleep'],
+        'entertainment': ['movie', 'show', 'music', 'game', 'play', 'watch'],
+        'education': ['learn', 'study', 'class', 'course', 'book', 'read']
+      };
+      
+      const lowerMessage = messageText.toLowerCase();
+      const insightTopics = insights.topics.toObject ? insights.topics.toObject() : insights.topics;
+      
+      // Check which topics are mentioned
+      Object.keys(topics).forEach(topic => {
+        const keywords = topics[topic];
+        const mentioned = keywords.some(keyword => lowerMessage.includes(keyword.toLowerCase()));
+        
+        if (mentioned) {
+          // Initialize topic if it doesn't exist
+          if (!insightTopics[topic]) {
+            insightTopics[topic] = 0;
+          }
+          
+          // Increment topic count
+          insightTopics[topic]++;
+        }
+      });
+      
+      // Update insights
+      insights.topics = insightTopics;
+      insights.updatedAt = new Date();
+      await insights.save();
+      
+      return insights.toObject();
+    } catch (error) {
+      console.error('Error updating insights:', error.message);
+      throw error;
+    }
+  }
+
+  /**
+   * Get user's favorite topics based on frequency
+   * @param {number} limit - Maximum number of topics to return
+   * @param {string} phoneNumber - User's phone number
+   */
+  async getFavoriteTopics(limit = 3, phoneNumber = DEFAULT_USER) {
+    await this.ensureConnected();
+    
+    try {
+      // Get user profile
+      const userProfile = await this.getUserProfile(phoneNumber);
+      
+      // Get insights
+      const insights = await Insight.findOne({ userId: userProfile.userId });
+      if (!insights || !insights.topics) {
+        return [];
+      }
+      
+      const topics = insights.topics.toObject ? insights.topics.toObject() : insights.topics;
+      
+      // Sort topics by count
+      const sortedTopics = Object.keys(topics)
+        .map(topic => ({ name: topic, count: topics[topic] }))
+        .sort((a, b) => b.count - a.count)
+        .slice(0, limit)
+        .map(topic => topic.name);
+      
+      // Update favorite topics in user profile
+      await UserProfile.findOneAndUpdate(
+        { userId: userProfile.userId },
+        { favoriteTopics: sortedTopics }
+      );
+      
+      return sortedTopics;
+    } catch (error) {
+      console.error('Error getting favorite topics:', error.message);
+      return [];
+    }
+  }
+
+  /**
+   * Add or update a reminder
+   * @param {object} reminder - Reminder data
+   * @param {string} phoneNumber - User's phone number
+   */
+  async addReminder(reminder, phoneNumber = DEFAULT_USER) {
+    await this.ensureConnected();
+    
+    try {
+      // Get user profile
+      const userProfile = await this.getUserProfile(phoneNumber);
+      
+      // Create reminder
+      const newReminder = new Reminder({
+        userId: userProfile.userId,
+        phoneNumber,
+        text: reminder.text,
+        created: new Date(),
+        triggerTime: reminder.triggerTime || new Date(),
+        completed: false
+      });
+      
+      await newReminder.save();
+      return newReminder.toObject();
+    } catch (error) {
+      console.error('Error adding reminder:', error.message);
+      throw error;
+    }
+  }
+
+  /**
+   * Get all pending reminders for a user
+   * @param {string} phoneNumber - User's phone number
+   */
+  async getPendingReminders(phoneNumber = DEFAULT_USER) {
+    await this.ensureConnected();
+    
+    try {
+      // Get user profile
+      const userProfile = await this.getUserProfile(phoneNumber);
+      
+      // Get pending reminders
+      const reminders = await Reminder.find({
+        userId: userProfile.userId,
+        completed: false,
+        triggerTime: { $lte: new Date() }
+      }).sort({ triggerTime: 1 });
+      
+      return reminders.map(reminder => reminder.toObject());
+    } catch (error) {
+      console.error('Error getting pending reminders:', error.message);
+      return [];
+    }
+  }
+
+  /**
+   * Mark a reminder as completed
+   * @param {string} reminderId - ID of the reminder to complete
+   * @param {string} phoneNumber - User's phone number
+   */
+  async completeReminder(reminderId, phoneNumber = DEFAULT_USER) {
+    await this.ensureConnected();
+    
+    try {
+      // Update reminder
+      const result = await Reminder.findByIdAndUpdate(
+        reminderId,
+        { completed: true }
+      );
+      
+      return !!result;
+    } catch (error) {
+      console.error('Error completing reminder:', error.message);
       return false;
     }
   }
 
   /**
-   * Get the complete memory
-   */
-  async getFullMemory() {
-    if (!this.memoryCache) {
-      await this.loadMemory();
-    }
-    return this.memoryCache;
-  }
-
-  /**
-   * Get user profile from memory
-   */
-  async getUserProfile() {
-    if (!this.memoryCache) {
-      await this.loadMemory();
-    }
-    return this.memoryCache.userProfile;
-  }
-
-  /**
-   * Update user profile with new information
-   */
-  async updateUserProfile(profileData) {
-    if (!this.memoryCache) {
-      await this.loadMemory();
-    }
-    
-    this.memoryCache.userProfile = {
-      ...this.memoryCache.userProfile,
-      ...profileData
-    };
-    
-    await this.saveMemory();
-    return this.memoryCache.userProfile;
-  }
-
-  /**
-   * Add a new conversation to memory
-   */
-  async addConversation(messageObj) {
-    if (!this.memoryCache) {
-      await this.loadMemory();
-    }
-    
-    const conversation = {
-      timestamp: new Date().toISOString(),
-      message: messageObj.text,
-      from: messageObj.from,
-      userMood: messageObj.detectedMood || 'unknown'
-    };
-    
-    // Update lastInteraction time
-    this.memoryCache.userProfile.lastInteraction = conversation.timestamp;
-    
-    // Increment conversation count
-    this.memoryCache.userProfile.conversationCount += 1;
-    
-    // Add to conversations array (limit to last 50 conversations to avoid file size issues)
-    this.memoryCache.conversations.push(conversation);
-    if (this.memoryCache.conversations.length > 50) {
-      this.memoryCache.conversations.shift();
-    }
-    
-    await this.saveMemory();
-    return conversation;
-  }
-
-  /**
-   * Get recent conversations (last n conversations)
-   */
-  async getRecentConversations(limit = 10) {
-    if (!this.memoryCache) {
-      await this.loadMemory();
-    }
-    
-    const conversations = [...this.memoryCache.conversations];
-    return conversations.reverse().slice(0, limit);
-  }
-
-  /**
-   * Extract insights from conversations
-   * This is a simplified version - in production, you might use NLP here
-   */
-  async updateInsights(messageText) {
-    if (!this.memoryCache) {
-      await this.loadMemory();
-    }
-    
-    // Simple topic tracking (very basic implementation)
-    const topics = {
-      'work': ['job', 'work', 'boss', 'project', 'deadline', 'meeting'],
-      'health': ['exercise', 'workout', 'gym', 'health', 'diet', 'sleep'],
-      'entertainment': ['movie', 'show', 'music', 'game', 'play', 'watch'],
-      'education': ['learn', 'study', 'class', 'course', 'book', 'read']
-    };
-    
-    const lowerMessage = messageText.toLowerCase();
-    
-    // Check which topics are mentioned
-    Object.keys(topics).forEach(topic => {
-      const keywords = topics[topic];
-      const mentioned = keywords.some(keyword => lowerMessage.includes(keyword.toLowerCase()));
-      
-      if (mentioned) {
-        // Initialize topic count if it doesn't exist
-        if (!this.memoryCache.insights.topics[topic]) {
-          this.memoryCache.insights.topics[topic] = 0;
-        }
-        
-        // Increment topic count
-        this.memoryCache.insights.topics[topic]++;
-      }
-    });
-    
-    // Save memory with updated insights
-    await this.saveMemory();
-    return this.memoryCache.insights;
-  }
-
-  /**
-   * Get user's favorite topics based on frequency
-   */
-  async getFavoriteTopics(limit = 3) {
-    if (!this.memoryCache) {
-      await this.loadMemory();
-    }
-    
-    const topics = this.memoryCache.insights.topics;
-    
-    // Sort topics by count
-    const sortedTopics = Object.keys(topics)
-      .map(topic => ({ name: topic, count: topics[topic] }))
-      .sort((a, b) => b.count - a.count)
-      .slice(0, limit)
-      .map(topic => topic.name);
-    
-    // Update favorite topics in user profile
-    this.memoryCache.userProfile.favoriteTopics = sortedTopics;
-    await this.saveMemory();
-    
-    return sortedTopics;
-  }
-
-  /**
-   * Add or update a reminder
-   */
-  async addReminder(reminder) {
-    if (!this.memoryCache) {
-      await this.loadMemory();
-    }
-    
-    const newReminder = {
-      id: Date.now().toString(),
-      text: reminder.text,
-      created: new Date().toISOString(),
-      triggerTime: reminder.triggerTime || new Date().toISOString(),
-      completed: false
-    };
-    
-    this.memoryCache.reminders.push(newReminder);
-    await this.saveMemory();
-    return newReminder;
-  }
-
-  /**
-   * Get all pending reminders
-   */
-  async getPendingReminders() {
-    if (!this.memoryCache) {
-      await this.loadMemory();
-    }
-    
-    return this.memoryCache.reminders.filter(reminder => !reminder.completed);
-  }
-
-  /**
-   * Mark a reminder as completed
-   */
-  async completeReminder(reminderId) {
-    if (!this.memoryCache) {
-      await this.loadMemory();
-    }
-    
-    const reminderIndex = this.memoryCache.reminders.findIndex(r => r.id === reminderId);
-    
-    if (reminderIndex !== -1) {
-      this.memoryCache.reminders[reminderIndex].completed = true;
-      await this.saveMemory();
-      return true;
-    }
-    
-    return false;
-  }
-
-  /**
    * Get time since last interaction in minutes
+   * @param {string} phoneNumber - User's phone number
    */
-  async getTimeSinceLastInteraction() {
-    if (!this.memoryCache) {
-      await this.loadMemory();
+  async getTimeSinceLastInteraction(phoneNumber = DEFAULT_USER) {
+    await this.ensureConnected();
+    
+    try {
+      // Get user profile
+      const userProfile = await this.getUserProfile(phoneNumber);
+      
+      if (!userProfile.lastInteraction) {
+        return null; // No previous interaction
+      }
+      
+      const lastInteractionTime = new Date(userProfile.lastInteraction).getTime();
+      const currentTime = new Date().getTime();
+      
+      // Calculate difference in minutes
+      return Math.floor((currentTime - lastInteractionTime) / (1000 * 60));
+    } catch (error) {
+      console.error('Error getting time since last interaction:', error.message);
+      return null;
     }
-    
-    const lastInteraction = this.memoryCache.userProfile.lastInteraction;
-    
-    if (!lastInteraction) {
-      return null; // No previous interaction
-    }
-    
-    const lastInteractionTime = new Date(lastInteraction).getTime();
-    const currentTime = new Date().getTime();
-    
-    // Calculate difference in minutes
-    return Math.floor((currentTime - lastInteractionTime) / (1000 * 60));
   }
 }
 

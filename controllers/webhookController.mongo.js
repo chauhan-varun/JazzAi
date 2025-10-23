@@ -7,6 +7,14 @@ import whatsappService from '../services/whatsappService.mongo.js';
 import { Logger } from '../utils/utils.mongo.js';
 
 class WebhookController {
+  constructor() {
+    // Bind methods to maintain 'this' context when used as callbacks
+    this.verifyWebhook = this.verifyWebhook.bind(this);
+    this.handleWebhook = this.handleWebhook.bind(this);
+    this._processMessageAsync = this._processMessageAsync.bind(this);
+    this.healthCheck = this.healthCheck.bind(this);
+  }
+  
   /**
    * Process GET requests (used for webhook verification)
    */
