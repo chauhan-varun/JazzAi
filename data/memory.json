@@ -1,18 +1,61 @@
 {
-    "userProfile": {
-        "name": "",
-        "mood": "",
-        "favoriteTopics": [],
-        "lastInteraction": null,
-        "conversationCount": 0,
-        "personalDetails": {}
+  "userProfile": {
+    "name": "",
+    "mood": "neutral",
+    "favoriteTopics": [],
+    "lastInteraction": "2025-10-23T05:55:01.352Z",
+    "conversationCount": 7,
+    "personalDetails": {}
+  },
+  "conversations": [
+    {
+      "timestamp": "2025-10-23T05:14:00.309Z",
+      "message": "Hello! This is a test message from the diagnostic script.",
+      "from": "user",
+      "userMood": "neutral"
     },
-    "conversations": [],
-    "insights": {
-        "commonPhrases": [],
-        "sentimentTrend": "neutral",
-        "engagementLevel": "medium",
-        "topics": {}
+    {
+      "timestamp": "2025-10-23T05:42:13.994Z",
+      "message": "sda",
+      "from": "user",
+      "userMood": "neutral"
     },
-    "reminders": []
+    {
+      "timestamp": "2025-10-23T05:44:26.135Z",
+      "message": "sdf",
+      "from": "user",
+      "userMood": "neutral"
+    },
+    {
+      "timestamp": "2025-10-23T05:49:51.966Z",
+      "message": "ans",
+      "from": "user",
+      "userMood": "neutral"
+    },
+    {
+      "timestamp": "2025-10-23T05:53:49.362Z",
+      "message": "hey",
+      "from": "user",
+      "userMood": "neutral"
+    },
+    {
+      "timestamp": "2025-10-23T05:54:08.598Z",
+      "message": "sadf",
+      "from": "user",
+      "userMood": "neutral"
+    },
+    {
+      "timestamp": "2025-10-23T05:55:01.352Z",
+      "message": "sdf",
+      "from": "user",
+      "userMood": "neutral"
+    }
+  ],
+  "insights": {
+    "commonPhrases": [],
+    "sentimentTrend": "neutral",
+    "engagementLevel": "medium",
+    "topics": {}
+  },
+  "reminders": []
 }

@@ -74,16 +74,20 @@ class WhatsAppService {
       const timestamp = message.timestamp;
       
       console.log(`Received message from ${from}: ${messageText}`);
+      console.log(`Expected USER_NUMBER: ${USER_NUMBER}`);
+      console.log(`Match check: ${from} === ${USER_NUMBER} = ${from === USER_NUMBER}`);
       
       // Skip if not from our target user (optional - remove this check to allow multiple users)
       if (from !== USER_NUMBER) {
-        console.log(`Message from non-target user ${from} ignored.`);
+        console.log(`❌ Message from non-target user ${from} ignored (expected ${USER_NUMBER}).`);
         return {
           success: true,
           ignored: true,
           reason: 'Message not from target user'
         };
       }
+      
+      console.log(`✅ Message accepted! Processing...`);
 
       // Detect mood
       const detectedMood = await openaiService.detectMood(messageText);

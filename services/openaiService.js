@@ -1,15 +1,16 @@
 /**
- * OpenAI Service
- * Handles interactions with OpenAI API for generating responses
+ * AI Service (Perplexity API)
+ * Handles interactions with Perplexity API for generating responses
  */
 
 import 'dotenv/config';
 import OpenAI from 'openai';
 import memoryService from './memoryService.js';
 
-// Initialize OpenAI client
+// Initialize Perplexity client (OpenAI-compatible)
 const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY
+  apiKey: process.env.PERPLEXITY_API_KEY,
+  baseURL: 'https://api.perplexity.ai'
 });
 
 class OpenAIService {
@@ -40,15 +41,13 @@ class OpenAIService {
         { role: 'user', content: userMessage }
       ];
 
-      // Make OpenAI API call
+      // Make Perplexity API call
+      // Using sonar-pro for best reasoning capabilities (like ChatGPT)
       const response = await openai.chat.completions.create({
-        model: 'gpt-4o', // Can be changed to 'gpt-4' or other models as needed
+        model: 'sonar-pro', // Best model for reasoning and conversation
         messages: messages,
         temperature: 0.8,
         max_tokens: 500,
-        top_p: 1,
-        frequency_penalty: 0.5,
-        presence_penalty: 0.3,
       });
 
       // Extract insights from the user message and update memory
@@ -57,7 +56,7 @@ class OpenAIService {
       // Return the generated text
       return response.choices[0].message.content;
     } catch (error) {
-      console.error('Error generating response from OpenAI:', error);
+      console.error('Error generating response from Perplexity:', error);
       return "I'm having trouble connecting to my brain right now. Let's chat again in a bit!";
     }
   }
@@ -68,7 +67,7 @@ class OpenAIService {
   async detectMood(userMessage) {
     try {
       const response = await openai.chat.completions.create({
-        model: 'gpt-4o', // Can use a smaller model for efficiency
+        model: 'sonar', // Fast model for simple mood detection
         messages: [
           {
             role: 'system',
@@ -108,9 +107,9 @@ Their last recorded mood was: ${userProfile.mood || 'not recorded'}.
 The current hour is ${new Date().getHours()}.
 Keep the message under 50 words, friendly, and natural - like a friend checking in.`;
 
-      // Make OpenAI API call
+      // Make Perplexity API call
       const response = await openai.chat.completions.create({
-        model: 'gpt-4o',
+        model: 'sonar-pro', // Best model for personalized check-ins
         messages: [
           { role: 'system', content: systemMessage }
         ],

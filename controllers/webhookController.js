@@ -5,6 +5,7 @@
 
 import config from '../config/config.js';
 import whatsappService from '../services/whatsappService.js';
+import { Logger } from '../utils/utils.js';
 
 class WebhookController {
   /**
@@ -45,9 +46,9 @@ class WebhookController {
 
       const body = req.body;
       
-      console.log('=== WEBHOOK RECEIVED ===');
-      console.log('Full webhook body:', JSON.stringify(body, null, 2));
-      console.log('========================');
+      Logger.info('=== WEBHOOK RECEIVED ===');
+      Logger.info('Full webhook body:', { body });
+      Logger.info('========================');
 
       // Check if this is a WhatsApp message event
       if (body.object && 
@@ -56,16 +57,16 @@ class WebhookController {
           body.entry[0].changes[0].value.messages) {
         
         const message = body.entry[0].changes[0].value.messages[0];
-        console.log('✓ Valid WhatsApp message detected');
-        console.log('From:', message.from);
-        console.log('Type:', message.type);
-        console.log('Message:', JSON.stringify(message, null, 2));
+        Logger.info('✓ Valid WhatsApp message detected', {
+          from: message.from,
+          type: message.type,
+          text: message.text?.body
+        });
         
         // Process the message asynchronously
         await this.processMessage(message);
       } else {
-        console.log('⚠️  Received webhook event but not a message');
-        console.log('Body structure:', JSON.stringify(body, null, 2));
+        Logger.info('⚠️  Received webhook event but not a message', { body });
       }
     } catch (error) {
       console.error('❌ Error processing webhook message:', error);
