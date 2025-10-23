@@ -6,7 +6,7 @@
 import 'dotenv/config';
 import axios from 'axios';
 import memoryService from './memoryService.js';
-import openaiService from './openaiService.js';
+import openaiService from './perplexity.js';
 
 // WhatsApp API Constants
 const WHATSAPP_API_URL = 'https://graph.facebook.com/v17.0';

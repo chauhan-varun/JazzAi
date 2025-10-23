@@ -1454,3 +1454,3374 @@
     ]
   }
 }
+[INFO] 2025-10-23T06:21:20.938Z: JazzAI WhatsApp Companion is listening on port 3000
+[INFO] 2025-10-23T06:21:20.954Z: Memory service initialized successfully
+[INFO] 2025-10-23T06:21:21.009Z: Scheduler initialized successfully
+[INFO] 2025-10-23T06:21:21.010Z: Server startup complete. JazzAI is ready!
+[INFO] 2025-10-23T06:21:24.557Z: JazzAI WhatsApp Companion is listening on port 3000
+[INFO] 2025-10-23T06:21:24.561Z: Memory service initialized successfully
+[INFO] 2025-10-23T06:21:24.588Z: Scheduler initialized successfully
+[INFO] 2025-10-23T06:21:24.588Z: Server startup complete. JazzAI is ready!
+[INFO] 2025-10-23T06:25:51.124Z: JazzAI WhatsApp Companion is listening on port 3000
+[INFO] 2025-10-23T06:25:51.128Z: Memory service initialized successfully
+[INFO] 2025-10-23T06:25:51.154Z: Scheduler initialized successfully
+[INFO] 2025-10-23T06:25:51.155Z: Server startup complete. JazzAI is ready!
+[INFO] 2025-10-23T06:27:32.970Z: GET /webhook?hub.mode=subscribe&hub.challenge=740228329&hub.verify_token=jazzai-webhook-verification
+{
+  "query": {
+    "hub.mode": "subscribe",
+    "hub.challenge": "740228329",
+    "hub.verify_token": "jazzai-webhook-verification"
+  },
+  "headers": {
+    "user-agent": "facebookplatform/1.0 (+http://developers.facebook.com)"
+  }
+}
+[INFO] 2025-10-23T06:27:48.761Z: POST /webhook
+{
+  "body": "(request body omitted)",
+  "query": {},
+  "headers": {
+    "user-agent": "facebookexternalua",
+    "content-type": "application/json"
+  }
+}
+[INFO] 2025-10-23T06:27:48.763Z: === WEBHOOK RECEIVED ===
+[INFO] 2025-10-23T06:27:48.763Z: Full webhook body:
+{
+  "body": {
+    "object": "whatsapp_business_account",
+    "entry": [
+      {
+        "id": "25378946961713345",
+        "changes": [
+          {
+            "value": {
+              "messaging_product": "whatsapp",
+              "metadata": {
+                "display_phone_number": "15551781135",
+                "phone_number_id": "759976487210103"
+              },
+              "contacts": [
+                {
+                  "profile": {
+                    "name": "Varun"
+                  },
+                  "wa_id": "919310227657"
+                }
+              ],
+              "messages": [
+                {
+                  "from": "919310227657",
+                  "id": "wamid.HBgMOTE5MzEwMjI3NjU3FQIAEhgWM0VCMDdBNUJDNEU2MTY2QUU2RUEzRAA=",
+                  "timestamp": "1761200867",
+                  "text": {
+                    "body": "hwy"
+                  },
+                  "type": "text"
+                }
+              ]
+            },
+            "field": "messages"
+          }
+        ]
+      }
+    ]
+  }
+}
+[INFO] 2025-10-23T06:27:48.764Z: ========================
+[INFO] 2025-10-23T06:27:48.764Z: ✓ Valid WhatsApp message detected
+{
+  "from": "919310227657",
+  "type": "text",
+  "text": "hwy"
+}
+[INFO] 2025-10-23T06:27:57.835Z: POST /webhook
+{
+  "body": "(request body omitted)",
+  "query": {},
+  "headers": {
+    "user-agent": "facebookexternalua",
+    "content-type": "application/json"
+  }
+}
+[INFO] 2025-10-23T06:27:57.839Z: === WEBHOOK RECEIVED ===
+[INFO] 2025-10-23T06:27:57.839Z: Full webhook body:
+{
+  "body": {
+    "object": "whatsapp_business_account",
+    "entry": [
+      {
+        "id": "25378946961713345",
+        "changes": [
+          {
+            "value": {
+              "messaging_product": "whatsapp",
+              "metadata": {
+                "display_phone_number": "15551781135",
+                "phone_number_id": "759976487210103"
+              },
+              "statuses": [
+                {
+                  "id": "wamid.HBgMOTE5MzEwMjI3NjU3FQIAERgSMDYwNDNBN0QxOEI3OTlCM0IzAA==",
+                  "status": "sent",
+                  "timestamp": "1761200876",
+                  "recipient_id": "919310227657",
+                  "pricing": {
+                    "billable": false,
+                    "pricing_model": "PMP",
+                    "category": "service",
+                    "type": "free_customer_service"
+                  }
+                }
+              ]
+            },
+            "field": "messages"
+          }
+        ]
+      }
+    ]
+  }
+}
+[INFO] 2025-10-23T06:27:57.841Z: ========================
+[INFO] 2025-10-23T06:27:57.841Z: ⚠️  Received webhook event but not a message
+{
+  "body": {
+    "object": "whatsapp_business_account",
+    "entry": [
+      {
+        "id": "25378946961713345",
+        "changes": [
+          {
+            "value": {
+              "messaging_product": "whatsapp",
+              "metadata": {
+                "display_phone_number": "15551781135",
+                "phone_number_id": "759976487210103"
+              },
+              "statuses": [
+                {
+                  "id": "wamid.HBgMOTE5MzEwMjI3NjU3FQIAERgSMDYwNDNBN0QxOEI3OTlCM0IzAA==",
+                  "status": "sent",
+                  "timestamp": "1761200876",
+                  "recipient_id": "919310227657",
+                  "pricing": {
+                    "billable": false,
+                    "pricing_model": "PMP",
+                    "category": "service",
+                    "type": "free_customer_service"
+                  }
+                }
+              ]
+            },
+            "field": "messages"
+          }
+        ]
+      }
+    ]
+  }
+}
+[INFO] 2025-10-23T06:27:58.418Z: POST /webhook
+{
+  "body": "(request body omitted)",
+  "query": {},
+  "headers": {
+    "user-agent": "facebookexternalua",
+    "content-type": "application/json"
+  }
+}
+[INFO] 2025-10-23T06:27:58.418Z: === WEBHOOK RECEIVED ===
+[INFO] 2025-10-23T06:27:58.419Z: Full webhook body:
+{
+  "body": {
+    "object": "whatsapp_business_account",
+    "entry": [
+      {
+        "id": "25378946961713345",
+        "changes": [
+          {
+            "value": {
+              "messaging_product": "whatsapp",
+              "metadata": {
+                "display_phone_number": "15551781135",
+                "phone_number_id": "759976487210103"
+              },
+              "statuses": [
+                {
+                  "id": "wamid.HBgMOTE5MzEwMjI3NjU3FQIAERgSMDYwNDNBN0QxOEI3OTlCM0IzAA==",
+                  "status": "delivered",
+                  "timestamp": "1761200876",
+                  "recipient_id": "919310227657",
+                  "pricing": {
+                    "billable": false,
+                    "pricing_model": "PMP",
+                    "category": "service",
+                    "type": "free_customer_service"
+                  }
+                }
+              ]
+            },
+            "field": "messages"
+          }
+        ]
+      }
+    ]
+  }
+}
+[INFO] 2025-10-23T06:27:58.419Z: ========================
+[INFO] 2025-10-23T06:27:58.419Z: ⚠️  Received webhook event but not a message
+{
+  "body": {
+    "object": "whatsapp_business_account",
+    "entry": [
+      {
+        "id": "25378946961713345",
+        "changes": [
+          {
+            "value": {
+              "messaging_product": "whatsapp",
+              "metadata": {
+                "display_phone_number": "15551781135",
+                "phone_number_id": "759976487210103"
+              },
+              "statuses": [
+                {
+                  "id": "wamid.HBgMOTE5MzEwMjI3NjU3FQIAERgSMDYwNDNBN0QxOEI3OTlCM0IzAA==",
+                  "status": "delivered",
+                  "timestamp": "1761200876",
+                  "recipient_id": "919310227657",
+                  "pricing": {
+                    "billable": false,
+                    "pricing_model": "PMP",
+                    "category": "service",
+                    "type": "free_customer_service"
+                  }
+                }
+              ]
+            },
+            "field": "messages"
+          }
+        ]
+      }
+    ]
+  }
+}
+[INFO] 2025-10-23T06:28:01.722Z: POST /webhook
+{
+  "body": "(request body omitted)",
+  "query": {},
+  "headers": {
+    "user-agent": "facebookexternalua",
+    "content-type": "application/json"
+  }
+}
+[INFO] 2025-10-23T06:28:01.723Z: === WEBHOOK RECEIVED ===
+[INFO] 2025-10-23T06:28:01.723Z: Full webhook body:
+{
+  "body": {
+    "object": "whatsapp_business_account",
+    "entry": [
+      {
+        "id": "25378946961713345",
+        "changes": [
+          {
+            "value": {
+              "messaging_product": "whatsapp",
+              "metadata": {
+                "display_phone_number": "15551781135",
+                "phone_number_id": "759976487210103"
+              },
+              "statuses": [
+                {
+                  "id": "wamid.HBgMOTE5MzEwMjI3NjU3FQIAERgSMDYwNDNBN0QxOEI3OTlCM0IzAA==",
+                  "status": "read",
+                  "timestamp": "1761200880",
+                  "recipient_id": "919310227657",
+                  "pricing": {
+                    "billable": false,
+                    "pricing_model": "PMP",
+                    "category": "service",
+                    "type": "free_customer_service"
+                  }
+                }
+              ]
+            },
+            "field": "messages"
+          }
+        ]
+      }
+    ]
+  }
+}
+[INFO] 2025-10-23T06:28:01.723Z: ========================
+[INFO] 2025-10-23T06:28:01.723Z: ⚠️  Received webhook event but not a message
+{
+  "body": {
+    "object": "whatsapp_business_account",
+    "entry": [
+      {
+        "id": "25378946961713345",
+        "changes": [
+          {
+            "value": {
+              "messaging_product": "whatsapp",
+              "metadata": {
+                "display_phone_number": "15551781135",
+                "phone_number_id": "759976487210103"
+              },
+              "statuses": [
+                {
+                  "id": "wamid.HBgMOTE5MzEwMjI3NjU3FQIAERgSMDYwNDNBN0QxOEI3OTlCM0IzAA==",
+                  "status": "read",
+                  "timestamp": "1761200880",
+                  "recipient_id": "919310227657",
+                  "pricing": {
+                    "billable": false,
+                    "pricing_model": "PMP",
+                    "category": "service",
+                    "type": "free_customer_service"
+                  }
+                }
+              ]
+            },
+            "field": "messages"
+          }
+        ]
+      }
+    ]
+  }
+}
+[INFO] 2025-10-23T06:28:42.176Z: POST /webhook
+{
+  "body": "(request body omitted)",
+  "query": {},
+  "headers": {
+    "user-agent": "facebookexternalua",
+    "content-type": "application/json"
+  }
+}
+[INFO] 2025-10-23T06:28:42.178Z: === WEBHOOK RECEIVED ===
+[INFO] 2025-10-23T06:28:42.178Z: Full webhook body:
+{
+  "body": {
+    "object": "whatsapp_business_account",
+    "entry": [
+      {
+        "id": "25378946961713345",
+        "changes": [
+          {
+            "value": {
+              "messaging_product": "whatsapp",
+              "metadata": {
+                "display_phone_number": "15551781135",
+                "phone_number_id": "759976487210103"
+              },
+              "contacts": [
+                {
+                  "profile": {
+                    "name": "Varun"
+                  },
+                  "wa_id": "919310227657"
+                }
+              ],
+              "messages": [
+                {
+                  "from": "919310227657",
+                  "id": "wamid.HBgMOTE5MzEwMjI3NjU3FQIAEhgWM0VCMDgyOUU0OUY4MTA5OEM5MzhGRAA=",
+                  "timestamp": "1761200920",
+                  "text": {
+                    "body": "how are u doing"
+                  },
+                  "type": "text"
+                }
+              ]
+            },
+            "field": "messages"
+          }
+        ]
+      }
+    ]
+  }
+}
+[INFO] 2025-10-23T06:28:42.179Z: ========================
+[INFO] 2025-10-23T06:28:42.179Z: ✓ Valid WhatsApp message detected
+{
+  "from": "919310227657",
+  "type": "text",
+  "text": "how are u doing"
+}
+[INFO] 2025-10-23T06:28:50.168Z: POST /webhook
+{
+  "body": "(request body omitted)",
+  "query": {},
+  "headers": {
+    "user-agent": "facebookexternalua",
+    "content-type": "application/json"
+  }
+}
+[INFO] 2025-10-23T06:28:50.171Z: === WEBHOOK RECEIVED ===
+[INFO] 2025-10-23T06:28:50.172Z: Full webhook body:
+{
+  "body": {
+    "object": "whatsapp_business_account",
+    "entry": [
+      {
+        "id": "25378946961713345",
+        "changes": [
+          {
+            "value": {
+              "messaging_product": "whatsapp",
+              "metadata": {
+                "display_phone_number": "15551781135",
+                "phone_number_id": "759976487210103"
+              },
+              "statuses": [
+                {
+                  "id": "wamid.HBgMOTE5MzEwMjI3NjU3FQIAERgSMTQ0QjkwMTA5QTkyMTJFQzk2AA==",
+                  "status": "sent",
+                  "timestamp": "1761200929",
+                  "recipient_id": "919310227657",
+                  "pricing": {
+                    "billable": false,
+                    "pricing_model": "PMP",
+                    "category": "service",
+                    "type": "free_customer_service"
+                  }
+                }
+              ]
+            },
+            "field": "messages"
+          }
+        ]
+      }
+    ]
+  }
+}
+[INFO] 2025-10-23T06:28:50.173Z: ========================
+[INFO] 2025-10-23T06:28:50.173Z: ⚠️  Received webhook event but not a message
+{
+  "body": {
+    "object": "whatsapp_business_account",
+    "entry": [
+      {
+        "id": "25378946961713345",
+        "changes": [
+          {
+            "value": {
+              "messaging_product": "whatsapp",
+              "metadata": {
+                "display_phone_number": "15551781135",
+                "phone_number_id": "759976487210103"
+              },
+              "statuses": [
+                {
+                  "id": "wamid.HBgMOTE5MzEwMjI3NjU3FQIAERgSMTQ0QjkwMTA5QTkyMTJFQzk2AA==",
+                  "status": "sent",
+                  "timestamp": "1761200929",
+                  "recipient_id": "919310227657",
+                  "pricing": {
+                    "billable": false,
+                    "pricing_model": "PMP",
+                    "category": "service",
+                    "type": "free_customer_service"
+                  }
+                }
+              ]
+            },
+            "field": "messages"
+          }
+        ]
+      }
+    ]
+  }
+}
+[INFO] 2025-10-23T06:28:50.779Z: === WEBHOOK RECEIVED ===
+[INFO] 2025-10-23T06:28:50.777Z: POST /webhook
+{
+  "body": "(request body omitted)",
+  "query": {},
+  "headers": {
+    "user-agent": "facebookexternalua",
+    "content-type": "application/json"
+  }
+}
+[INFO] 2025-10-23T06:28:50.779Z: Full webhook body:
+{
+  "body": {
+    "object": "whatsapp_business_account",
+    "entry": [
+      {
+        "id": "25378946961713345",
+        "changes": [
+          {
+            "value": {
+              "messaging_product": "whatsapp",
+              "metadata": {
+                "display_phone_number": "15551781135",
+                "phone_number_id": "759976487210103"
+              },
+              "statuses": [
+                {
+                  "id": "wamid.HBgMOTE5MzEwMjI3NjU3FQIAERgSMTQ0QjkwMTA5QTkyMTJFQzk2AA==",
+                  "status": "read",
+                  "timestamp": "1761200929",
+                  "recipient_id": "919310227657",
+                  "pricing": {
+                    "billable": false,
+                    "pricing_model": "PMP",
+                    "category": "service",
+                    "type": "free_customer_service"
+                  }
+                }
+              ]
+            },
+            "field": "messages"
+          }
+        ]
+      }
+    ]
+  }
+}
+[INFO] 2025-10-23T06:28:50.780Z: ========================
+[INFO] 2025-10-23T06:28:50.780Z: ⚠️  Received webhook event but not a message
+{
+  "body": {
+    "object": "whatsapp_business_account",
+    "entry": [
+      {
+        "id": "25378946961713345",
+        "changes": [
+          {
+            "value": {
+              "messaging_product": "whatsapp",
+              "metadata": {
+                "display_phone_number": "15551781135",
+                "phone_number_id": "759976487210103"
+              },
+              "statuses": [
+                {
+                  "id": "wamid.HBgMOTE5MzEwMjI3NjU3FQIAERgSMTQ0QjkwMTA5QTkyMTJFQzk2AA==",
+                  "status": "read",
+                  "timestamp": "1761200929",
+                  "recipient_id": "919310227657",
+                  "pricing": {
+                    "billable": false,
+                    "pricing_model": "PMP",
+                    "category": "service",
+                    "type": "free_customer_service"
+                  }
+                }
+              ]
+            },
+            "field": "messages"
+          }
+        ]
+      }
+    ]
+  }
+}
+[INFO] 2025-10-23T06:28:50.781Z: POST /webhook
+{
+  "body": "(request body omitted)",
+  "query": {},
+  "headers": {
+    "user-agent": "facebookexternalua",
+    "content-type": "application/json"
+  }
+}
+[INFO] 2025-10-23T06:28:50.782Z: === WEBHOOK RECEIVED ===
+[INFO] 2025-10-23T06:28:50.782Z: Full webhook body:
+{
+  "body": {
+    "object": "whatsapp_business_account",
+    "entry": [
+      {
+        "id": "25378946961713345",
+        "changes": [
+          {
+            "value": {
+              "messaging_product": "whatsapp",
+              "metadata": {
+                "display_phone_number": "15551781135",
+                "phone_number_id": "759976487210103"
+              },
+              "statuses": [
+                {
+                  "id": "wamid.HBgMOTE5MzEwMjI3NjU3FQIAERgSMTQ0QjkwMTA5QTkyMTJFQzk2AA==",
+                  "status": "delivered",
+                  "timestamp": "1761200929",
+                  "recipient_id": "919310227657",
+                  "pricing": {
+                    "billable": false,
+                    "pricing_model": "PMP",
+                    "category": "service",
+                    "type": "free_customer_service"
+                  }
+                }
+              ]
+            },
+            "field": "messages"
+          }
+        ]
+      }
+    ]
+  }
+}
+[INFO] 2025-10-23T06:28:50.783Z: ========================
+[INFO] 2025-10-23T06:28:50.783Z: ⚠️  Received webhook event but not a message
+{
+  "body": {
+    "object": "whatsapp_business_account",
+    "entry": [
+      {
+        "id": "25378946961713345",
+        "changes": [
+          {
+            "value": {
+              "messaging_product": "whatsapp",
+              "metadata": {
+                "display_phone_number": "15551781135",
+                "phone_number_id": "759976487210103"
+              },
+              "statuses": [
+                {
+                  "id": "wamid.HBgMOTE5MzEwMjI3NjU3FQIAERgSMTQ0QjkwMTA5QTkyMTJFQzk2AA==",
+                  "status": "delivered",
+                  "timestamp": "1761200929",
+                  "recipient_id": "919310227657",
+                  "pricing": {
+                    "billable": false,
+                    "pricing_model": "PMP",
+                    "category": "service",
+                    "type": "free_customer_service"
+                  }
+                }
+              ]
+            },
+            "field": "messages"
+          }
+        ]
+      }
+    ]
+  }
+}
+[INFO] 2025-10-23T06:28:50.800Z: POST /webhook
+{
+  "body": "(request body omitted)",
+  "query": {},
+  "headers": {
+    "user-agent": "facebookexternalua",
+    "content-type": "application/json"
+  }
+}
+[INFO] 2025-10-23T06:28:50.800Z: === WEBHOOK RECEIVED ===
+[INFO] 2025-10-23T06:28:50.801Z: Full webhook body:
+{
+  "body": {
+    "object": "whatsapp_business_account",
+    "entry": [
+      {
+        "id": "25378946961713345",
+        "changes": [
+          {
+            "value": {
+              "messaging_product": "whatsapp",
+              "metadata": {
+                "display_phone_number": "15551781135",
+                "phone_number_id": "759976487210103"
+              },
+              "statuses": [
+                {
+                  "id": "wamid.HBgMOTE5MzEwMjI3NjU3FQIAERgSMTQ0QjkwMTA5QTkyMTJFQzk2AA==",
+                  "status": "delivered",
+                  "timestamp": "1761200929",
+                  "recipient_id": "919310227657",
+                  "pricing": {
+                    "billable": false,
+                    "pricing_model": "PMP",
+                    "category": "service",
+                    "type": "free_customer_service"
+                  }
+                }
+              ]
+            },
+            "field": "messages"
+          }
+        ]
+      }
+    ]
+  }
+}
+[INFO] 2025-10-23T06:28:50.801Z: ========================
+[INFO] 2025-10-23T06:28:50.801Z: ⚠️  Received webhook event but not a message
+{
+  "body": {
+    "object": "whatsapp_business_account",
+    "entry": [
+      {
+        "id": "25378946961713345",
+        "changes": [
+          {
+            "value": {
+              "messaging_product": "whatsapp",
+              "metadata": {
+                "display_phone_number": "15551781135",
+                "phone_number_id": "759976487210103"
+              },
+              "statuses": [
+                {
+                  "id": "wamid.HBgMOTE5MzEwMjI3NjU3FQIAERgSMTQ0QjkwMTA5QTkyMTJFQzk2AA==",
+                  "status": "delivered",
+                  "timestamp": "1761200929",
+                  "recipient_id": "919310227657",
+                  "pricing": {
+                    "billable": false,
+                    "pricing_model": "PMP",
+                    "category": "service",
+                    "type": "free_customer_service"
+                  }
+                }
+              ]
+            },
+            "field": "messages"
+          }
+        ]
+      }
+    ]
+  }
+}
+[INFO] 2025-10-23T06:29:09.993Z: POST /webhook
+{
+  "body": "(request body omitted)",
+  "query": {},
+  "headers": {
+    "user-agent": "facebookexternalua",
+    "content-type": "application/json"
+  }
+}
+[INFO] 2025-10-23T06:29:09.995Z: === WEBHOOK RECEIVED ===
+[INFO] 2025-10-23T06:29:09.995Z: Full webhook body:
+{
+  "body": {
+    "object": "whatsapp_business_account",
+    "entry": [
+      {
+        "id": "25378946961713345",
+        "changes": [
+          {
+            "value": {
+              "messaging_product": "whatsapp",
+              "metadata": {
+                "display_phone_number": "15551781135",
+                "phone_number_id": "759976487210103"
+              },
+              "contacts": [
+                {
+                  "profile": {
+                    "name": "Varun"
+                  },
+                  "wa_id": "919310227657"
+                }
+              ],
+              "messages": [
+                {
+                  "from": "919310227657",
+                  "id": "wamid.HBgMOTE5MzEwMjI3NjU3FQIAEhgWM0VCMDIwOEZGM0VFQTE0QUMwQUFBNAA=",
+                  "timestamp": "1761200948",
+                  "text": {
+                    "body": "yea im good hbu?"
+                  },
+                  "type": "text"
+                }
+              ]
+            },
+            "field": "messages"
+          }
+        ]
+      }
+    ]
+  }
+}
+[INFO] 2025-10-23T06:29:09.996Z: ========================
+[INFO] 2025-10-23T06:29:09.996Z: ✓ Valid WhatsApp message detected
+{
+  "from": "919310227657",
+  "type": "text",
+  "text": "yea im good hbu?"
+}
+[INFO] 2025-10-23T06:29:18.441Z: POST /webhook
+{
+  "body": "(request body omitted)",
+  "query": {},
+  "headers": {
+    "user-agent": "facebookexternalua",
+    "content-type": "application/json"
+  }
+}
+[INFO] 2025-10-23T06:29:18.443Z: === WEBHOOK RECEIVED ===
+[INFO] 2025-10-23T06:29:18.443Z: Full webhook body:
+{
+  "body": {
+    "object": "whatsapp_business_account",
+    "entry": [
+      {
+        "id": "25378946961713345",
+        "changes": [
+          {
+            "value": {
+              "messaging_product": "whatsapp",
+              "metadata": {
+                "display_phone_number": "15551781135",
+                "phone_number_id": "759976487210103"
+              },
+              "statuses": [
+                {
+                  "id": "wamid.HBgMOTE5MzEwMjI3NjU3FQIAERgSNUMxOTk5OTNFMUU1RkQwQURCAA==",
+                  "status": "sent",
+                  "timestamp": "1761200957",
+                  "recipient_id": "919310227657",
+                  "pricing": {
+                    "billable": false,
+                    "pricing_model": "PMP",
+                    "category": "service",
+                    "type": "free_customer_service"
+                  }
+                }
+              ]
+            },
+            "field": "messages"
+          }
+        ]
+      }
+    ]
+  }
+}
+[INFO] 2025-10-23T06:29:18.444Z: ========================
+[INFO] 2025-10-23T06:29:18.444Z: ⚠️  Received webhook event but not a message
+{
+  "body": {
+    "object": "whatsapp_business_account",
+    "entry": [
+      {
+        "id": "25378946961713345",
+        "changes": [
+          {
+            "value": {
+              "messaging_product": "whatsapp",
+              "metadata": {
+                "display_phone_number": "15551781135",
+                "phone_number_id": "759976487210103"
+              },
+              "statuses": [
+                {
+                  "id": "wamid.HBgMOTE5MzEwMjI3NjU3FQIAERgSNUMxOTk5OTNFMUU1RkQwQURCAA==",
+                  "status": "sent",
+                  "timestamp": "1761200957",
+                  "recipient_id": "919310227657",
+                  "pricing": {
+                    "billable": false,
+                    "pricing_model": "PMP",
+                    "category": "service",
+                    "type": "free_customer_service"
+                  }
+                }
+              ]
+            },
+            "field": "messages"
+          }
+        ]
+      }
+    ]
+  }
+}
+[INFO] 2025-10-23T06:29:19.020Z: === WEBHOOK RECEIVED ===
+[INFO] 2025-10-23T06:29:19.018Z: POST /webhook
+{
+  "body": "(request body omitted)",
+  "query": {},
+  "headers": {
+    "user-agent": "facebookexternalua",
+    "content-type": "application/json"
+  }
+}
+[INFO] 2025-10-23T06:29:19.020Z: Full webhook body:
+{
+  "body": {
+    "object": "whatsapp_business_account",
+    "entry": [
+      {
+        "id": "25378946961713345",
+        "changes": [
+          {
+            "value": {
+              "messaging_product": "whatsapp",
+              "metadata": {
+                "display_phone_number": "15551781135",
+                "phone_number_id": "759976487210103"
+              },
+              "statuses": [
+                {
+                  "id": "wamid.HBgMOTE5MzEwMjI3NjU3FQIAERgSNUMxOTk5OTNFMUU1RkQwQURCAA==",
+                  "status": "delivered",
+                  "timestamp": "1761200958",
+                  "recipient_id": "919310227657",
+                  "pricing": {
+                    "billable": false,
+                    "pricing_model": "PMP",
+                    "category": "service",
+                    "type": "free_customer_service"
+                  }
+                }
+              ]
+            },
+            "field": "messages"
+          }
+        ]
+      }
+    ]
+  }
+}
+[INFO] 2025-10-23T06:29:19.021Z: ========================
+[INFO] 2025-10-23T06:29:19.022Z: ⚠️  Received webhook event but not a message
+{
+  "body": {
+    "object": "whatsapp_business_account",
+    "entry": [
+      {
+        "id": "25378946961713345",
+        "changes": [
+          {
+            "value": {
+              "messaging_product": "whatsapp",
+              "metadata": {
+                "display_phone_number": "15551781135",
+                "phone_number_id": "759976487210103"
+              },
+              "statuses": [
+                {
+                  "id": "wamid.HBgMOTE5MzEwMjI3NjU3FQIAERgSNUMxOTk5OTNFMUU1RkQwQURCAA==",
+                  "status": "delivered",
+                  "timestamp": "1761200958",
+                  "recipient_id": "919310227657",
+                  "pricing": {
+                    "billable": false,
+                    "pricing_model": "PMP",
+                    "category": "service",
+                    "type": "free_customer_service"
+                  }
+                }
+              ]
+            },
+            "field": "messages"
+          }
+        ]
+      }
+    ]
+  }
+}
+[INFO] 2025-10-23T06:29:19.072Z: POST /webhook
+{
+  "body": "(request body omitted)",
+  "query": {},
+  "headers": {
+    "user-agent": "facebookexternalua",
+    "content-type": "application/json"
+  }
+}
+[INFO] 2025-10-23T06:29:19.074Z: === WEBHOOK RECEIVED ===
+[INFO] 2025-10-23T06:29:19.075Z: Full webhook body:
+{
+  "body": {
+    "object": "whatsapp_business_account",
+    "entry": [
+      {
+        "id": "25378946961713345",
+        "changes": [
+          {
+            "value": {
+              "messaging_product": "whatsapp",
+              "metadata": {
+                "display_phone_number": "15551781135",
+                "phone_number_id": "759976487210103"
+              },
+              "statuses": [
+                {
+                  "id": "wamid.HBgMOTE5MzEwMjI3NjU3FQIAERgSNUMxOTk5OTNFMUU1RkQwQURCAA==",
+                  "status": "delivered",
+                  "timestamp": "1761200958",
+                  "recipient_id": "919310227657",
+                  "pricing": {
+                    "billable": false,
+                    "pricing_model": "PMP",
+                    "category": "service",
+                    "type": "free_customer_service"
+                  }
+                }
+              ]
+            },
+            "field": "messages"
+          }
+        ]
+      }
+    ]
+  }
+}
+[INFO] 2025-10-23T06:29:19.075Z: ========================
+[INFO] 2025-10-23T06:29:19.076Z: ⚠️  Received webhook event but not a message
+{
+  "body": {
+    "object": "whatsapp_business_account",
+    "entry": [
+      {
+        "id": "25378946961713345",
+        "changes": [
+          {
+            "value": {
+              "messaging_product": "whatsapp",
+              "metadata": {
+                "display_phone_number": "15551781135",
+                "phone_number_id": "759976487210103"
+              },
+              "statuses": [
+                {
+                  "id": "wamid.HBgMOTE5MzEwMjI3NjU3FQIAERgSNUMxOTk5OTNFMUU1RkQwQURCAA==",
+                  "status": "delivered",
+                  "timestamp": "1761200958",
+                  "recipient_id": "919310227657",
+                  "pricing": {
+                    "billable": false,
+                    "pricing_model": "PMP",
+                    "category": "service",
+                    "type": "free_customer_service"
+                  }
+                }
+              ]
+            },
+            "field": "messages"
+          }
+        ]
+      }
+    ]
+  }
+}
+[INFO] 2025-10-23T06:29:19.243Z: POST /webhook
+{
+  "body": "(request body omitted)",
+  "query": {},
+  "headers": {
+    "user-agent": "facebookexternalua",
+    "content-type": "application/json"
+  }
+}
+[INFO] 2025-10-23T06:29:19.245Z: === WEBHOOK RECEIVED ===
+[INFO] 2025-10-23T06:29:19.245Z: Full webhook body:
+{
+  "body": {
+    "object": "whatsapp_business_account",
+    "entry": [
+      {
+        "id": "25378946961713345",
+        "changes": [
+          {
+            "value": {
+              "messaging_product": "whatsapp",
+              "metadata": {
+                "display_phone_number": "15551781135",
+                "phone_number_id": "759976487210103"
+              },
+              "statuses": [
+                {
+                  "id": "wamid.HBgMOTE5MzEwMjI3NjU3FQIAERgSNUMxOTk5OTNFMUU1RkQwQURCAA==",
+                  "status": "read",
+                  "timestamp": "1761200958",
+                  "recipient_id": "919310227657",
+                  "pricing": {
+                    "billable": false,
+                    "pricing_model": "PMP",
+                    "category": "service",
+                    "type": "free_customer_service"
+                  }
+                }
+              ]
+            },
+            "field": "messages"
+          }
+        ]
+      }
+    ]
+  }
+}
+[INFO] 2025-10-23T06:29:19.246Z: ⚠️  Received webhook event but not a message
+{
+  "body": {
+    "object": "whatsapp_business_account",
+    "entry": [
+      {
+        "id": "25378946961713345",
+        "changes": [
+          {
+            "value": {
+              "messaging_product": "whatsapp",
+              "metadata": {
+                "display_phone_number": "15551781135",
+                "phone_number_id": "759976487210103"
+              },
+              "statuses": [
+                {
+                  "id": "wamid.HBgMOTE5MzEwMjI3NjU3FQIAERgSNUMxOTk5OTNFMUU1RkQwQURCAA==",
+                  "status": "read",
+                  "timestamp": "1761200958",
+                  "recipient_id": "919310227657",
+                  "pricing": {
+                    "billable": false,
+                    "pricing_model": "PMP",
+                    "category": "service",
+                    "type": "free_customer_service"
+                  }
+                }
+              ]
+            },
+            "field": "messages"
+          }
+        ]
+      }
+    ]
+  }
+}
+[INFO] 2025-10-23T06:29:19.246Z: ========================
+[INFO] 2025-10-23T06:29:30.936Z: JazzAI WhatsApp Companion is listening on port 3000
+[INFO] 2025-10-23T06:29:30.941Z: Memory service initialized successfully
+[INFO] 2025-10-23T06:29:30.973Z: Scheduler initialized successfully
+[INFO] 2025-10-23T06:29:30.973Z: Server startup complete. JazzAI is ready!
+[INFO] 2025-10-23T06:30:57.803Z: JazzAI WhatsApp Companion is listening on port 3000
+[INFO] 2025-10-23T06:30:57.806Z: Memory service initialized successfully
+[INFO] 2025-10-23T06:30:57.834Z: Scheduler initialized successfully
+[INFO] 2025-10-23T06:30:57.834Z: Server startup complete. JazzAI is ready!
+[INFO] 2025-10-23T06:31:11.388Z: POST /webhook
+{
+  "body": "(request body omitted)",
+  "query": {},
+  "headers": {
+    "user-agent": "facebookexternalua",
+    "content-type": "application/json"
+  }
+}
+[INFO] 2025-10-23T06:31:11.395Z: === WEBHOOK RECEIVED ===
+[INFO] 2025-10-23T06:31:11.395Z: Full webhook body:
+{
+  "body": {
+    "object": "whatsapp_business_account",
+    "entry": [
+      {
+        "id": "25378946961713345",
+        "changes": [
+          {
+            "value": {
+              "messaging_product": "whatsapp",
+              "metadata": {
+                "display_phone_number": "15551781135",
+                "phone_number_id": "759976487210103"
+              },
+              "contacts": [
+                {
+                  "profile": {
+                    "name": "Varun"
+                  },
+                  "wa_id": "919310227657"
+                }
+              ],
+              "messages": [
+                {
+                  "from": "919310227657",
+                  "id": "wamid.HBgMOTE5MzEwMjI3NjU3FQIAEhgWM0VCMDQ4MDg4QTYxMzVFMEYxMTdFNgA=",
+                  "timestamp": "1761201070",
+                  "text": {
+                    "body": "tell about your day"
+                  },
+                  "type": "text"
+                }
+              ]
+            },
+            "field": "messages"
+          }
+        ]
+      }
+    ]
+  }
+}
+[INFO] 2025-10-23T06:31:11.396Z: ========================
+[INFO] 2025-10-23T06:31:11.397Z: ✓ Valid WhatsApp message detected
+{
+  "from": "919310227657",
+  "type": "text",
+  "text": "tell about your day"
+}
+[INFO] 2025-10-23T06:31:20.320Z: POST /webhook
+{
+  "body": "(request body omitted)",
+  "query": {},
+  "headers": {
+    "user-agent": "facebookexternalua",
+    "content-type": "application/json"
+  }
+}
+[INFO] 2025-10-23T06:31:20.321Z: === WEBHOOK RECEIVED ===
+[INFO] 2025-10-23T06:31:20.321Z: Full webhook body:
+{
+  "body": {
+    "object": "whatsapp_business_account",
+    "entry": [
+      {
+        "id": "25378946961713345",
+        "changes": [
+          {
+            "value": {
+              "messaging_product": "whatsapp",
+              "metadata": {
+                "display_phone_number": "15551781135",
+                "phone_number_id": "759976487210103"
+              },
+              "statuses": [
+                {
+                  "id": "wamid.HBgMOTE5MzEwMjI3NjU3FQIAERgSOTYzMTAyN0JGMkIyMTI3QTVCAA==",
+                  "status": "sent",
+                  "timestamp": "1761201079",
+                  "recipient_id": "919310227657",
+                  "pricing": {
+                    "billable": false,
+                    "pricing_model": "PMP",
+                    "category": "service",
+                    "type": "free_customer_service"
+                  }
+                }
+              ]
+            },
+            "field": "messages"
+          }
+        ]
+      }
+    ]
+  }
+}
+[INFO] 2025-10-23T06:31:20.321Z: ========================
+[INFO] 2025-10-23T06:31:20.321Z: ⚠️  Received webhook event but not a message
+{
+  "body": {
+    "object": "whatsapp_business_account",
+    "entry": [
+      {
+        "id": "25378946961713345",
+        "changes": [
+          {
+            "value": {
+              "messaging_product": "whatsapp",
+              "metadata": {
+                "display_phone_number": "15551781135",
+                "phone_number_id": "759976487210103"
+              },
+              "statuses": [
+                {
+                  "id": "wamid.HBgMOTE5MzEwMjI3NjU3FQIAERgSOTYzMTAyN0JGMkIyMTI3QTVCAA==",
+                  "status": "sent",
+                  "timestamp": "1761201079",
+                  "recipient_id": "919310227657",
+                  "pricing": {
+                    "billable": false,
+                    "pricing_model": "PMP",
+                    "category": "service",
+                    "type": "free_customer_service"
+                  }
+                }
+              ]
+            },
+            "field": "messages"
+          }
+        ]
+      }
+    ]
+  }
+}
+[INFO] 2025-10-23T06:31:20.531Z: POST /webhook
+{
+  "body": "(request body omitted)",
+  "query": {},
+  "headers": {
+    "user-agent": "facebookexternalua",
+    "content-type": "application/json"
+  }
+}
+[INFO] 2025-10-23T06:31:20.534Z: === WEBHOOK RECEIVED ===
+[INFO] 2025-10-23T06:31:20.535Z: Full webhook body:
+{
+  "body": {
+    "object": "whatsapp_business_account",
+    "entry": [
+      {
+        "id": "25378946961713345",
+        "changes": [
+          {
+            "value": {
+              "messaging_product": "whatsapp",
+              "metadata": {
+                "display_phone_number": "15551781135",
+                "phone_number_id": "759976487210103"
+              },
+              "statuses": [
+                {
+                  "id": "wamid.HBgMOTE5MzEwMjI3NjU3FQIAERgSOTYzMTAyN0JGMkIyMTI3QTVCAA==",
+                  "status": "delivered",
+                  "timestamp": "1761201079",
+                  "recipient_id": "919310227657",
+                  "pricing": {
+                    "billable": false,
+                    "pricing_model": "PMP",
+                    "category": "service",
+                    "type": "free_customer_service"
+                  }
+                }
+              ]
+            },
+            "field": "messages"
+          }
+        ]
+      }
+    ]
+  }
+}
+[INFO] 2025-10-23T06:31:20.536Z: ========================
+[INFO] 2025-10-23T06:31:20.536Z: ⚠️  Received webhook event but not a message
+{
+  "body": {
+    "object": "whatsapp_business_account",
+    "entry": [
+      {
+        "id": "25378946961713345",
+        "changes": [
+          {
+            "value": {
+              "messaging_product": "whatsapp",
+              "metadata": {
+                "display_phone_number": "15551781135",
+                "phone_number_id": "759976487210103"
+              },
+              "statuses": [
+                {
+                  "id": "wamid.HBgMOTE5MzEwMjI3NjU3FQIAERgSOTYzMTAyN0JGMkIyMTI3QTVCAA==",
+                  "status": "delivered",
+                  "timestamp": "1761201079",
+                  "recipient_id": "919310227657",
+                  "pricing": {
+                    "billable": false,
+                    "pricing_model": "PMP",
+                    "category": "service",
+                    "type": "free_customer_service"
+                  }
+                }
+              ]
+            },
+            "field": "messages"
+          }
+        ]
+      }
+    ]
+  }
+}
+[INFO] 2025-10-23T06:31:20.542Z: POST /webhook
+{
+  "body": "(request body omitted)",
+  "query": {},
+  "headers": {
+    "user-agent": "facebookexternalua",
+    "content-type": "application/json"
+  }
+}
+[INFO] 2025-10-23T06:31:20.545Z: === WEBHOOK RECEIVED ===
+[INFO] 2025-10-23T06:31:20.546Z: Full webhook body:
+{
+  "body": {
+    "object": "whatsapp_business_account",
+    "entry": [
+      {
+        "id": "25378946961713345",
+        "changes": [
+          {
+            "value": {
+              "messaging_product": "whatsapp",
+              "metadata": {
+                "display_phone_number": "15551781135",
+                "phone_number_id": "759976487210103"
+              },
+              "statuses": [
+                {
+                  "id": "wamid.HBgMOTE5MzEwMjI3NjU3FQIAERgSOTYzMTAyN0JGMkIyMTI3QTVCAA==",
+                  "status": "delivered",
+                  "timestamp": "1761201079",
+                  "recipient_id": "919310227657",
+                  "pricing": {
+                    "billable": false,
+                    "pricing_model": "PMP",
+                    "category": "service",
+                    "type": "free_customer_service"
+                  }
+                }
+              ]
+            },
+            "field": "messages"
+          }
+        ]
+      }
+    ]
+  }
+}
+[INFO] 2025-10-23T06:31:20.547Z: ========================
+[INFO] 2025-10-23T06:31:20.548Z: ⚠️  Received webhook event but not a message
+{
+  "body": {
+    "object": "whatsapp_business_account",
+    "entry": [
+      {
+        "id": "25378946961713345",
+        "changes": [
+          {
+            "value": {
+              "messaging_product": "whatsapp",
+              "metadata": {
+                "display_phone_number": "15551781135",
+                "phone_number_id": "759976487210103"
+              },
+              "statuses": [
+                {
+                  "id": "wamid.HBgMOTE5MzEwMjI3NjU3FQIAERgSOTYzMTAyN0JGMkIyMTI3QTVCAA==",
+                  "status": "delivered",
+                  "timestamp": "1761201079",
+                  "recipient_id": "919310227657",
+                  "pricing": {
+                    "billable": false,
+                    "pricing_model": "PMP",
+                    "category": "service",
+                    "type": "free_customer_service"
+                  }
+                }
+              ]
+            },
+            "field": "messages"
+          }
+        ]
+      }
+    ]
+  }
+}
+[INFO] 2025-10-23T06:31:21.076Z: POST /webhook
+{
+  "body": "(request body omitted)",
+  "query": {},
+  "headers": {
+    "user-agent": "facebookexternalua",
+    "content-type": "application/json"
+  }
+}
+[INFO] 2025-10-23T06:31:21.078Z: === WEBHOOK RECEIVED ===
+[INFO] 2025-10-23T06:31:21.079Z: Full webhook body:
+{
+  "body": {
+    "object": "whatsapp_business_account",
+    "entry": [
+      {
+        "id": "25378946961713345",
+        "changes": [
+          {
+            "value": {
+              "messaging_product": "whatsapp",
+              "metadata": {
+                "display_phone_number": "15551781135",
+                "phone_number_id": "759976487210103"
+              },
+              "statuses": [
+                {
+                  "id": "wamid.HBgMOTE5MzEwMjI3NjU3FQIAERgSOTYzMTAyN0JGMkIyMTI3QTVCAA==",
+                  "status": "read",
+                  "timestamp": "1761201080",
+                  "recipient_id": "919310227657",
+                  "pricing": {
+                    "billable": false,
+                    "pricing_model": "PMP",
+                    "category": "service",
+                    "type": "free_customer_service"
+                  }
+                }
+              ]
+            },
+            "field": "messages"
+          }
+        ]
+      }
+    ]
+  }
+}
+[INFO] 2025-10-23T06:31:21.079Z: ========================
+[INFO] 2025-10-23T06:31:21.079Z: ⚠️  Received webhook event but not a message
+{
+  "body": {
+    "object": "whatsapp_business_account",
+    "entry": [
+      {
+        "id": "25378946961713345",
+        "changes": [
+          {
+            "value": {
+              "messaging_product": "whatsapp",
+              "metadata": {
+                "display_phone_number": "15551781135",
+                "phone_number_id": "759976487210103"
+              },
+              "statuses": [
+                {
+                  "id": "wamid.HBgMOTE5MzEwMjI3NjU3FQIAERgSOTYzMTAyN0JGMkIyMTI3QTVCAA==",
+                  "status": "read",
+                  "timestamp": "1761201080",
+                  "recipient_id": "919310227657",
+                  "pricing": {
+                    "billable": false,
+                    "pricing_model": "PMP",
+                    "category": "service",
+                    "type": "free_customer_service"
+                  }
+                }
+              ]
+            },
+            "field": "messages"
+          }
+        ]
+      }
+    ]
+  }
+}
+[INFO] 2025-10-23T06:31:40.361Z: POST /webhook
+{
+  "body": "(request body omitted)",
+  "query": {},
+  "headers": {
+    "user-agent": "facebookexternalua",
+    "content-type": "application/json"
+  }
+}
+[INFO] 2025-10-23T06:31:40.363Z: === WEBHOOK RECEIVED ===
+[INFO] 2025-10-23T06:31:40.364Z: Full webhook body:
+{
+  "body": {
+    "object": "whatsapp_business_account",
+    "entry": [
+      {
+        "id": "25378946961713345",
+        "changes": [
+          {
+            "value": {
+              "messaging_product": "whatsapp",
+              "metadata": {
+                "display_phone_number": "15551781135",
+                "phone_number_id": "759976487210103"
+              },
+              "contacts": [
+                {
+                  "profile": {
+                    "name": "Varun"
+                  },
+                  "wa_id": "919310227657"
+                }
+              ],
+              "messages": [
+                {
+                  "from": "919310227657",
+                  "id": "wamid.HBgMOTE5MzEwMjI3NjU3FQIAEhgWM0VCMDIwMDJFOTcwNDg5NzE4Rjk0OAA=",
+                  "timestamp": "1761201099",
+                  "text": {
+                    "body": "no nothing i was bored i just code"
+                  },
+                  "type": "text"
+                }
+              ]
+            },
+            "field": "messages"
+          }
+        ]
+      }
+    ]
+  }
+}
+[INFO] 2025-10-23T06:31:40.365Z: ========================
+[INFO] 2025-10-23T06:31:40.365Z: ✓ Valid WhatsApp message detected
+{
+  "from": "919310227657",
+  "type": "text",
+  "text": "no nothing i was bored i just code"
+}
+[INFO] 2025-10-23T06:31:48.514Z: POST /webhook
+{
+  "body": "(request body omitted)",
+  "query": {},
+  "headers": {
+    "user-agent": "facebookexternalua",
+    "content-type": "application/json"
+  }
+}
+[INFO] 2025-10-23T06:31:48.516Z: === WEBHOOK RECEIVED ===
+[INFO] 2025-10-23T06:31:48.516Z: Full webhook body:
+{
+  "body": {
+    "object": "whatsapp_business_account",
+    "entry": [
+      {
+        "id": "25378946961713345",
+        "changes": [
+          {
+            "value": {
+              "messaging_product": "whatsapp",
+              "metadata": {
+                "display_phone_number": "15551781135",
+                "phone_number_id": "759976487210103"
+              },
+              "statuses": [
+                {
+                  "id": "wamid.HBgMOTE5MzEwMjI3NjU3FQIAERgSOEFERUU4RURCMzRBMEE0Qjc2AA==",
+                  "status": "delivered",
+                  "timestamp": "1761201107",
+                  "recipient_id": "919310227657",
+                  "pricing": {
+                    "billable": false,
+                    "pricing_model": "PMP",
+                    "category": "service",
+                    "type": "free_customer_service"
+                  }
+                }
+              ]
+            },
+            "field": "messages"
+          }
+        ]
+      }
+    ]
+  }
+}
+[INFO] 2025-10-23T06:31:48.516Z: ========================
+[INFO] 2025-10-23T06:31:48.517Z: ⚠️  Received webhook event but not a message
+{
+  "body": {
+    "object": "whatsapp_business_account",
+    "entry": [
+      {
+        "id": "25378946961713345",
+        "changes": [
+          {
+            "value": {
+              "messaging_product": "whatsapp",
+              "metadata": {
+                "display_phone_number": "15551781135",
+                "phone_number_id": "759976487210103"
+              },
+              "statuses": [
+                {
+                  "id": "wamid.HBgMOTE5MzEwMjI3NjU3FQIAERgSOEFERUU4RURCMzRBMEE0Qjc2AA==",
+                  "status": "delivered",
+                  "timestamp": "1761201107",
+                  "recipient_id": "919310227657",
+                  "pricing": {
+                    "billable": false,
+                    "pricing_model": "PMP",
+                    "category": "service",
+                    "type": "free_customer_service"
+                  }
+                }
+              ]
+            },
+            "field": "messages"
+          }
+        ]
+      }
+    ]
+  }
+}
+[INFO] 2025-10-23T06:31:48.518Z: POST /webhook
+{
+  "body": "(request body omitted)",
+  "query": {},
+  "headers": {
+    "user-agent": "facebookexternalua",
+    "content-type": "application/json"
+  }
+}
+[INFO] 2025-10-23T06:31:48.519Z: === WEBHOOK RECEIVED ===
+[INFO] 2025-10-23T06:31:48.519Z: Full webhook body:
+{
+  "body": {
+    "object": "whatsapp_business_account",
+    "entry": [
+      {
+        "id": "25378946961713345",
+        "changes": [
+          {
+            "value": {
+              "messaging_product": "whatsapp",
+              "metadata": {
+                "display_phone_number": "15551781135",
+                "phone_number_id": "759976487210103"
+              },
+              "statuses": [
+                {
+                  "id": "wamid.HBgMOTE5MzEwMjI3NjU3FQIAERgSOEFERUU4RURCMzRBMEE0Qjc2AA==",
+                  "status": "sent",
+                  "timestamp": "1761201107",
+                  "recipient_id": "919310227657",
+                  "pricing": {
+                    "billable": false,
+                    "pricing_model": "PMP",
+                    "category": "service",
+                    "type": "free_customer_service"
+                  }
+                }
+              ]
+            },
+            "field": "messages"
+          }
+        ]
+      }
+    ]
+  }
+}
+[INFO] 2025-10-23T06:31:48.519Z: ========================
+[INFO] 2025-10-23T06:31:48.519Z: ⚠️  Received webhook event but not a message
+{
+  "body": {
+    "object": "whatsapp_business_account",
+    "entry": [
+      {
+        "id": "25378946961713345",
+        "changes": [
+          {
+            "value": {
+              "messaging_product": "whatsapp",
+              "metadata": {
+                "display_phone_number": "15551781135",
+                "phone_number_id": "759976487210103"
+              },
+              "statuses": [
+                {
+                  "id": "wamid.HBgMOTE5MzEwMjI3NjU3FQIAERgSOEFERUU4RURCMzRBMEE0Qjc2AA==",
+                  "status": "sent",
+                  "timestamp": "1761201107",
+                  "recipient_id": "919310227657",
+                  "pricing": {
+                    "billable": false,
+                    "pricing_model": "PMP",
+                    "category": "service",
+                    "type": "free_customer_service"
+                  }
+                }
+              ]
+            },
+            "field": "messages"
+          }
+        ]
+      }
+    ]
+  }
+}
+[INFO] 2025-10-23T06:31:48.614Z: POST /webhook
+{
+  "body": "(request body omitted)",
+  "query": {},
+  "headers": {
+    "user-agent": "facebookexternalua",
+    "content-type": "application/json"
+  }
+}
+[INFO] 2025-10-23T06:31:48.617Z: === WEBHOOK RECEIVED ===
+[INFO] 2025-10-23T06:31:48.617Z: Full webhook body:
+{
+  "body": {
+    "object": "whatsapp_business_account",
+    "entry": [
+      {
+        "id": "25378946961713345",
+        "changes": [
+          {
+            "value": {
+              "messaging_product": "whatsapp",
+              "metadata": {
+                "display_phone_number": "15551781135",
+                "phone_number_id": "759976487210103"
+              },
+              "statuses": [
+                {
+                  "id": "wamid.HBgMOTE5MzEwMjI3NjU3FQIAERgSOEFERUU4RURCMzRBMEE0Qjc2AA==",
+                  "status": "delivered",
+                  "timestamp": "1761201107",
+                  "recipient_id": "919310227657",
+                  "pricing": {
+                    "billable": false,
+                    "pricing_model": "PMP",
+                    "category": "service",
+                    "type": "free_customer_service"
+                  }
+                }
+              ]
+            },
+            "field": "messages"
+          }
+        ]
+      }
+    ]
+  }
+}
+[INFO] 2025-10-23T06:31:48.618Z: ========================
+[INFO] 2025-10-23T06:31:48.618Z: ⚠️  Received webhook event but not a message
+{
+  "body": {
+    "object": "whatsapp_business_account",
+    "entry": [
+      {
+        "id": "25378946961713345",
+        "changes": [
+          {
+            "value": {
+              "messaging_product": "whatsapp",
+              "metadata": {
+                "display_phone_number": "15551781135",
+                "phone_number_id": "759976487210103"
+              },
+              "statuses": [
+                {
+                  "id": "wamid.HBgMOTE5MzEwMjI3NjU3FQIAERgSOEFERUU4RURCMzRBMEE0Qjc2AA==",
+                  "status": "delivered",
+                  "timestamp": "1761201107",
+                  "recipient_id": "919310227657",
+                  "pricing": {
+                    "billable": false,
+                    "pricing_model": "PMP",
+                    "category": "service",
+                    "type": "free_customer_service"
+                  }
+                }
+              ]
+            },
+            "field": "messages"
+          }
+        ]
+      }
+    ]
+  }
+}
+[INFO] 2025-10-23T06:31:48.880Z: POST /webhook
+{
+  "body": "(request body omitted)",
+  "query": {},
+  "headers": {
+    "user-agent": "facebookexternalua",
+    "content-type": "application/json"
+  }
+}
+[INFO] 2025-10-23T06:31:48.882Z: === WEBHOOK RECEIVED ===
+[INFO] 2025-10-23T06:31:48.882Z: Full webhook body:
+{
+  "body": {
+    "object": "whatsapp_business_account",
+    "entry": [
+      {
+        "id": "25378946961713345",
+        "changes": [
+          {
+            "value": {
+              "messaging_product": "whatsapp",
+              "metadata": {
+                "display_phone_number": "15551781135",
+                "phone_number_id": "759976487210103"
+              },
+              "statuses": [
+                {
+                  "id": "wamid.HBgMOTE5MzEwMjI3NjU3FQIAERgSOEFERUU4RURCMzRBMEE0Qjc2AA==",
+                  "status": "read",
+                  "timestamp": "1761201108",
+                  "recipient_id": "919310227657",
+                  "pricing": {
+                    "billable": false,
+                    "pricing_model": "PMP",
+                    "category": "service",
+                    "type": "free_customer_service"
+                  }
+                }
+              ]
+            },
+            "field": "messages"
+          }
+        ]
+      }
+    ]
+  }
+}
+[INFO] 2025-10-23T06:31:48.883Z: ========================
+[INFO] 2025-10-23T06:31:48.883Z: ⚠️  Received webhook event but not a message
+{
+  "body": {
+    "object": "whatsapp_business_account",
+    "entry": [
+      {
+        "id": "25378946961713345",
+        "changes": [
+          {
+            "value": {
+              "messaging_product": "whatsapp",
+              "metadata": {
+                "display_phone_number": "15551781135",
+                "phone_number_id": "759976487210103"
+              },
+              "statuses": [
+                {
+                  "id": "wamid.HBgMOTE5MzEwMjI3NjU3FQIAERgSOEFERUU4RURCMzRBMEE0Qjc2AA==",
+                  "status": "read",
+                  "timestamp": "1761201108",
+                  "recipient_id": "919310227657",
+                  "pricing": {
+                    "billable": false,
+                    "pricing_model": "PMP",
+                    "category": "service",
+                    "type": "free_customer_service"
+                  }
+                }
+              ]
+            },
+            "field": "messages"
+          }
+        ]
+      }
+    ]
+  }
+}
+[INFO] 2025-10-23T06:32:00.220Z: POST /webhook
+{
+  "body": "(request body omitted)",
+  "query": {},
+  "headers": {
+    "user-agent": "facebookexternalua",
+    "content-type": "application/json"
+  }
+}
+[INFO] 2025-10-23T06:32:00.221Z: === WEBHOOK RECEIVED ===
+[INFO] 2025-10-23T06:32:00.221Z: Full webhook body:
+{
+  "body": {
+    "object": "whatsapp_business_account",
+    "entry": [
+      {
+        "id": "25378946961713345",
+        "changes": [
+          {
+            "value": {
+              "messaging_product": "whatsapp",
+              "metadata": {
+                "display_phone_number": "15551781135",
+                "phone_number_id": "759976487210103"
+              },
+              "contacts": [
+                {
+                  "profile": {
+                    "name": "Varun"
+                  },
+                  "wa_id": "919310227657"
+                }
+              ],
+              "messages": [
+                {
+                  "from": "919310227657",
+                  "id": "wamid.HBgMOTE5MzEwMjI3NjU3FQIAEhgWM0VCMDVBNTlBRTZFRjhCNUUwODYyRAA=",
+                  "timestamp": "1761201119",
+                  "text": {
+                    "body": "a project"
+                  },
+                  "type": "text"
+                }
+              ]
+            },
+            "field": "messages"
+          }
+        ]
+      }
+    ]
+  }
+}
+[INFO] 2025-10-23T06:32:00.221Z: ========================
+[INFO] 2025-10-23T06:32:00.221Z: ✓ Valid WhatsApp message detected
+{
+  "from": "919310227657",
+  "type": "text",
+  "text": "a project"
+}
+[INFO] 2025-10-23T06:32:08.003Z: POST /webhook
+{
+  "body": "(request body omitted)",
+  "query": {},
+  "headers": {
+    "user-agent": "facebookexternalua",
+    "content-type": "application/json"
+  }
+}
+[INFO] 2025-10-23T06:32:08.004Z: === WEBHOOK RECEIVED ===
+[INFO] 2025-10-23T06:32:08.004Z: Full webhook body:
+{
+  "body": {
+    "object": "whatsapp_business_account",
+    "entry": [
+      {
+        "id": "25378946961713345",
+        "changes": [
+          {
+            "value": {
+              "messaging_product": "whatsapp",
+              "metadata": {
+                "display_phone_number": "15551781135",
+                "phone_number_id": "759976487210103"
+              },
+              "statuses": [
+                {
+                  "id": "wamid.HBgMOTE5MzEwMjI3NjU3FQIAERgSNTM5N0MyNzYyN0FGNzhCRjAxAA==",
+                  "status": "sent",
+                  "timestamp": "1761201127",
+                  "recipient_id": "919310227657",
+                  "pricing": {
+                    "billable": false,
+                    "pricing_model": "PMP",
+                    "category": "service",
+                    "type": "free_customer_service"
+                  }
+                }
+              ]
+            },
+            "field": "messages"
+          }
+        ]
+      }
+    ]
+  }
+}
+[INFO] 2025-10-23T06:32:08.004Z: ========================
+[INFO] 2025-10-23T06:32:08.004Z: ⚠️  Received webhook event but not a message
+{
+  "body": {
+    "object": "whatsapp_business_account",
+    "entry": [
+      {
+        "id": "25378946961713345",
+        "changes": [
+          {
+            "value": {
+              "messaging_product": "whatsapp",
+              "metadata": {
+                "display_phone_number": "15551781135",
+                "phone_number_id": "759976487210103"
+              },
+              "statuses": [
+                {
+                  "id": "wamid.HBgMOTE5MzEwMjI3NjU3FQIAERgSNTM5N0MyNzYyN0FGNzhCRjAxAA==",
+                  "status": "sent",
+                  "timestamp": "1761201127",
+                  "recipient_id": "919310227657",
+                  "pricing": {
+                    "billable": false,
+                    "pricing_model": "PMP",
+                    "category": "service",
+                    "type": "free_customer_service"
+                  }
+                }
+              ]
+            },
+            "field": "messages"
+          }
+        ]
+      }
+    ]
+  }
+}
+[INFO] 2025-10-23T06:32:08.234Z: POST /webhook
+{
+  "body": "(request body omitted)",
+  "query": {},
+  "headers": {
+    "user-agent": "facebookexternalua",
+    "content-type": "application/json"
+  }
+}
+[INFO] 2025-10-23T06:32:08.236Z: === WEBHOOK RECEIVED ===
+[INFO] 2025-10-23T06:32:08.237Z: Full webhook body:
+{
+  "body": {
+    "object": "whatsapp_business_account",
+    "entry": [
+      {
+        "id": "25378946961713345",
+        "changes": [
+          {
+            "value": {
+              "messaging_product": "whatsapp",
+              "metadata": {
+                "display_phone_number": "15551781135",
+                "phone_number_id": "759976487210103"
+              },
+              "statuses": [
+                {
+                  "id": "wamid.HBgMOTE5MzEwMjI3NjU3FQIAERgSNTM5N0MyNzYyN0FGNzhCRjAxAA==",
+                  "status": "delivered",
+                  "timestamp": "1761201127",
+                  "recipient_id": "919310227657",
+                  "pricing": {
+                    "billable": false,
+                    "pricing_model": "PMP",
+                    "category": "service",
+                    "type": "free_customer_service"
+                  }
+                }
+              ]
+            },
+            "field": "messages"
+          }
+        ]
+      }
+    ]
+  }
+}
+[INFO] 2025-10-23T06:32:08.238Z: ========================
+[INFO] 2025-10-23T06:32:08.238Z: ⚠️  Received webhook event but not a message
+{
+  "body": {
+    "object": "whatsapp_business_account",
+    "entry": [
+      {
+        "id": "25378946961713345",
+        "changes": [
+          {
+            "value": {
+              "messaging_product": "whatsapp",
+              "metadata": {
+                "display_phone_number": "15551781135",
+                "phone_number_id": "759976487210103"
+              },
+              "statuses": [
+                {
+                  "id": "wamid.HBgMOTE5MzEwMjI3NjU3FQIAERgSNTM5N0MyNzYyN0FGNzhCRjAxAA==",
+                  "status": "delivered",
+                  "timestamp": "1761201127",
+                  "recipient_id": "919310227657",
+                  "pricing": {
+                    "billable": false,
+                    "pricing_model": "PMP",
+                    "category": "service",
+                    "type": "free_customer_service"
+                  }
+                }
+              ]
+            },
+            "field": "messages"
+          }
+        ]
+      }
+    ]
+  }
+}
+[INFO] 2025-10-23T06:32:08.270Z: POST /webhook
+{
+  "body": "(request body omitted)",
+  "query": {},
+  "headers": {
+    "user-agent": "facebookexternalua",
+    "content-type": "application/json"
+  }
+}
+[INFO] 2025-10-23T06:32:08.272Z: === WEBHOOK RECEIVED ===
+[INFO] 2025-10-23T06:32:08.273Z: Full webhook body:
+{
+  "body": {
+    "object": "whatsapp_business_account",
+    "entry": [
+      {
+        "id": "25378946961713345",
+        "changes": [
+          {
+            "value": {
+              "messaging_product": "whatsapp",
+              "metadata": {
+                "display_phone_number": "15551781135",
+                "phone_number_id": "759976487210103"
+              },
+              "statuses": [
+                {
+                  "id": "wamid.HBgMOTE5MzEwMjI3NjU3FQIAERgSNTM5N0MyNzYyN0FGNzhCRjAxAA==",
+                  "status": "delivered",
+                  "timestamp": "1761201127",
+                  "recipient_id": "919310227657",
+                  "pricing": {
+                    "billable": false,
+                    "pricing_model": "PMP",
+                    "category": "service",
+                    "type": "free_customer_service"
+                  }
+                }
+              ]
+            },
+            "field": "messages"
+          }
+        ]
+      }
+    ]
+  }
+}
+[INFO] 2025-10-23T06:32:08.274Z: ========================
+[INFO] 2025-10-23T06:32:08.274Z: ⚠️  Received webhook event but not a message
+{
+  "body": {
+    "object": "whatsapp_business_account",
+    "entry": [
+      {
+        "id": "25378946961713345",
+        "changes": [
+          {
+            "value": {
+              "messaging_product": "whatsapp",
+              "metadata": {
+                "display_phone_number": "15551781135",
+                "phone_number_id": "759976487210103"
+              },
+              "statuses": [
+                {
+                  "id": "wamid.HBgMOTE5MzEwMjI3NjU3FQIAERgSNTM5N0MyNzYyN0FGNzhCRjAxAA==",
+                  "status": "delivered",
+                  "timestamp": "1761201127",
+                  "recipient_id": "919310227657",
+                  "pricing": {
+                    "billable": false,
+                    "pricing_model": "PMP",
+                    "category": "service",
+                    "type": "free_customer_service"
+                  }
+                }
+              ]
+            },
+            "field": "messages"
+          }
+        ]
+      }
+    ]
+  }
+}
+[INFO] 2025-10-23T06:32:09.276Z: POST /webhook
+{
+  "body": "(request body omitted)",
+  "query": {},
+  "headers": {
+    "user-agent": "facebookexternalua",
+    "content-type": "application/json"
+  }
+}
+[INFO] 2025-10-23T06:32:09.278Z: === WEBHOOK RECEIVED ===
+[INFO] 2025-10-23T06:32:09.278Z: Full webhook body:
+{
+  "body": {
+    "object": "whatsapp_business_account",
+    "entry": [
+      {
+        "id": "25378946961713345",
+        "changes": [
+          {
+            "value": {
+              "messaging_product": "whatsapp",
+              "metadata": {
+                "display_phone_number": "15551781135",
+                "phone_number_id": "759976487210103"
+              },
+              "statuses": [
+                {
+                  "id": "wamid.HBgMOTE5MzEwMjI3NjU3FQIAERgSNTM5N0MyNzYyN0FGNzhCRjAxAA==",
+                  "status": "read",
+                  "timestamp": "1761201127",
+                  "recipient_id": "919310227657",
+                  "pricing": {
+                    "billable": false,
+                    "pricing_model": "PMP",
+                    "category": "service",
+                    "type": "free_customer_service"
+                  }
+                }
+              ]
+            },
+            "field": "messages"
+          }
+        ]
+      }
+    ]
+  }
+}
+[INFO] 2025-10-23T06:32:09.279Z: ========================
+[INFO] 2025-10-23T06:32:09.280Z: ⚠️  Received webhook event but not a message
+{
+  "body": {
+    "object": "whatsapp_business_account",
+    "entry": [
+      {
+        "id": "25378946961713345",
+        "changes": [
+          {
+            "value": {
+              "messaging_product": "whatsapp",
+              "metadata": {
+                "display_phone_number": "15551781135",
+                "phone_number_id": "759976487210103"
+              },
+              "statuses": [
+                {
+                  "id": "wamid.HBgMOTE5MzEwMjI3NjU3FQIAERgSNTM5N0MyNzYyN0FGNzhCRjAxAA==",
+                  "status": "read",
+                  "timestamp": "1761201127",
+                  "recipient_id": "919310227657",
+                  "pricing": {
+                    "billable": false,
+                    "pricing_model": "PMP",
+                    "category": "service",
+                    "type": "free_customer_service"
+                  }
+                }
+              ]
+            },
+            "field": "messages"
+          }
+        ]
+      }
+    ]
+  }
+}
+[INFO] 2025-10-23T06:36:08.425Z: JazzAI WhatsApp Companion is listening on port 3000
+[INFO] 2025-10-23T06:36:08.429Z: Memory service initialized successfully
+[INFO] 2025-10-23T06:36:08.459Z: Scheduler initialized successfully
+[INFO] 2025-10-23T06:36:08.459Z: Server startup complete. JazzAI is ready!
+[INFO] 2025-10-23T06:36:28.006Z: POST /webhook
+{
+  "body": "(request body omitted)",
+  "query": {},
+  "headers": {
+    "user-agent": "facebookexternalua",
+    "content-type": "application/json"
+  }
+}
+[INFO] 2025-10-23T06:36:28.011Z: === WEBHOOK RECEIVED ===
+[INFO] 2025-10-23T06:36:28.011Z: Full webhook body:
+{
+  "body": {
+    "object": "whatsapp_business_account",
+    "entry": [
+      {
+        "id": "25378946961713345",
+        "changes": [
+          {
+            "value": {
+              "messaging_product": "whatsapp",
+              "metadata": {
+                "display_phone_number": "15551781135",
+                "phone_number_id": "759976487210103"
+              },
+              "contacts": [
+                {
+                  "profile": {
+                    "name": "Varun"
+                  },
+                  "wa_id": "919310227657"
+                }
+              ],
+              "messages": [
+                {
+                  "from": "919310227657",
+                  "id": "wamid.HBgMOTE5MzEwMjI3NjU3FQIAEhgWM0VCMDIyRUE1MjM3QkE2MjhDQTE1MQA=",
+                  "timestamp": "1761201387",
+                  "text": {
+                    "body": "im thinking to watch a series"
+                  },
+                  "type": "text"
+                }
+              ]
+            },
+            "field": "messages"
+          }
+        ]
+      }
+    ]
+  }
+}
+[INFO] 2025-10-23T06:36:28.012Z: ========================
+[INFO] 2025-10-23T06:36:28.012Z: ✓ Valid WhatsApp message detected
+{
+  "from": "919310227657",
+  "type": "text",
+  "text": "im thinking to watch a series"
+}
+[INFO] 2025-10-23T06:36:35.573Z: POST /webhook
+{
+  "body": "(request body omitted)",
+  "query": {},
+  "headers": {
+    "user-agent": "facebookexternalua",
+    "content-type": "application/json"
+  }
+}
+[INFO] 2025-10-23T06:36:35.574Z: === WEBHOOK RECEIVED ===
+[INFO] 2025-10-23T06:36:35.574Z: Full webhook body:
+{
+  "body": {
+    "object": "whatsapp_business_account",
+    "entry": [
+      {
+        "id": "25378946961713345",
+        "changes": [
+          {
+            "value": {
+              "messaging_product": "whatsapp",
+              "metadata": {
+                "display_phone_number": "15551781135",
+                "phone_number_id": "759976487210103"
+              },
+              "statuses": [
+                {
+                  "id": "wamid.HBgMOTE5MzEwMjI3NjU3FQIAERgSQjUyNzNFOURBOUVBM0Q1QkIwAA==",
+                  "status": "sent",
+                  "timestamp": "1761201394",
+                  "recipient_id": "919310227657",
+                  "pricing": {
+                    "billable": false,
+                    "pricing_model": "PMP",
+                    "category": "service",
+                    "type": "free_customer_service"
+                  }
+                }
+              ]
+            },
+            "field": "messages"
+          }
+        ]
+      }
+    ]
+  }
+}
+[INFO] 2025-10-23T06:36:35.574Z: ========================
+[INFO] 2025-10-23T06:36:35.574Z: ⚠️  Received webhook event but not a message
+{
+  "body": {
+    "object": "whatsapp_business_account",
+    "entry": [
+      {
+        "id": "25378946961713345",
+        "changes": [
+          {
+            "value": {
+              "messaging_product": "whatsapp",
+              "metadata": {
+                "display_phone_number": "15551781135",
+                "phone_number_id": "759976487210103"
+              },
+              "statuses": [
+                {
+                  "id": "wamid.HBgMOTE5MzEwMjI3NjU3FQIAERgSQjUyNzNFOURBOUVBM0Q1QkIwAA==",
+                  "status": "sent",
+                  "timestamp": "1761201394",
+                  "recipient_id": "919310227657",
+                  "pricing": {
+                    "billable": false,
+                    "pricing_model": "PMP",
+                    "category": "service",
+                    "type": "free_customer_service"
+                  }
+                }
+              ]
+            },
+            "field": "messages"
+          }
+        ]
+      }
+    ]
+  }
+}
+[INFO] 2025-10-23T06:36:36.128Z: POST /webhook
+{
+  "body": "(request body omitted)",
+  "query": {},
+  "headers": {
+    "user-agent": "facebookexternalua",
+    "content-type": "application/json"
+  }
+}
+[INFO] 2025-10-23T06:36:36.131Z: === WEBHOOK RECEIVED ===
+[INFO] 2025-10-23T06:36:36.131Z: Full webhook body:
+{
+  "body": {
+    "object": "whatsapp_business_account",
+    "entry": [
+      {
+        "id": "25378946961713345",
+        "changes": [
+          {
+            "value": {
+              "messaging_product": "whatsapp",
+              "metadata": {
+                "display_phone_number": "15551781135",
+                "phone_number_id": "759976487210103"
+              },
+              "statuses": [
+                {
+                  "id": "wamid.HBgMOTE5MzEwMjI3NjU3FQIAERgSQjUyNzNFOURBOUVBM0Q1QkIwAA==",
+                  "status": "read",
+                  "timestamp": "1761201395",
+                  "recipient_id": "919310227657",
+                  "pricing": {
+                    "billable": false,
+                    "pricing_model": "PMP",
+                    "category": "service",
+                    "type": "free_customer_service"
+                  }
+                }
+              ]
+            },
+            "field": "messages"
+          }
+        ]
+      }
+    ]
+  }
+}
+[INFO] 2025-10-23T06:36:36.132Z: ========================
+[INFO] 2025-10-23T06:36:36.132Z: ⚠️  Received webhook event but not a message
+{
+  "body": {
+    "object": "whatsapp_business_account",
+    "entry": [
+      {
+        "id": "25378946961713345",
+        "changes": [
+          {
+            "value": {
+              "messaging_product": "whatsapp",
+              "metadata": {
+                "display_phone_number": "15551781135",
+                "phone_number_id": "759976487210103"
+              },
+              "statuses": [
+                {
+                  "id": "wamid.HBgMOTE5MzEwMjI3NjU3FQIAERgSQjUyNzNFOURBOUVBM0Q1QkIwAA==",
+                  "status": "read",
+                  "timestamp": "1761201395",
+                  "recipient_id": "919310227657",
+                  "pricing": {
+                    "billable": false,
+                    "pricing_model": "PMP",
+                    "category": "service",
+                    "type": "free_customer_service"
+                  }
+                }
+              ]
+            },
+            "field": "messages"
+          }
+        ]
+      }
+    ]
+  }
+}
+[INFO] 2025-10-23T06:36:36.628Z: POST /webhook
+{
+  "body": "(request body omitted)",
+  "query": {},
+  "headers": {
+    "user-agent": "facebookexternalua",
+    "content-type": "application/json"
+  }
+}
+[INFO] 2025-10-23T06:36:36.632Z: === WEBHOOK RECEIVED ===
+[INFO] 2025-10-23T06:36:36.632Z: Full webhook body:
+{
+  "body": {
+    "object": "whatsapp_business_account",
+    "entry": [
+      {
+        "id": "25378946961713345",
+        "changes": [
+          {
+            "value": {
+              "messaging_product": "whatsapp",
+              "metadata": {
+                "display_phone_number": "15551781135",
+                "phone_number_id": "759976487210103"
+              },
+              "statuses": [
+                {
+                  "id": "wamid.HBgMOTE5MzEwMjI3NjU3FQIAERgSQjUyNzNFOURBOUVBM0Q1QkIwAA==",
+                  "status": "delivered",
+                  "timestamp": "1761201395",
+                  "recipient_id": "919310227657",
+                  "pricing": {
+                    "billable": false,
+                    "pricing_model": "PMP",
+                    "category": "service",
+                    "type": "free_customer_service"
+                  }
+                }
+              ]
+            },
+            "field": "messages"
+          }
+        ]
+      }
+    ]
+  }
+}
+[INFO] 2025-10-23T06:36:36.633Z: ========================
+[INFO] 2025-10-23T06:36:36.633Z: ⚠️  Received webhook event but not a message
+{
+  "body": {
+    "object": "whatsapp_business_account",
+    "entry": [
+      {
+        "id": "25378946961713345",
+        "changes": [
+          {
+            "value": {
+              "messaging_product": "whatsapp",
+              "metadata": {
+                "display_phone_number": "15551781135",
+                "phone_number_id": "759976487210103"
+              },
+              "statuses": [
+                {
+                  "id": "wamid.HBgMOTE5MzEwMjI3NjU3FQIAERgSQjUyNzNFOURBOUVBM0Q1QkIwAA==",
+                  "status": "delivered",
+                  "timestamp": "1761201395",
+                  "recipient_id": "919310227657",
+                  "pricing": {
+                    "billable": false,
+                    "pricing_model": "PMP",
+                    "category": "service",
+                    "type": "free_customer_service"
+                  }
+                }
+              ]
+            },
+            "field": "messages"
+          }
+        ]
+      }
+    ]
+  }
+}
+[INFO] 2025-10-23T06:36:57.723Z: POST /webhook
+{
+  "body": "(request body omitted)",
+  "query": {},
+  "headers": {
+    "user-agent": "facebookexternalua",
+    "content-type": "application/json"
+  }
+}
+[INFO] 2025-10-23T06:36:57.725Z: === WEBHOOK RECEIVED ===
+[INFO] 2025-10-23T06:36:57.725Z: Full webhook body:
+{
+  "body": {
+    "object": "whatsapp_business_account",
+    "entry": [
+      {
+        "id": "25378946961713345",
+        "changes": [
+          {
+            "value": {
+              "messaging_product": "whatsapp",
+              "metadata": {
+                "display_phone_number": "15551781135",
+                "phone_number_id": "759976487210103"
+              },
+              "contacts": [
+                {
+                  "profile": {
+                    "name": "Varun"
+                  },
+                  "wa_id": "919310227657"
+                }
+              ],
+              "messages": [
+                {
+                  "from": "919310227657",
+                  "id": "wamid.HBgMOTE5MzEwMjI3NjU3FQIAEhgWM0VCMDRENzI1QjJGOEJFOTY5QjMzNQA=",
+                  "timestamp": "1761201416",
+                  "text": {
+                    "body": "i havent dicided yet"
+                  },
+                  "type": "text"
+                }
+              ]
+            },
+            "field": "messages"
+          }
+        ]
+      }
+    ]
+  }
+}
+[INFO] 2025-10-23T06:36:57.726Z: ========================
+[INFO] 2025-10-23T06:36:57.726Z: ✓ Valid WhatsApp message detected
+{
+  "from": "919310227657",
+  "type": "text",
+  "text": "i havent dicided yet"
+}
+[INFO] 2025-10-23T06:37:07.762Z: POST /webhook
+{
+  "body": "(request body omitted)",
+  "query": {},
+  "headers": {
+    "user-agent": "facebookexternalua",
+    "content-type": "application/json"
+  }
+}
+[INFO] 2025-10-23T06:37:07.762Z: === WEBHOOK RECEIVED ===
+[INFO] 2025-10-23T06:37:07.763Z: Full webhook body:
+{
+  "body": {
+    "object": "whatsapp_business_account",
+    "entry": [
+      {
+        "id": "25378946961713345",
+        "changes": [
+          {
+            "value": {
+              "messaging_product": "whatsapp",
+              "metadata": {
+                "display_phone_number": "15551781135",
+                "phone_number_id": "759976487210103"
+              },
+              "statuses": [
+                {
+                  "id": "wamid.HBgMOTE5MzEwMjI3NjU3FQIAERgSMjhENThBMjAwNjZFNDgzOTFEAA==",
+                  "status": "sent",
+                  "timestamp": "1761201427",
+                  "recipient_id": "919310227657",
+                  "pricing": {
+                    "billable": false,
+                    "pricing_model": "PMP",
+                    "category": "service",
+                    "type": "free_customer_service"
+                  }
+                }
+              ]
+            },
+            "field": "messages"
+          }
+        ]
+      }
+    ]
+  }
+}
+[INFO] 2025-10-23T06:37:07.763Z: ========================
+[INFO] 2025-10-23T06:37:07.763Z: ⚠️  Received webhook event but not a message
+{
+  "body": {
+    "object": "whatsapp_business_account",
+    "entry": [
+      {
+        "id": "25378946961713345",
+        "changes": [
+          {
+            "value": {
+              "messaging_product": "whatsapp",
+              "metadata": {
+                "display_phone_number": "15551781135",
+                "phone_number_id": "759976487210103"
+              },
+              "statuses": [
+                {
+                  "id": "wamid.HBgMOTE5MzEwMjI3NjU3FQIAERgSMjhENThBMjAwNjZFNDgzOTFEAA==",
+                  "status": "sent",
+                  "timestamp": "1761201427",
+                  "recipient_id": "919310227657",
+                  "pricing": {
+                    "billable": false,
+                    "pricing_model": "PMP",
+                    "category": "service",
+                    "type": "free_customer_service"
+                  }
+                }
+              ]
+            },
+            "field": "messages"
+          }
+        ]
+      }
+    ]
+  }
+}
+[INFO] 2025-10-23T06:37:08.777Z: POST /webhook
+{
+  "body": "(request body omitted)",
+  "query": {},
+  "headers": {
+    "user-agent": "facebookexternalua",
+    "content-type": "application/json"
+  }
+}
+[INFO] 2025-10-23T06:37:08.778Z: === WEBHOOK RECEIVED ===
+[INFO] 2025-10-23T06:37:08.778Z: Full webhook body:
+{
+  "body": {
+    "object": "whatsapp_business_account",
+    "entry": [
+      {
+        "id": "25378946961713345",
+        "changes": [
+          {
+            "value": {
+              "messaging_product": "whatsapp",
+              "metadata": {
+                "display_phone_number": "15551781135",
+                "phone_number_id": "759976487210103"
+              },
+              "statuses": [
+                {
+                  "id": "wamid.HBgMOTE5MzEwMjI3NjU3FQIAERgSMjhENThBMjAwNjZFNDgzOTFEAA==",
+                  "status": "read",
+                  "timestamp": "1761201428",
+                  "recipient_id": "919310227657",
+                  "pricing": {
+                    "billable": false,
+                    "pricing_model": "PMP",
+                    "category": "service",
+                    "type": "free_customer_service"
+                  }
+                }
+              ]
+            },
+            "field": "messages"
+          }
+        ]
+      }
+    ]
+  }
+}
+[INFO] 2025-10-23T06:37:08.778Z: ========================
+[INFO] 2025-10-23T06:37:08.778Z: ⚠️  Received webhook event but not a message
+{
+  "body": {
+    "object": "whatsapp_business_account",
+    "entry": [
+      {
+        "id": "25378946961713345",
+        "changes": [
+          {
+            "value": {
+              "messaging_product": "whatsapp",
+              "metadata": {
+                "display_phone_number": "15551781135",
+                "phone_number_id": "759976487210103"
+              },
+              "statuses": [
+                {
+                  "id": "wamid.HBgMOTE5MzEwMjI3NjU3FQIAERgSMjhENThBMjAwNjZFNDgzOTFEAA==",
+                  "status": "read",
+                  "timestamp": "1761201428",
+                  "recipient_id": "919310227657",
+                  "pricing": {
+                    "billable": false,
+                    "pricing_model": "PMP",
+                    "category": "service",
+                    "type": "free_customer_service"
+                  }
+                }
+              ]
+            },
+            "field": "messages"
+          }
+        ]
+      }
+    ]
+  }
+}
+[INFO] 2025-10-23T06:37:08.983Z: POST /webhook
+{
+  "body": "(request body omitted)",
+  "query": {},
+  "headers": {
+    "user-agent": "facebookexternalua",
+    "content-type": "application/json"
+  }
+}
+[INFO] 2025-10-23T06:37:08.985Z: === WEBHOOK RECEIVED ===
+[INFO] 2025-10-23T06:37:08.985Z: Full webhook body:
+{
+  "body": {
+    "object": "whatsapp_business_account",
+    "entry": [
+      {
+        "id": "25378946961713345",
+        "changes": [
+          {
+            "value": {
+              "messaging_product": "whatsapp",
+              "metadata": {
+                "display_phone_number": "15551781135",
+                "phone_number_id": "759976487210103"
+              },
+              "statuses": [
+                {
+                  "id": "wamid.HBgMOTE5MzEwMjI3NjU3FQIAERgSMjhENThBMjAwNjZFNDgzOTFEAA==",
+                  "status": "delivered",
+                  "timestamp": "1761201427",
+                  "recipient_id": "919310227657",
+                  "pricing": {
+                    "billable": false,
+                    "pricing_model": "PMP",
+                    "category": "service",
+                    "type": "free_customer_service"
+                  }
+                }
+              ]
+            },
+            "field": "messages"
+          }
+        ]
+      }
+    ]
+  }
+}
+[INFO] 2025-10-23T06:37:08.986Z: ========================
+[INFO] 2025-10-23T06:37:08.986Z: ⚠️  Received webhook event but not a message
+{
+  "body": {
+    "object": "whatsapp_business_account",
+    "entry": [
+      {
+        "id": "25378946961713345",
+        "changes": [
+          {
+            "value": {
+              "messaging_product": "whatsapp",
+              "metadata": {
+                "display_phone_number": "15551781135",
+                "phone_number_id": "759976487210103"
+              },
+              "statuses": [
+                {
+                  "id": "wamid.HBgMOTE5MzEwMjI3NjU3FQIAERgSMjhENThBMjAwNjZFNDgzOTFEAA==",
+                  "status": "delivered",
+                  "timestamp": "1761201427",
+                  "recipient_id": "919310227657",
+                  "pricing": {
+                    "billable": false,
+                    "pricing_model": "PMP",
+                    "category": "service",
+                    "type": "free_customer_service"
+                  }
+                }
+              ]
+            },
+            "field": "messages"
+          }
+        ]
+      }
+    ]
+  }
+}
+[INFO] 2025-10-23T06:37:09.322Z: POST /webhook
+{
+  "body": "(request body omitted)",
+  "query": {},
+  "headers": {
+    "user-agent": "facebookexternalua",
+    "content-type": "application/json"
+  }
+}
+[INFO] 2025-10-23T06:37:09.324Z: === WEBHOOK RECEIVED ===
+[INFO] 2025-10-23T06:37:09.324Z: Full webhook body:
+{
+  "body": {
+    "object": "whatsapp_business_account",
+    "entry": [
+      {
+        "id": "25378946961713345",
+        "changes": [
+          {
+            "value": {
+              "messaging_product": "whatsapp",
+              "metadata": {
+                "display_phone_number": "15551781135",
+                "phone_number_id": "759976487210103"
+              },
+              "statuses": [
+                {
+                  "id": "wamid.HBgMOTE5MzEwMjI3NjU3FQIAERgSMjhENThBMjAwNjZFNDgzOTFEAA==",
+                  "status": "delivered",
+                  "timestamp": "1761201427",
+                  "recipient_id": "919310227657",
+                  "pricing": {
+                    "billable": false,
+                    "pricing_model": "PMP",
+                    "category": "service",
+                    "type": "free_customer_service"
+                  }
+                }
+              ]
+            },
+            "field": "messages"
+          }
+        ]
+      }
+    ]
+  }
+}
+[INFO] 2025-10-23T06:37:09.324Z: ========================
+[INFO] 2025-10-23T06:37:09.325Z: ⚠️  Received webhook event but not a message
+{
+  "body": {
+    "object": "whatsapp_business_account",
+    "entry": [
+      {
+        "id": "25378946961713345",
+        "changes": [
+          {
+            "value": {
+              "messaging_product": "whatsapp",
+              "metadata": {
+                "display_phone_number": "15551781135",
+                "phone_number_id": "759976487210103"
+              },
+              "statuses": [
+                {
+                  "id": "wamid.HBgMOTE5MzEwMjI3NjU3FQIAERgSMjhENThBMjAwNjZFNDgzOTFEAA==",
+                  "status": "delivered",
+                  "timestamp": "1761201427",
+                  "recipient_id": "919310227657",
+                  "pricing": {
+                    "billable": false,
+                    "pricing_model": "PMP",
+                    "category": "service",
+                    "type": "free_customer_service"
+                  }
+                }
+              ]
+            },
+            "field": "messages"
+          }
+        ]
+      }
+    ]
+  }
+}
+[INFO] 2025-10-23T06:37:17.382Z: POST /webhook
+{
+  "body": "(request body omitted)",
+  "query": {},
+  "headers": {
+    "user-agent": "facebookexternalua",
+    "content-type": "application/json"
+  }
+}
+[INFO] 2025-10-23T06:37:17.384Z: === WEBHOOK RECEIVED ===
+[INFO] 2025-10-23T06:37:17.384Z: Full webhook body:
+{
+  "body": {
+    "object": "whatsapp_business_account",
+    "entry": [
+      {
+        "id": "25378946961713345",
+        "changes": [
+          {
+            "value": {
+              "messaging_product": "whatsapp",
+              "metadata": {
+                "display_phone_number": "15551781135",
+                "phone_number_id": "759976487210103"
+              },
+              "contacts": [
+                {
+                  "profile": {
+                    "name": "Varun"
+                  },
+                  "wa_id": "919310227657"
+                }
+              ],
+              "messages": [
+                {
+                  "from": "919310227657",
+                  "id": "wamid.HBgMOTE5MzEwMjI3NjU3FQIAEhgWM0VCMDU1MkQ4OEFGRTZFMzZBN0M1OQA=",
+                  "timestamp": "1761201436",
+                  "text": {
+                    "body": "yea"
+                  },
+                  "type": "text"
+                }
+              ]
+            },
+            "field": "messages"
+          }
+        ]
+      }
+    ]
+  }
+}
+[INFO] 2025-10-23T06:37:17.384Z: ========================
+[INFO] 2025-10-23T06:37:17.385Z: ✓ Valid WhatsApp message detected
+{
+  "from": "919310227657",
+  "type": "text",
+  "text": "yea"
+}
+[INFO] 2025-10-23T06:37:24.308Z: POST /webhook
+{
+  "body": "(request body omitted)",
+  "query": {},
+  "headers": {
+    "user-agent": "facebookexternalua",
+    "content-type": "application/json"
+  }
+}
+[INFO] 2025-10-23T06:37:24.310Z: === WEBHOOK RECEIVED ===
+[INFO] 2025-10-23T06:37:24.311Z: Full webhook body:
+{
+  "body": {
+    "object": "whatsapp_business_account",
+    "entry": [
+      {
+        "id": "25378946961713345",
+        "changes": [
+          {
+            "value": {
+              "messaging_product": "whatsapp",
+              "metadata": {
+                "display_phone_number": "15551781135",
+                "phone_number_id": "759976487210103"
+              },
+              "statuses": [
+                {
+                  "id": "wamid.HBgMOTE5MzEwMjI3NjU3FQIAERgSMjUwMjgwNEQwRDU5REEwOTU4AA==",
+                  "status": "sent",
+                  "timestamp": "1761201443",
+                  "recipient_id": "919310227657",
+                  "pricing": {
+                    "billable": false,
+                    "pricing_model": "PMP",
+                    "category": "service",
+                    "type": "free_customer_service"
+                  }
+                }
+              ]
+            },
+            "field": "messages"
+          }
+        ]
+      }
+    ]
+  }
+}
+[INFO] 2025-10-23T06:37:24.312Z: ========================
+[INFO] 2025-10-23T06:37:24.312Z: ⚠️  Received webhook event but not a message
+{
+  "body": {
+    "object": "whatsapp_business_account",
+    "entry": [
+      {
+        "id": "25378946961713345",
+        "changes": [
+          {
+            "value": {
+              "messaging_product": "whatsapp",
+              "metadata": {
+                "display_phone_number": "15551781135",
+                "phone_number_id": "759976487210103"
+              },
+              "statuses": [
+                {
+                  "id": "wamid.HBgMOTE5MzEwMjI3NjU3FQIAERgSMjUwMjgwNEQwRDU5REEwOTU4AA==",
+                  "status": "sent",
+                  "timestamp": "1761201443",
+                  "recipient_id": "919310227657",
+                  "pricing": {
+                    "billable": false,
+                    "pricing_model": "PMP",
+                    "category": "service",
+                    "type": "free_customer_service"
+                  }
+                }
+              ]
+            },
+            "field": "messages"
+          }
+        ]
+      }
+    ]
+  }
+}
+[INFO] 2025-10-23T06:37:24.725Z: POST /webhook
+{
+  "body": "(request body omitted)",
+  "query": {},
+  "headers": {
+    "user-agent": "facebookexternalua",
+    "content-type": "application/json"
+  }
+}
+[INFO] 2025-10-23T06:37:24.727Z: === WEBHOOK RECEIVED ===
+[INFO] 2025-10-23T06:37:24.727Z: Full webhook body:
+{
+  "body": {
+    "object": "whatsapp_business_account",
+    "entry": [
+      {
+        "id": "25378946961713345",
+        "changes": [
+          {
+            "value": {
+              "messaging_product": "whatsapp",
+              "metadata": {
+                "display_phone_number": "15551781135",
+                "phone_number_id": "759976487210103"
+              },
+              "statuses": [
+                {
+                  "id": "wamid.HBgMOTE5MzEwMjI3NjU3FQIAERgSMjUwMjgwNEQwRDU5REEwOTU4AA==",
+                  "status": "delivered",
+                  "timestamp": "1761201443",
+                  "recipient_id": "919310227657",
+                  "pricing": {
+                    "billable": false,
+                    "pricing_model": "PMP",
+                    "category": "service",
+                    "type": "free_customer_service"
+                  }
+                }
+              ]
+            },
+            "field": "messages"
+          }
+        ]
+      }
+    ]
+  }
+}
+[INFO] 2025-10-23T06:37:24.728Z: ========================
+[INFO] 2025-10-23T06:37:24.728Z: ⚠️  Received webhook event but not a message
+{
+  "body": {
+    "object": "whatsapp_business_account",
+    "entry": [
+      {
+        "id": "25378946961713345",
+        "changes": [
+          {
+            "value": {
+              "messaging_product": "whatsapp",
+              "metadata": {
+                "display_phone_number": "15551781135",
+                "phone_number_id": "759976487210103"
+              },
+              "statuses": [
+                {
+                  "id": "wamid.HBgMOTE5MzEwMjI3NjU3FQIAERgSMjUwMjgwNEQwRDU5REEwOTU4AA==",
+                  "status": "delivered",
+                  "timestamp": "1761201443",
+                  "recipient_id": "919310227657",
+                  "pricing": {
+                    "billable": false,
+                    "pricing_model": "PMP",
+                    "category": "service",
+                    "type": "free_customer_service"
+                  }
+                }
+              ]
+            },
+            "field": "messages"
+          }
+        ]
+      }
+    ]
+  }
+}
+[INFO] 2025-10-23T06:37:25.471Z: === WEBHOOK RECEIVED ===
+[INFO] 2025-10-23T06:37:25.469Z: POST /webhook
+{
+  "body": "(request body omitted)",
+  "query": {},
+  "headers": {
+    "user-agent": "facebookexternalua",
+    "content-type": "application/json"
+  }
+}
+[INFO] 2025-10-23T06:37:25.472Z: Full webhook body:
+{
+  "body": {
+    "object": "whatsapp_business_account",
+    "entry": [
+      {
+        "id": "25378946961713345",
+        "changes": [
+          {
+            "value": {
+              "messaging_product": "whatsapp",
+              "metadata": {
+                "display_phone_number": "15551781135",
+                "phone_number_id": "759976487210103"
+              },
+              "statuses": [
+                {
+                  "id": "wamid.HBgMOTE5MzEwMjI3NjU3FQIAERgSMjUwMjgwNEQwRDU5REEwOTU4AA==",
+                  "status": "read",
+                  "timestamp": "1761201444",
+                  "recipient_id": "919310227657",
+                  "pricing": {
+                    "billable": false,
+                    "pricing_model": "PMP",
+                    "category": "service",
+                    "type": "free_customer_service"
+                  }
+                }
+              ]
+            },
+            "field": "messages"
+          }
+        ]
+      }
+    ]
+  }
+}
+[INFO] 2025-10-23T06:37:25.472Z: ========================
+[INFO] 2025-10-23T06:37:25.472Z: ⚠️  Received webhook event but not a message
+{
+  "body": {
+    "object": "whatsapp_business_account",
+    "entry": [
+      {
+        "id": "25378946961713345",
+        "changes": [
+          {
+            "value": {
+              "messaging_product": "whatsapp",
+              "metadata": {
+                "display_phone_number": "15551781135",
+                "phone_number_id": "759976487210103"
+              },
+              "statuses": [
+                {
+                  "id": "wamid.HBgMOTE5MzEwMjI3NjU3FQIAERgSMjUwMjgwNEQwRDU5REEwOTU4AA==",
+                  "status": "read",
+                  "timestamp": "1761201444",
+                  "recipient_id": "919310227657",
+                  "pricing": {
+                    "billable": false,
+                    "pricing_model": "PMP",
+                    "category": "service",
+                    "type": "free_customer_service"
+                  }
+                }
+              ]
+            },
+            "field": "messages"
+          }
+        ]
+      }
+    ]
+  }
+}
