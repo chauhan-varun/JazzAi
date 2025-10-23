@@ -1,10 +1,10 @@
 {
   "userProfile": {
     "name": "",
-    "mood": "neutral",
+    "mood": "the query \"tes\" does not contain any emotional",
     "favoriteTopics": [],
-    "lastInteraction": "2025-10-23T05:55:01.352Z",
-    "conversationCount": 7,
+    "lastInteraction": "2025-10-23T06:07:52.424Z",
+    "conversationCount": 12,
     "personalDetails": {}
   },
   "conversations": [
@@ -49,6 +49,36 @@
       "message": "sdf",
       "from": "user",
       "userMood": "neutral"
+    },
+    {
+      "timestamp": "2025-10-23T05:57:13.430Z",
+      "message": "asdf",
+      "from": "user",
+      "userMood": "neutral"
+    },
+    {
+      "timestamp": "2025-10-23T05:59:08.500Z",
+      "message": "da",
+      "from": "user",
+      "userMood": "the term **\"da\"** has multiple meaning"
+    },
+    {
+      "timestamp": "2025-10-23T06:01:33.383Z",
+      "message": "sda",
+      "from": "user",
+      "userMood": "the message \"sda\" does not provide enough"
+    },
+    {
+      "timestamp": "2025-10-23T06:07:46.391Z",
+      "message": "tes",
+      "from": "user",
+      "userMood": "the query \"tes\" does not contain any emotional"
+    },
+    {
+      "timestamp": "2025-10-23T06:07:52.424Z",
+      "message": "\"Tes\" could refer to several things, but the most common meanings based on your search are:\n\n- **Tes, the education platform**: Tes provides resources, job listings, training, and software for teachers and schools, including safeguarding solutions, teaching resources, and a large education job board[1][3].\n- **TES (Tree Energy Solutions)**: A company focused on producing green hydrogen-based fuels (like e-NG) to help decarbonize the global energy market[2].\n- **SK Tes**: A company specializing in IT asset disposition, battery recycling, and sustainable technology lifecycle services[4].\n\nIf you meant something else by \"tes,\" let me know and I can help clarify! Are you interested in one of these, or did you have a different \"tes\" in mind? 😊",
+      "from": "assistant",
+      "userMood": "unknown"
     }
   ],
   "insights": {

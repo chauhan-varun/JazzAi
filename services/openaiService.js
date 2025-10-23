@@ -21,23 +21,14 @@ class OpenAIService {
     try {
       // Get context from memory
       const userProfile = await memoryService.getUserProfile();
-      const recentConversations = await memoryService.getRecentConversations(5);
       
-      // Format conversation history
-      const conversationHistory = recentConversations.map(conv => {
-        return {
-          role: conv.from === 'user' ? 'user' : 'assistant',
-          content: conv.message
-        };
-      });
-
       // Create system message with context
       const systemMessage = this._createSystemMessage(userProfile);
       
-      // Build messages array
+      // For Perplexity, keep it simple - just system message and current user message
+      // Skip conversation history to avoid alternation issues
       const messages = [
         { role: 'system', content: systemMessage },
-        ...conversationHistory,
         { role: 'user', content: userMessage }
       ];
 
