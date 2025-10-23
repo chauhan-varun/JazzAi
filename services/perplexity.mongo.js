@@ -106,7 +106,8 @@ The current hour is ${new Date().getHours()}.`;
       const response = await openai.chat.completions.create({
         model: 'sonar-pro', // Best model for personalized check-ins
         messages: [
-          { role: 'system', content: systemMessage }
+          { role: 'system', content: systemMessage },
+          { role: 'user', content: 'Send a casual check-in text.' }
         ],
         temperature: 0.7,
         max_tokens: 100

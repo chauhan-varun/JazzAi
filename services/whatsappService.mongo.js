@@ -148,8 +148,9 @@ class WhatsAppService {
           // Get time since last interaction for this specific user
           const timeSinceLastInteraction = await memoryService.getTimeSinceLastInteraction(user.phoneNumber);
           
-          // Only send if it's been more than 3 hours (180 minutes) since last interaction
-          if (timeSinceLastInteraction === null || timeSinceLastInteraction > 180) {
+          // Use the configured inactivity threshold (now 1 minute for testing)
+          const inactivityThreshold = (await import('../config/config.mongo.js')).default.memory.inactivityThreshold;
+          if (timeSinceLastInteraction === null || timeSinceLastInteraction > inactivityThreshold) {
             // Generate personalized check-in message for this user
             const checkInMessage = await openaiService.generateCheckInMessage(user.phoneNumber);
             

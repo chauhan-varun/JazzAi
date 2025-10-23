@@ -1,0 +1,36 @@
+[ERROR] 2025-10-23T07:42:55.954Z: Error sending WhatsApp message to 7657:
+{
+  "error": {
+    "message": "(#10) Application does not have permission for this action",
+    "type": "OAuthException",
+    "code": 10,
+    "error_data": {
+      "messaging_product": "whatsapp",
+      "details": "There was a problem with the access token or permissions you are using for the API call."
+    },
+    "fbtrace_id": "AEdzC4CX4PEcgyBb8vn7dhn"
+  }
+}
+[ERROR] 2025-10-23T07:46:28.643Z: Error sending WhatsApp message to 7657:
+{
+  "error": {
+    "message": "(#10) Application does not have permission for this action",
+    "type": "OAuthException",
+    "code": 10,
+    "error_data": {
+      "messaging_product": "whatsapp",
+      "details": "There was a problem with the access token or permissions you are using for the API call."
+    },
+    "fbtrace_id": "AuYs1gXuTk07dBVk8lzJccX"
+  }
+}
+[ERROR] 2025-10-23T08:03:04.499Z: Error sending WhatsApp message to 7657:
+{
+  "error": {
+    "message": "Error validating access token: Session has expired on Thursday, 23-Oct-25 01:00:00 PDT. The current time is Thursday, 23-Oct-25 01:03:04 PDT.",
+    "type": "OAuthException",
+    "code": 190,
+    "error_subcode": 463,
+    "fbtrace_id": "Aua1AIEWxbt3l-iec96qD2R"
+  }
+}
