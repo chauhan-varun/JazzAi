@@ -4,6 +4,7 @@
  */
 
 import whatsappService from '../services/whatsappService.mongo.js';
+import { Logger } from '../utils/utils.mongo.js';
 
 class WebhookController {
   /**
@@ -15,16 +16,16 @@ class WebhookController {
     const token = req.query['hub.verify_token'];
     const challenge = req.query['hub.challenge'];
     
-    console.log(`Received webhook verification: mode=${mode}, token=${token}`);
+    Logger.info(`Received webhook verification: mode=${mode}, token=${token}`);
     
     // Verify webhook
     if (whatsappService.verifyWebhook(mode, token)) {
       // Respond with the challenge token from the request
-      console.log('Webhook verified successfully');
+      Logger.info('Webhook verified successfully');
       res.status(200).send(challenge);
     } else {
       // Respond with '403 Forbidden' if verify tokens do not match
-      console.error('Webhook verification failed');
+      Logger.error('Webhook verification failed');
       res.sendStatus(403);
     }
   }
@@ -36,7 +37,7 @@ class WebhookController {
     try {
       // Check if this is a WhatsApp message
       if (req.body.object && req.body.entry) {
-        console.log('Received webhook event');
+        Logger.info('Received webhook event');
         
         // Process each entry
         for (const entry of req.body.entry) {
@@ -49,12 +50,12 @@ class WebhookController {
                 for (const message of change.value.messages) {
                   // Process only if it's a text message
                   if (message.type === 'text') {
-                    console.log(`Processing incoming message from ${message.from}`);
+                    Logger.info(`Processing incoming message from ${message.from.slice(-4)}`);
                     
                     // Process message asynchronously (don't wait for response)
                     this._processMessageAsync(message);
                   } else {
-                    console.log(`Skipping non-text message of type: ${message.type}`);
+                    Logger.info(`Skipping non-text message of type: ${message.type}`);
                   }
                 }
               }
@@ -66,11 +67,11 @@ class WebhookController {
         res.status(200).send('EVENT_RECEIVED');
       } else {
         // Not a WhatsApp API event
-        console.log('Received non-WhatsApp event');
+        Logger.info('Received non-WhatsApp event');
         res.status(400).send('BAD_REQUEST');
       }
     } catch (error) {
-      console.error('Error processing webhook:', error);
+      Logger.error('Error processing webhook:', error);
       res.status(500).send('ERROR');
     }
   }
@@ -83,9 +84,9 @@ class WebhookController {
     try {
       // Process the message
       const result = await whatsappService.processIncomingMessage(message);
-      console.log('Message processed:', JSON.stringify(result));
+      Logger.info(`Message from ${message.from.slice(-4)} processed successfully`);
     } catch (error) {
-      console.error('Error processing message asynchronously:', error);
+      Logger.error(`Error processing message from ${message.from?.slice(-4) || 'unknown'}:`, error);
     }
   }
 

@@ -4,8 +4,9 @@
  */
 
 import cron from 'node-cron';
-import config from '../config/config.js';
+import config from '../config/config.mongo.js';
 import whatsappService from './whatsappService.mongo.js'; // Use MongoDB version
+import { Logger } from '../utils/utils.mongo.js';
 
 class SchedulerService {
   constructor() {
@@ -19,9 +20,9 @@ class SchedulerService {
   initialize() {
     this.startCheckInJob();
     this.startReminderJob();
-    console.log('Scheduler initialized with multi-user support');
-    console.log('Check-in schedule:', config.scheduler.checkInSchedule);
-    console.log('Reminder check schedule:', config.scheduler.reminderCheckSchedule);
+    Logger.info('Scheduler initialized with multi-user support');
+    Logger.info(`Check-in schedule: ${config.scheduler.checkInSchedule}`);
+    Logger.info(`Reminder check schedule: ${config.scheduler.reminderCheckSchedule}`);
   }
 
   /**
@@ -36,21 +37,21 @@ class SchedulerService {
 
       // Schedule new job using the configured cron expression
       this.checkInJob = cron.schedule(config.scheduler.checkInSchedule, async () => {
-        console.log('Running scheduled check-in job for all users:', new Date().toISOString());
+        Logger.info('Running scheduled check-in job for all users');
         
         try {
           // Send check-in messages to all eligible users
           const result = await whatsappService.sendCheckInMessages();
-          console.log('Check-in job result:', JSON.stringify(result));
+          Logger.info(`Check-in job completed: ${result.messagesSent} messages sent`);
         } catch (error) {
-          console.error('Error in check-in job:', error);
+          Logger.error('Error in check-in job:', error);
         }
       });
 
-      console.log('Check-in job scheduled successfully');
+      Logger.info('Check-in job scheduled successfully');
       return true;
     } catch (error) {
-      console.error('Error scheduling check-in job:', error);
+      Logger.error('Error scheduling check-in job:', error);
       return false;
     }
   }
@@ -69,20 +70,20 @@ class SchedulerService {
       const reminderSchedule = config.scheduler.reminderCheckSchedule || '*/5 * * * *';
       
       this.reminderJob = cron.schedule(reminderSchedule, async () => {
-        console.log('Running reminder check job:', new Date().toISOString());
+        Logger.info('Running reminder check job');
         
         try {
           // Check for pending reminders for all users
           await this.checkPendingRemindersForAllUsers();
         } catch (error) {
-          console.error('Error in reminder job:', error);
+          Logger.error('Error in reminder job:', error);
         }
       });
 
-      console.log('Reminder job scheduled successfully');
+      Logger.info('Reminder job scheduled successfully');
       return true;
     } catch (error) {
-      console.error('Error scheduling reminder job:', error);
+      Logger.error('Error scheduling reminder job:', error);
       return false;
     }
   }
@@ -97,7 +98,7 @@ class SchedulerService {
     if (this.reminderJob) {
       this.reminderJob.stop();
     }
-    console.log('All scheduled jobs stopped');
+    Logger.info('All scheduled jobs stopped');
   }
 
   /**
@@ -116,10 +117,10 @@ class SchedulerService {
       // Restart the job with the new schedule
       this.startCheckInJob();
       
-      console.log('Check-in schedule updated:', newSchedule);
+      Logger.info(`Check-in schedule updated: ${newSchedule}`);
       return true;
     } catch (error) {
-      console.error('Error updating check-in schedule:', error);
+      Logger.error('Error updating check-in schedule:', error);
       return false;
     }
   }

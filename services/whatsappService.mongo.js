@@ -7,7 +7,8 @@
 import 'dotenv/config';
 import axios from 'axios';
 import memoryService from './memoryService.mongo.js'; // Use MongoDB version
-import openaiService from './perplexity.js';
+import openaiService from './perplexity.mongo.js'; // Use MongoDB version
+import { Logger } from '../utils/utils.mongo.js';
 
 // WhatsApp API Constants
 const WHATSAPP_API_URL = 'https://graph.facebook.com/v17.0';
@@ -54,14 +55,14 @@ class WhatsAppService {
         timestamp: new Date().toISOString()
       }, phoneNumber);
       
-      console.log(`Message sent successfully to ${phoneNumber}`);
+      Logger.info(`Message sent successfully to ${phoneNumber.slice(-4)}`); // Log only last 4 digits
       return {
         success: true,
         messageId: response.data.messages?.[0]?.id,
         response: response.data
       };
     } catch (error) {
-      console.error(`Error sending WhatsApp message to ${phoneNumber}:`, error.response?.data || error.message);
+      Logger.error(`Error sending WhatsApp message to ${phoneNumber.slice(-4)}:`, error.response?.data || error.message);
       return {
         success: false,
         error: error.message
@@ -81,7 +82,7 @@ class WhatsAppService {
       const timestamp = message.timestamp;
       
       if (!messageText) {
-        console.log(`Received non-text message from ${from}`);
+        Logger.info(`Received non-text message from ${from.slice(-4)}`);
         return {
           success: true,
           ignored: true,
@@ -89,10 +90,10 @@ class WhatsAppService {
         };
       }
       
-      console.log(`📩 Received message from ${from}: ${messageText}`);
+      Logger.info(`📩 Received message from ${from.slice(-4)}`); // Don't log message content
       
       // Process any user's message - multi-user support
-      console.log(`✅ Processing message from ${from}...`);
+      Logger.info(`✅ Processing message from ${from.slice(-4)}...`);
 
       // Detect mood - pass the user's phone number
       const detectedMood = await openaiService.detectMood(messageText, from);
@@ -138,7 +139,7 @@ class WhatsAppService {
       // This would require a new method in memoryService to get all users
       const activeUsers = await this.getActiveUsers();
       
-      console.log(`Found ${activeUsers.length} active users who might need check-ins`);
+      Logger.info(`Found ${activeUsers.length} active users who might need check-ins`);
       let sentCount = 0;
       
       // Process each user
@@ -155,13 +156,13 @@ class WhatsAppService {
             // Send message to this specific user
             await this.sendMessage(checkInMessage, user.phoneNumber);
             
-            console.log(`Check-in message sent to ${user.phoneNumber}`);
+            Logger.info(`Check-in message sent to ${user.phoneNumber.slice(-4)}`);
             sentCount++;
           } else {
-            console.log(`Skipping check-in for ${user.phoneNumber}, last interaction was ${timeSinceLastInteraction} minutes ago`);
+            Logger.info(`Skipping check-in for ${user.phoneNumber.slice(-4)}, last interaction was ${timeSinceLastInteraction} minutes ago`);
           }
         } catch (error) {
-          console.error(`Error sending check-in to ${user.phoneNumber}:`, error);
+          Logger.error(`Error sending check-in to ${user.phoneNumber.slice(-4)}:`, error);
           // Continue with other users
         }
       }
@@ -172,7 +173,7 @@ class WhatsAppService {
         messagesSent: sentCount
       };
     } catch (error) {
-      console.error('Error sending check-in messages:', error);
+      Logger.error('Error sending check-in messages:', error);
       return {
         success: false,
         error: error.message
