@@ -1,0 +1,50 @@
+[INFO] 2025-10-23T04:43:58.181Z: JazzAI WhatsApp Companion is listening on port 3000
+[INFO] 2025-10-23T04:43:58.191Z: Memory service initialized successfully
+[INFO] 2025-10-23T04:43:58.261Z: Scheduler initialized successfully
+[INFO] 2025-10-23T04:43:58.266Z: Server startup complete. JazzAI is ready!
+[INFO] 2025-10-23T04:46:07.546Z: GET /
+{
+  "query": {},
+  "headers": {
+    "user-agent": "curl/8.5.0"
+  }
+}
+[INFO] 2025-10-23T04:46:53.529Z: JazzAI WhatsApp Companion is listening on port 3000
+[INFO] 2025-10-23T04:46:53.540Z: Memory service initialized successfully
+[INFO] 2025-10-23T04:46:53.613Z: Scheduler initialized successfully
+[INFO] 2025-10-23T04:46:53.614Z: Server startup complete. JazzAI is ready!
+[INFO] 2025-10-23T04:48:15.743Z: JazzAI WhatsApp Companion is listening on port 3000
+[INFO] 2025-10-23T04:48:15.748Z: Memory service initialized successfully
+[INFO] 2025-10-23T04:48:15.794Z: Scheduler initialized successfully
+[INFO] 2025-10-23T04:48:15.794Z: Server startup complete. JazzAI is ready!
+[INFO] 2025-10-23T04:49:15.096Z: GET /webhook?hub.mode=subscribe&hub.verify_token=jazzai-webhook-verification&hub.challenge=test123
+{
+  "query": {
+    "hub.mode": "subscribe",
+    "hub.verify_token": "jazzai-webhook-verification",
+    "hub.challenge": "test123"
+  },
+  "headers": {
+    "user-agent": "curl/8.5.0"
+  }
+}
+[INFO] 2025-10-23T04:49:15.136Z: POST /webhook
+{
+  "body": "(request body omitted)",
+  "query": {},
+  "headers": {
+    "user-agent": "curl/8.5.0",
+    "content-type": "application/json"
+  }
+}
+[INFO] 2025-10-23T04:50:27.209Z: JazzAI WhatsApp Companion is listening on port 3000
+[INFO] 2025-10-23T04:50:27.220Z: Memory service initialized successfully
+[INFO] 2025-10-23T04:50:27.248Z: Scheduler initialized successfully
+[INFO] 2025-10-23T04:50:27.248Z: Server startup complete. JazzAI is ready!
+[INFO] 2025-10-23T04:52:05.033Z: GET /
+{
+  "query": {},
+  "headers": {
+    "user-agent": "curl/8.5.0"
+  }
+}

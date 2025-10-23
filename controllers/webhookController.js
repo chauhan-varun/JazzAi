@@ -44,6 +44,10 @@ class WebhookController {
       res.status(200).send('EVENT_RECEIVED');
 
       const body = req.body;
+      
+      console.log('=== WEBHOOK RECEIVED ===');
+      console.log('Full webhook body:', JSON.stringify(body, null, 2));
+      console.log('========================');
 
       // Check if this is a WhatsApp message event
       if (body.object && 
@@ -52,15 +56,19 @@ class WebhookController {
           body.entry[0].changes[0].value.messages) {
         
         const message = body.entry[0].changes[0].value.messages[0];
-        console.log('Incoming message:', JSON.stringify(message, null, 2));
+        console.log('✓ Valid WhatsApp message detected');
+        console.log('From:', message.from);
+        console.log('Type:', message.type);
+        console.log('Message:', JSON.stringify(message, null, 2));
         
         // Process the message asynchronously
         await this.processMessage(message);
       } else {
-        console.log('Received webhook event but not a message:', JSON.stringify(body, null, 2));
+        console.log('⚠️  Received webhook event but not a message');
+        console.log('Body structure:', JSON.stringify(body, null, 2));
       }
     } catch (error) {
-      console.error('Error processing webhook message:', error);
+      console.error('❌ Error processing webhook message:', error);
       // We've already sent a 200 OK response, so no need to send another response
     }
   }
