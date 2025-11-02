@@ -2,7 +2,7 @@
 
 JazzAi is a WhatsApp-based AI companion that uses the Perplexity API to provide natural, personalized conversations. This MongoDB-powered version supports multiple users simultaneously, with improved scalability and data management.
 
-## Features:-
+## Features:
 
 - 🤖 Powered by Perplexity API with human-like, casual conversation style
 - 💬 Real-time responses to WhatsApp messages for multiple users
