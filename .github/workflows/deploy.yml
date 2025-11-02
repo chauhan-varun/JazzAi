@@ -36,7 +36,8 @@ jobs:
           cd jazzAi
           git pull origin main
           pnpm install --frozen-lockfile
-          pm2 restart jazzai || pm2 start server.js --name jazzai
+          pm2 reload jazzai || pm2 start server.js --name jazzai
+          pm2 save
           
     - name: Health Check
       run: |
