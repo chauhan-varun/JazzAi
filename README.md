@@ -1,6 +1,6 @@
-# JazzAI - WhatsApp AI Companion with MongoDB
+# JazzAi - WhatsApp AI Companion with MongoDB
 
-JazzAI is a WhatsApp-based AI companion that uses the Perplexity API to provide natural, personalized conversations. This MongoDB-powered version supports multiple users simultaneously, with improved scalability and data management.
+JazzAi is a WhatsApp-based AI companion that uses the Perplexity API to provide natural, personalized conversations. This MongoDB-powered version supports multiple users simultaneously, with improved scalability and data management.
 
 ## Features
 
