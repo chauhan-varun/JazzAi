@@ -25,14 +25,13 @@ import {
     TableRow,
 } from '@/components/ui/table';
 import { Plus, Edit, Trash2, Search } from 'lucide-react';
-import { parseJsonSafely } from '@/lib/utils';
 
 interface Faq {
-    _id: string;
+    id: string;
     question: string;
     answer: string;
     category: string | null;
-    keywords: string;
+    keywords: string[];
     createdAt: Date;
     updatedAt: Date;
 }
@@ -117,7 +116,7 @@ export default function FaqPage() {
             question: faq.question,
             answer: faq.answer,
             category: faq.category || '',
-            keywords: parseJsonSafely<string[]>(faq.keywords, []).join(', '),
+            keywords: faq.keywords.join(', '),
         });
         setIsDialogOpen(true);
     };
@@ -275,7 +274,7 @@ export default function FaqPage() {
                             </TableHeader>
                             <TableBody>
                                 {filteredFaqs.map((faq) => (
-                                    <TableRow key={faq._id}>
+                                    <TableRow key={faq.id}>
                                         <TableCell className="font-medium">{faq.question}</TableCell>
                                         <TableCell className="text-sm text-muted-foreground">
                                             {faq.answer.length > 100
@@ -301,7 +300,7 @@ export default function FaqPage() {
                                                 <Button
                                                     variant="ghost"
                                                     size="icon"
-                                                    onClick={() => handleDelete(faq._id)}
+                                                    onClick={() => handleDelete(faq.id)}
                                                 >
                                                     <Trash2 className="h-4 w-4 text-destructive" />
                                                 </Button>

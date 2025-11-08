@@ -45,5 +45,5 @@ next-env.d.ts
 /logs
 *.log
 
-# drizzle
-/drizzle
+# prisma
+/prisma/migrations

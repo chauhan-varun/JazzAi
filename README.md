@@ -17,7 +17,7 @@ A full-stack AI-powered WhatsApp customer support system with agent handoff dash
 
 - **Frontend**: Next.js 16 (App Router), React 19, TypeScript, Tailwind CSS v4
 - **Backend**: Next.js API Routes, Socket.io
-- **Database**: MongoDB with Drizzle ORM
+- **Database**: MongoDB with Prisma ORM
 - **AI**: Perplexity API (llama-3.1-sonar-small-128k-online)
 - **Messaging**: WhatsApp Cloud API
 - **UI**: shadcn/ui components
@@ -47,7 +47,14 @@ Required environment variables:
 - `NEXTAUTH_SECRET`: Session encryption key (generate with `openssl rand -base64 32`)
 - `DASHBOARD_JWT_SECRET`: JWT signing key
 
-### 3. Seed Database
+### 3. Generate Prisma Client and Push Schema
+
+```bash
+pnpm db:generate
+pnpm db:push
+```
+
+### 4. Seed Database
 
 ```bash
 pnpm seed
@@ -59,7 +66,7 @@ This creates:
 - 8 sample FAQs
 - 1 demo customer with messages
 
-### 4. Run Development Server
+### 5. Run Development Server
 
 ```bash
 pnpm dev
@@ -67,7 +74,7 @@ pnpm dev
 
 Open [http://localhost:3000](http://localhost:3000)
 
-### 5. Configure WhatsApp Webhook
+### 6. Configure WhatsApp Webhook
 
 1. Expose your local server using ngrok or similar:
    ```bash
@@ -102,7 +109,7 @@ luna-ai/
 │   │   └── settings/       # Configuration
 │   └── login/              # Login page
 ├── lib/
-│   ├── db/                 # Drizzle schema & connection
+│   ├── db/                 # Prisma client
 │   ├── services/           # Business logic
 │   ├── faq/                # FAQ search engine
 │   ├── model/              # Perplexity AI integration
@@ -111,6 +118,8 @@ luna-ai/
 │   ├── auth/               # Session management
 │   └── webrtc/             # WebRTC signaling
 ├── components/ui/          # shadcn components
+├── prisma/
+│   └── schema.prisma       # Prisma schema
 └── server.ts               # Custom server with Socket.io
 ```
 
