@@ -1,0 +1,84 @@
+// Prisma schema for MongoDB
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("MONGODB_URI")
+}
+
+model User {
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  name         String
+  email        String   @unique
+  role         String   // "admin" | "agent"
+  status       String   @default("offline") // "online" | "offline"
+  passwordHash String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@map("users")
+}
+
+model Customer {
+  id                 String    @id @default(auto()) @map("_id") @db.ObjectId
+  waId               String    @unique
+  name               String?
+  lastSeenAt         DateTime?
+  tags               String[]  @default([])
+  handoffAssignedTo  String?   @db.ObjectId
+  handoffActive      Boolean   @default(false)
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
+
+  messages           Message[]
+  sessionState       SessionState?
+
+  @@index([handoffAssignedTo])
+  @@map("customers")
+}
+
+model Message {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  customerId String   @db.ObjectId
+  direction  String   // "in" | "out"
+  channel    String   // "whatsapp" | "dashboard"
+  text       String
+  meta       Json?
+  createdAt  DateTime @default(now())
+
+  customer   Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
+
+  @@index([customerId])
+  @@index([createdAt])
+  @@map("messages")
+}
+
+model Faq {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  question  String
+  answer    String
+  category  String?
+  keywords  String[] @default([])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([category])
+  @@map("faqs")
+}
+
+model SessionState {
+  id             String   @id @default(auto()) @map("_id") @db.ObjectId
+  customerId     String   @unique @db.ObjectId
+  mode           String   @default("bot") // "bot" | "human"
+  lastFaqId      String?  @db.ObjectId
+  lastModelTrace Json?
+  updatedAt      DateTime @updatedAt
+
+  customer       Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
+
+  @@map("sessionStates")
+}
+

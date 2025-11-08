@@ -1,34 +1,40 @@
-import { MongoClient } from 'mongodb';
-import { drizzle } from 'drizzle-orm/mongo';
-import { getConfig } from '@/lib/config';
-import * as schema from './schema';
+import { PrismaClient } from '@prisma/client';
+import logger from '@/lib/logger';
 
-let client: MongoClient | null = null;
-let db: ReturnType<typeof drizzle> | null = null;
+const globalForPrisma = globalThis as unknown as {
+  prisma: PrismaClient | undefined;
+};
 
-export async function getDb() {
-  if (db && client) {
-    return db;
-  }
+export const prisma =
+  globalForPrisma.prisma ??
+  new PrismaClient({
+    log: process.env.NODE_ENV === 'development' ? ['query', 'error', 'warn'] : ['error'],
+  });
 
-  const config = getConfig();
-  
-  client = new MongoClient(config.mongodb.uri);
-  await client.connect();
-  
-  db = drizzle(client.db(), { schema });
-  
-  return db;
+if (process.env.NODE_ENV !== 'production') {
+  globalForPrisma.prisma = prisma;
 }
 
-export async function closeDb() {
-  if (client) {
-    await client.close();
-    client = null;
-    db = null;
+// Connect to database
+export async function connectDb() {
+  try {
+    await prisma.$connect();
+    logger.info('Connected to MongoDB via Prisma');
+  } catch (error) {
+    logger.error('Failed to connect to MongoDB', { error });
+    throw error;
   }
 }
 
-// Re-export schema for convenience
-export * from './schema';
+// Disconnect from database
+export async function disconnectDb() {
+  try {
+    await prisma.$disconnect();
+    logger.info('Disconnected from MongoDB');
+  } catch (error) {
+    logger.error('Failed to disconnect from MongoDB', { error });
+  }
+}
 
+// Re-export Prisma types
+export * from '@prisma/client';

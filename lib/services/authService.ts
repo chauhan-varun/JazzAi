@@ -1,8 +1,5 @@
-import { getDb, User, InsertUser } from '@/lib/db';
-import { users } from '@/lib/db/schema';
-import { eq } from 'drizzle-orm';
+import { prisma, User } from '@/lib/db';
 import bcrypt from 'bcryptjs';
-import { ObjectId } from 'mongodb';
 import logger from '@/lib/logger';
 
 export async function registerUser(data: {
@@ -12,16 +9,12 @@ export async function registerUser(data: {
   role: 'admin' | 'agent';
 }): Promise<User | null> {
   try {
-    const db = await getDb();
-    
     // Check if user already exists
-    const existing = await db
-      .select()
-      .from(users)
-      .where(eq(users.email, data.email))
-      .limit(1);
+    const existing = await prisma.user.findUnique({
+      where: { email: data.email },
+    });
 
-    if (existing && existing.length > 0) {
+    if (existing) {
       logger.warn('User already exists', { email: data.email });
       return null;
     }
@@ -30,22 +23,19 @@ export async function registerUser(data: {
     const passwordHash = await bcrypt.hash(data.password, 10);
 
     // Create user
-    const newUser: InsertUser = {
-      _id: new ObjectId().toString(),
-      name: data.name,
-      email: data.email,
-      passwordHash,
-      role: data.role,
-      status: 'offline',
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    };
+    const newUser = await prisma.user.create({
+      data: {
+        name: data.name,
+        email: data.email,
+        passwordHash,
+        role: data.role,
+        status: 'offline',
+      },
+    });
 
-    await db.insert(users).values(newUser);
+    logger.info('User registered', { email: data.email, userId: newUser.id });
 
-    logger.info('User registered', { email: data.email, userId: newUser._id });
-
-    return newUser as User;
+    return newUser;
   } catch (error) {
     logger.error('Error registering user', { error, email: data.email });
     return null;
@@ -54,23 +44,17 @@ export async function registerUser(data: {
 
 export async function loginUser(email: string, password: string): Promise<User | null> {
   try {
-    const db = await getDb();
-    
-    const result = await db
-      .select()
-      .from(users)
-      .where(eq(users.email, email))
-      .limit(1);
+    const user = await prisma.user.findUnique({
+      where: { email },
+    });
 
-    if (!result || result.length === 0) {
+    if (!user) {
       logger.warn('User not found', { email });
       return null;
     }
 
-    const user = result[0];
-
     // Verify password
-    const isValid = await bcrypt.compare(password, user.passwordHash || '');
+    const isValid = await bcrypt.compare(password, user.passwordHash);
 
     if (!isValid) {
       logger.warn('Invalid password', { email });
@@ -78,14 +62,14 @@ export async function loginUser(email: string, password: string): Promise<User |
     }
 
     // Update status to online
-    await db
-      .update(users)
-      .set({ status: 'online', updatedAt: new Date() })
-      .where(eq(users._id, user._id));
+    const updatedUser = await prisma.user.update({
+      where: { id: user.id },
+      data: { status: 'online' },
+    });
 
-    logger.info('User logged in', { email, userId: user._id });
+    logger.info('User logged in', { email, userId: user.id });
 
-    return { ...user, status: 'online' };
+    return updatedUser;
   } catch (error) {
     logger.error('Error logging in user', { error, email });
     return null;
@@ -94,12 +78,10 @@ export async function loginUser(email: string, password: string): Promise<User |
 
 export async function logoutUser(userId: string): Promise<boolean> {
   try {
-    const db = await getDb();
-    
-    await db
-      .update(users)
-      .set({ status: 'offline', updatedAt: new Date() })
-      .where(eq(users._id, userId));
+    await prisma.user.update({
+      where: { id: userId },
+      data: { status: 'offline' },
+    });
 
     logger.info('User logged out', { userId });
     return true;
@@ -111,15 +93,11 @@ export async function logoutUser(userId: string): Promise<boolean> {
 
 export async function getUserById(userId: string): Promise<User | null> {
   try {
-    const db = await getDb();
-    
-    const result = await db
-      .select()
-      .from(users)
-      .where(eq(users._id, userId))
-      .limit(1);
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+    });
 
-    return result && result.length > 0 ? result[0] : null;
+    return user;
   } catch (error) {
     logger.error('Error getting user by ID', { error, userId });
     return null;
@@ -128,12 +106,10 @@ export async function getUserById(userId: string): Promise<User | null> {
 
 export async function getAllUsers(): Promise<User[]> {
   try {
-    const db = await getDb();
-    const result = await db.select().from(users);
-    return result || [];
+    const users = await prisma.user.findMany();
+    return users;
   } catch (error) {
     logger.error('Error getting all users', { error });
     return [];
   }
 }
-

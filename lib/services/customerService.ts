@@ -1,55 +1,40 @@
-import { getDb, Customer, InsertCustomer } from '@/lib/db';
-import { customers } from '@/lib/db/schema';
-import { eq } from 'drizzle-orm';
-import { ObjectId } from 'mongodb';
+import { prisma, Customer } from '@/lib/db';
 import logger from '@/lib/logger';
 
 export async function getOrCreateCustomer(waId: string, name?: string): Promise<Customer> {
   try {
-    const db = await getDb();
-    
     // Try to find existing customer
-    const existing = await db
-      .select()
-      .from(customers)
-      .where(eq(customers.waId, waId))
-      .limit(1);
+    let customer = await prisma.customer.findUnique({
+      where: { waId },
+    });
 
-    if (existing && existing.length > 0) {
+    if (customer) {
       // Update last seen
-      const updated = {
-        ...existing[0],
-        lastSeenAt: new Date(),
-        ...(name && !existing[0].name && { name }),
-      };
-      
-      await db
-        .update(customers)
-        .set({ lastSeenAt: new Date(), updatedAt: new Date() })
-        .where(eq(customers._id, existing[0]._id));
-      
-      return updated;
+      customer = await prisma.customer.update({
+        where: { id: customer.id },
+        data: {
+          lastSeenAt: new Date(),
+          ...(name && !customer.name && { name }),
+        },
+      });
+
+      return customer;
     }
 
     // Create new customer
-    const newCustomer: InsertCustomer = {
-      _id: new ObjectId().toString(),
-      waId,
-      name: name || null,
-      lastSeenAt: new Date(),
-      tags: JSON.stringify([]),
-      handoffAssignedTo: null,
-      handoffActive: false,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    };
+    const newCustomer = await prisma.customer.create({
+      data: {
+        waId,
+        name: name || null,
+        lastSeenAt: new Date(),
+        tags: [],
+        handoffActive: false,
+      },
+    });
 
-    await db.insert(customers).values(newCustomer);
-    
-    logger.info('New customer created', { waId, customerId: newCustomer._id });
+    logger.info('New customer created', { waId, customerId: newCustomer.id });
 
-    return newCustomer as Customer;
-    
+    return newCustomer;
   } catch (error) {
     logger.error('Error in getOrCreateCustomer', { error, waId });
     throw error;
@@ -58,14 +43,11 @@ export async function getOrCreateCustomer(waId: string, name?: string): Promise<
 
 export async function getCustomerById(customerId: string): Promise<Customer | null> {
   try {
-    const db = await getDb();
-    const result = await db
-      .select()
-      .from(customers)
-      .where(eq(customers._id, customerId))
-      .limit(1);
-    
-    return result && result.length > 0 ? result[0] : null;
+    const customer = await prisma.customer.findUnique({
+      where: { id: customerId },
+    });
+
+    return customer;
   } catch (error) {
     logger.error('Error getting customer by ID', { error, customerId });
     return null;
@@ -78,19 +60,16 @@ export async function updateCustomerHandoff(
   assignedTo?: string
 ): Promise<boolean> {
   try {
-    const db = await getDb();
-    
-    await db
-      .update(customers)
-      .set({
+    await prisma.customer.update({
+      where: { id: customerId },
+      data: {
         handoffActive,
         handoffAssignedTo: assignedTo || null,
-        updatedAt: new Date(),
-      })
-      .where(eq(customers._id, customerId));
-    
+      },
+    });
+
     logger.info('Customer handoff updated', { customerId, handoffActive, assignedTo });
-    
+
     return true;
   } catch (error) {
     logger.error('Error updating customer handoff', { error, customerId });
@@ -100,12 +79,14 @@ export async function updateCustomerHandoff(
 
 export async function getAllCustomers(limit: number = 100): Promise<Customer[]> {
   try {
-    const db = await getDb();
-    const result = await db.select().from(customers).limit(limit);
-    return result || [];
+    const customers = await prisma.customer.findMany({
+      take: limit,
+      orderBy: { lastSeenAt: 'desc' },
+    });
+
+    return customers;
   } catch (error) {
     logger.error('Error getting all customers', { error });
     return [];
   }
 }
-
